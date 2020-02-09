@@ -27,7 +27,7 @@
 
 
 
-  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
 
 <link rel="stylesheet" href="/css/main.css"  >
 
@@ -145,14 +145,32 @@
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/09/firstblog/">
-        <p class="h4 index-header">firstblog</p>
+      <a href="/2020/02/09/%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98no_2/">
+        <p class="h4 index-header">约瑟夫问题no_2</p>
         
         
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1"></div>
+          <div class="index-text mb-1">题目：n 个小孩围坐成一圈，并按顺时针编号为1,2,…,n，从编号为 p 的小孩顺时针依次报数，由1报到m ，当报到 m 时，该小孩从圈中出去，然后下一个再从1报数，当报到 m 时再出去。如此反复，直至所有的小孩都从圈中出去。请按出去的先后顺序输出小孩的编号。
+Input:每行是用空格分开的三个整数，第一个是n,第二个是p,第三个是m (0 &lt; m,n &lt; 300)。最后一行是: 0 0 0
+Output:按出圈的顺序输出编号，编号之间以逗号间隔。
+Sample Input:
+8 3 40 0 0
+
+Sample Output:
+6,2,7,4,3,5,1,8
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+//用循环队列的方式解决约瑟夫问题
+int main(){
+    int n,p,m;
+    while(cin&gt;&gt;n&gt;&gt;p&gt;&gt;m){
+        queue&lt;int&gt; chil</div>
         </div>
       </a>
 
@@ -170,27 +188,38 @@
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/09/hello-world/">
-        <p class="h4 index-header">Hello World</p>
+      <a href="/2020/02/09/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">
+        <p class="h4 index-header">二叉搜索树</p>
         
         
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post1$ hexo new "My New Post"
+          <div class="index-text mb-1">题目描述判断两序列是否为同一二叉搜索树序列
+输入描述:开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。输出描述:如果序列相同则输出YES，否则输出NO示例
+输入
 
-More info: Writing
-Run server1$ hexo server
+2567432543267576342`0 
 
-More info: Server
-Generate static files1$ hexo generate
+输出
 
-More info: Generating
-Deploy to remote sites1$ hexo deploy
+YESNO
 
-More info: Deployment
-</div>
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;string&gt;
+//前序遍历和中序遍历可以唯一确定一棵二叉树，
+//而对二叉排序树而言，相同元素的二叉排序树中
+//序遍历一定相同，而不同元素二叉排序树使用前
+//序遍历就可以发现不相同，所以只需要前序遍历
+//两个二叉树，比较一下就可以判断
+
+using namespace std;
+
+string pre,in;
+
+struct TreeNode{
+    char data</div>
         </div>
       </a>
 
@@ -390,6 +419,56 @@ More info: Deployment
 
 
 
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
 
 
 

@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>firstblog ~ Hexo</title>
+  <title>二叉搜索树 ~ Hexo</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -27,7 +27,7 @@
 
 
 
-  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
 
 <link rel="stylesheet" href="/css/main.css"  >
 
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Sunday, February 9th 2020, 12:36 pm
+                  Sunday, February 9th 2020, 5:46 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    0 字
+                    492 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      1 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -172,7 +172,82 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            
+            <p><strong>题目描述</strong><br>判断两序列是否为同一二叉搜索树序列</p>
+<p><strong>输入描述:</strong><br>开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。<br>接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。<br>接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。<br><strong>输出描述:</strong><br>如果序列相同则输出YES，否则输出NO<br><strong>示例</strong></p>
+<p>输入</p>
+<blockquote>
+<p>2<br>567432<br>543267<br>576342`<br>0 </p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>YES<br>NO</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;string&gt;
+//前序遍历和中序遍历可以唯一确定一棵二叉树，
+//而对二叉排序树而言，相同元素的二叉排序树中
+//序遍历一定相同，而不同元素二叉排序树使用前
+//序遍历就可以发现不相同，所以只需要前序遍历
+//两个二叉树，比较一下就可以判断
+
+using namespace std;
+
+string pre,in;
+
+struct TreeNode{
+    char data;
+    TreeNode* leftchild;
+    TreeNode* rightchild;
+    TreeNode(char c):data(c),leftchild(NULL),rightchild(NULL){}
+};
+
+TreeNode* Insert(TreeNode* root,char x){
+    if(root==NULL){
+        root=new TreeNode(x);
+    }
+    else if(x&lt;root-&gt;data){
+        root-&gt;leftchild=Insert(root-&gt;leftchild,x);
+    }
+    else if(x&gt;root-&gt;data){
+        root-&gt;rightchild=Insert(root-&gt;rightchild,x);
+    }
+    return root;
+}
+
+string preorder(TreeNode* root){
+    if(root==NULL) return &quot;#&quot;;
+    return root-&gt;data+preorder(root-&gt;leftchild)+preorder(root-&gt;rightchild);
+}
+
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n==0) break;
+        string s; TreeNode* root=NULL;
+        cin&gt;&gt;s;
+        //构建初始的排序树
+        for(int i=0;i&lt;s.size();i++){
+            root=Insert(root,s[i]);
+        }
+        string pre=preorder(root);
+        //构建用来比较的排序树
+        for(int i=0;i&lt;n;i++){
+            string str; TreeNode* T=NULL;
+            cin&gt;&gt;str;
+            for(int j=0;j&lt;str.size();j++){
+                T=Insert(T,str[j]);
+            }
+            string pre1=preorder(T);
+        //进行比较
+            if(pre1==pre) cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
+            else cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
+        }
+    }
+    return 0;
+}</code></pre>
+
             <hr>
           </div>
           <br>
@@ -205,6 +280,11 @@
 <!-- Comments -->
 <div class="col-lg-7 mx-auto nopadding-md">
   <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
     
   </div>
 </div>
@@ -332,7 +412,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "firstblog&nbsp;",
+        "二叉搜索树&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
@@ -391,6 +471,56 @@
 
 
 
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
 
 
 
