@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Tags ~ Hexo</title>
+  <title>二叉搜索树 ~ Hexo</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Thursday, January 9th 2020, 4:26 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    492 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,22 +163,149 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/c/" style="font-size: 30px; color: #337ab7">c++</a> <a href="/tags/python/" style="font-size: 30px; color: #337ab7">python</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 15px; color: #bbe">图像处理</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 15px; color: #bbe">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 30px; color: #337ab7">算法</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>题目描述</strong><br>判断两序列是否为同一二叉搜索树序列</p>
+<p><strong>输入描述:</strong><br>开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。<br>接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。<br>接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。<br><strong>输出描述:</strong><br>如果序列相同则输出YES，否则输出NO<br><strong>示例</strong></p>
+<p>输入</p>
+<blockquote>
+<p>2<br>567432<br>543267<br>576342`<br>0 </p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>YES<br>NO</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;string&gt;
+//前序遍历和中序遍历可以唯一确定一棵二叉树，
+//而对二叉排序树而言，相同元素的二叉排序树中
+//序遍历一定相同，而不同元素二叉排序树使用前
+//序遍历就可以发现不相同，所以只需要前序遍历
+//两个二叉树，比较一下就可以判断
+
+using namespace std;
+
+string pre,in;
+
+struct TreeNode{
+    char data;
+    TreeNode* leftchild;
+    TreeNode* rightchild;
+    TreeNode(char c):data(c),leftchild(NULL),rightchild(NULL){}
+};
+
+TreeNode* Insert(TreeNode* root,char x){
+    if(root==NULL){
+        root=new TreeNode(x);
+    }
+    else if(x&lt;root-&gt;data){
+        root-&gt;leftchild=Insert(root-&gt;leftchild,x);
+    }
+    else if(x&gt;root-&gt;data){
+        root-&gt;rightchild=Insert(root-&gt;rightchild,x);
+    }
+    return root;
+}
+
+string preorder(TreeNode* root){
+    if(root==NULL) return &quot;#&quot;;
+    return root-&gt;data+preorder(root-&gt;leftchild)+preorder(root-&gt;rightchild);
+}
+
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n==0) break;
+        string s; TreeNode* root=NULL;
+        cin&gt;&gt;s;
+        //构建初始的排序树
+        for(int i=0;i&lt;s.size();i++){
+            root=Insert(root,s[i]);
+        }
+        string pre=preorder(root);
+        //构建用来比较的排序树
+        for(int i=0;i&lt;n;i++){
+            string str; TreeNode* T=NULL;
+            cin&gt;&gt;str;
+            for(int j=0;j&lt;str.size();j++){
+                T=Insert(T,str[j]);
+            }
+            string pre1=preorder(T);
+        //进行比较
+            if(pre1==pre) cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
+            else cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
+        }
+    }
+    return 0;
+}</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -222,6 +384,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -262,7 +429,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Tag&nbsp;",
+        "二叉搜索树&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

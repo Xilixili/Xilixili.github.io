@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>二叉搜索树 ~ Hexo</title>
+  <title>批量修改XML中的标签值 ~ Hexo</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Sunday, February 9th 2020, 5:46 pm
+                  Thursday, January 9th 2020, 6:47 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    492 字
+                    454 字
                   </span>&nbsp;
                 
 
@@ -172,81 +172,64 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p><strong>题目描述</strong><br>判断两序列是否为同一二叉搜索树序列</p>
-<p><strong>输入描述:</strong><br>开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。<br>接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。<br>接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。<br><strong>输出描述:</strong><br>如果序列相同则输出YES，否则输出NO<br><strong>示例</strong></p>
-<p>输入</p>
-<blockquote>
-<p>2<br>567432<br>543267<br>576342`<br>0 </p>
-</blockquote>
-<p>输出</p>
-<blockquote>
-<p>YES<br>NO</p>
-</blockquote>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-#include&lt;string&gt;
-//前序遍历和中序遍历可以唯一确定一棵二叉树，
-//而对二叉排序树而言，相同元素的二叉排序树中
-//序遍历一定相同，而不同元素二叉排序树使用前
-//序遍历就可以发现不相同，所以只需要前序遍历
-//两个二叉树，比较一下就可以判断
-
-using namespace std;
-
-string pre,in;
-
-struct TreeNode{
-    char data;
-    TreeNode* leftchild;
-    TreeNode* rightchild;
-    TreeNode(char c):data(c),leftchild(NULL),rightchild(NULL){}
-};
-
-TreeNode* Insert(TreeNode* root,char x){
-    if(root==NULL){
-        root=new TreeNode(x);
-    }
-    else if(x&lt;root-&gt;data){
-        root-&gt;leftchild=Insert(root-&gt;leftchild,x);
-    }
-    else if(x&gt;root-&gt;data){
-        root-&gt;rightchild=Insert(root-&gt;rightchild,x);
-    }
-    return root;
-}
-
-string preorder(TreeNode* root){
-    if(root==NULL) return &quot;#&quot;;
-    return root-&gt;data+preorder(root-&gt;leftchild)+preorder(root-&gt;rightchild);
-}
-
-
-int main(){
-    int n;
-    while(cin&gt;&gt;n){
-        if(n==0) break;
-        string s; TreeNode* root=NULL;
-        cin&gt;&gt;s;
-        //构建初始的排序树
-        for(int i=0;i&lt;s.size();i++){
-            root=Insert(root,s[i]);
-        }
-        string pre=preorder(root);
-        //构建用来比较的排序树
-        for(int i=0;i&lt;n;i++){
-            string str; TreeNode* T=NULL;
-            cin&gt;&gt;str;
-            for(int j=0;j&lt;str.size();j++){
-                T=Insert(T,str[j]);
-            }
-            string pre1=preorder(T);
-        //进行比较
-            if(pre1==pre) cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
-            else cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
-        }
-    }
-    return 0;
-}</code></pre>
+            <p>因为用labelimg给图片打标签的时候打错了，本来是water dispenser弄成了drinking_fountain了，尴尬_(:з)∠)_，并且已经标了1500张了，只能自己写程序改，xml文件示例如下：</p>
+<pre><code class="cpp">&lt;?xml version=&#39;1.0&#39; encoding=&#39;us-ascii&#39;?&gt;
+&lt;annotation verified=&quot;no&quot;&gt;
+  &lt;folder&gt;drinking_fountain&lt;/folder&gt;
+  &lt;filename&gt;1&lt;/filename&gt;
+  &lt;path&gt;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain\1.jpg&lt;/path&gt;
+  &lt;source&gt;
+    &lt;database&gt;Unknown&lt;/database&gt;
+  &lt;/source&gt;
+  &lt;size&gt;
+    &lt;width&gt;720&lt;/width&gt;
+    &lt;height&gt;1280&lt;/height&gt;
+    &lt;depth&gt;3&lt;/depth&gt;
+  &lt;/size&gt;
+  &lt;segmented&gt;0&lt;/segmented&gt;
+  &lt;object&gt;
+    &lt;name&gt;drinking_fountain&lt;/name&gt;
+    &lt;pose&gt;Unspecified&lt;/pose&gt;
+    &lt;truncated&gt;0&lt;/truncated&gt;
+    &lt;difficult&gt;0&lt;/difficult&gt;
+    &lt;bndbox&gt;
+      &lt;xmin&gt;153&lt;/xmin&gt;
+      &lt;ymin&gt;6&lt;/ymin&gt;
+      &lt;xmax&gt;587&lt;/xmax&gt;
+      &lt;ymax&gt;1157&lt;/ymax&gt;
+    &lt;/bndbox&gt;
+  &lt;/object&gt;
+&lt;/annotation&gt;</code></pre>
+<p>用来修改的python代码的如下：</p>
+<pre><code class="cpp">import os
+import os.path
+from xml.etree.ElementTree import parse, Element
+#批量修改xml中内容
+def test():
+    path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;#xml文件所在的目录
+    files = os.listdir(path)  # 得到文件夹下所有文件名称
+    s = []
+    for xmlFile in files:  # 遍历文件夹
+        if not os.path.isdir(xmlFile):  # 判断是否是文件夹,不是文件夹才打开
+            print
+            xmlFile
+            pass
+        path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;
+        print(xmlFile)
+        path1 = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;+xmlFile#定位当前处理的文件的路径
+        newStr = os.path.join(path, xmlFile)
+        name = &quot;water dispenser&quot;
+        dom = parse(newStr)  ###最核心的部分,路径拼接,输入的是具体路径
+        root = dom.getroot()
+        print(root)
+        for obj in root.iter(&#39;object&#39;):#获取object节点中的name子节点
+            obj.find(&#39;name&#39;).text=name
+            name1 = obj.find(&#39;name&#39;).text#修改
+            print(name1)
+        dom.write(path1, xml_declaration=True)#保存到指定文件
+        pass
+if __name__ == &#39;__main__&#39;:
+    test()</code></pre>
 
             <hr>
           </div>
@@ -254,6 +237,23 @@ int main(){
           <div>
             <p>
             
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/python">python</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                
+              </span>
             
             </p>
             
@@ -412,7 +412,7 @@ int main(){
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "二叉搜索树&nbsp;",
+        "批量修改XML中的标签值&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
