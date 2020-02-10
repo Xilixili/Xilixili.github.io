@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>Jungle roads</title>
+    <link href="/2020/02/10/Jungle%20roads/"/>
+    <url>/2020/02/10/Jungle%20roads/</url>
+    
+    <content type="html"><![CDATA[<p><strong>Problem Description</strong><br><img src="https://img-blog.csdnimg.cn/20200210210056936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>The Head Elder of the tropical island of Lagrishan has a problem. A burst of foreign aid money was spent on extra roads between villages some years ago. But the jungle overtakes roads relentlessly, so the large road network is too expensive to maintain. The Council of Elders must choose to stop maintaining some roads. The map above on the left shows all the roads in use now and the cost in aacms per month to maintain them. Of course there needs to be some way to get between all the villages on maintained roads, even if the route is not as short as before. The Chief Elder would like to tell the Council of Elders what would be the smallest amount they could spend in aacms per month to maintain roads that would connect all the villages. The villages are labeled A through I in the maps above. The map on the right shows the roads that could be maintained most cheaply, for 216 aacms per month. Your task is to write a program that will solve such problems.<br><strong>Input</strong><br>The input consists of one to 100 data sets, followed by a final line containing only 0. Each data set starts with a line containing only a number n, which is the number of villages, 1 &lt; n &lt; 27, and the villages are labeled with the first n letters of the alphabet, capitalized. Each data set is completed with n-1 lines that start with village labels in alphabetical order. There is no line for the last village. Each line for a village starts with the village label followed by a number, k, of roads from this village to villages with labels later in the alphabet. If k is greater than 0, the line continues with data for each of the k roads. The data for each road is the village label for the other end of the road followed by the monthly maintenance cost in aacms for the road. Maintenance costs will be positive integers less than 100. All data fields in the row are separated by single blanks. The road network will always allow travel between all the villages. The network will never have more than 75 roads. No village will have more than 15 roads going to other villages (before or after in the alphabet). In the sample input below, the first data set goes with the map above.<br><strong>Output</strong><br>The output is one integer per line for each data set: the minimum cost in aacms per month to maintain a road system that connect all the villages. Caution: A brute force solution that examines every possible set of roads will not finish within the one minute time limit. </p><p><strong>Sample Input</strong></p><blockquote><p>9<br>A 2 B 12 I 25<br>B 3 C 10 H 40 I 8<br>C 2 D 18 G 55<br>D 1 E 44<br>E 2 F 60 G 38<br>F 0<br>G 1 H 35<br>H 1 I 35<br>3 A 2 B 10 C 40<br>B 1 C 20<br>0</p></blockquote><p><strong>Sample Output</strong></p><blockquote><p>216<br>30</p></blockquote><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;algorithm&gt;using namespace std;const int MAXN=100;struct Edge{    int from;    int to;    int length;    bool operator&lt;(const Edge&amp; e) const{//жиди&lt;a        return length&lt;e.length;    }};Edge edge[MAXN*MAXN];int father[MAXN];int height[MAXN];void Initial(int n){    for(int i=0;i&lt;n;i++){        father[i]=i;        height[i]=0;    }}int Find(int x){    if(father[x]!=x) return Find(father[x]);    else return father[x];}void Union(int x,int y){    x=Find(x);    y=Find(y);    if(x!=y){        if(height[x]&lt;height[y]) father[x]=y;        else if(height[x]&gt;height[y]) father[y]=x;        else{            father[y]=x; height[x]++;        }    }}int Kruskal(int n,int edgeNumber){    Initial(n);    sort(edge,edge+edgeNumber);    int sum=0;    for(int i=0;i&lt;edgeNumber;i++){        Edge current=edge[i];        //cout&lt;&lt;current.from&lt;&lt;&quot;-&gt;&quot;&lt;&lt;current.to&lt;&lt;&quot; &quot;&lt;&lt;current.length&lt;&lt;endl;        if(Find(current.from)!=Find(current.to)){            Union(current.from,current.to);            sum+=current.length;        }    }    return sum;}int main(){    int n;    while(cin&gt;&gt;n){        if(n==0) break;        int k=0;        for(int i=0;i&lt;n-1;i++){            char v; int num;            cin&gt;&gt;v&gt;&gt;num;            for(int j=0;j&lt;num;j++){                char v1; int length;                cin&gt;&gt;v1&gt;&gt;length;                edge[k].from=i;                edge[k].to=v1-&#39;A&#39;;                edge[k].length=length;                k++;            }        }        int answer=Kruskal(n,k);        cout&lt;&lt;answer&lt;&lt;endl;    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>最小生成树</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>畅通工程续</title>
     <link href="/2020/02/10/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/"/>
     <url>/2020/02/10/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/</url>

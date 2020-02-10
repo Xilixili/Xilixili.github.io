@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>Tags ~ xixilili</title>
+  <title>Jungle roads ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Monday, February 10th 2020, 9:04 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    779 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,22 +163,166 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center tagcloud">
-  <a href="/tags/c/" style="font-size: 30px; color: #337ab7">c++</a> <a href="/tags/python/" style="font-size: 22.5px; color: #779bd3">python</a> <a href="/tags/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91/" style="font-size: 15px; color: #bbe">二叉排序树</a> <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" style="font-size: 15px; color: #bbe">图像处理</a> <a href="/tags/%E6%8B%93%E6%89%91%E6%8E%92%E5%BA%8F/" style="font-size: 15px; color: #bbe">拓扑排序</a> <a href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91/" style="font-size: 15px; color: #bbe">最小生成树</a> <a href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84/" style="font-size: 15px; color: #bbe">最短路径</a> <a href="/tags/%E7%88%AC%E8%99%AB/" style="font-size: 15px; color: #bbe">爬虫</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 30px; color: #337ab7">算法</a> <a href="/tags/%E9%98%9F%E5%88%97/" style="font-size: 15px; color: #bbe">队列</a>
-</div>
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>Problem Description</strong><br><img src="https://img-blog.csdnimg.cn/20200210210056936.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>The Head Elder of the tropical island of Lagrishan has a problem. A burst of foreign aid money was spent on extra roads between villages some years ago. But the jungle overtakes roads relentlessly, so the large road network is too expensive to maintain. The Council of Elders must choose to stop maintaining some roads. The map above on the left shows all the roads in use now and the cost in aacms per month to maintain them. Of course there needs to be some way to get between all the villages on maintained roads, even if the route is not as short as before. The Chief Elder would like to tell the Council of Elders what would be the smallest amount they could spend in aacms per month to maintain roads that would connect all the villages. The villages are labeled A through I in the maps above. The map on the right shows the roads that could be maintained most cheaply, for 216 aacms per month. Your task is to write a program that will solve such problems.<br><strong>Input</strong><br>The input consists of one to 100 data sets, followed by a final line containing only 0. Each data set starts with a line containing only a number n, which is the number of villages, 1 &lt; n &lt; 27, and the villages are labeled with the first n letters of the alphabet, capitalized. Each data set is completed with n-1 lines that start with village labels in alphabetical order. There is no line for the last village. Each line for a village starts with the village label followed by a number, k, of roads from this village to villages with labels later in the alphabet. If k is greater than 0, the line continues with data for each of the k roads. The data for each road is the village label for the other end of the road followed by the monthly maintenance cost in aacms for the road. Maintenance costs will be positive integers less than 100. All data fields in the row are separated by single blanks. The road network will always allow travel between all the villages. The network will never have more than 75 roads. No village will have more than 15 roads going to other villages (before or after in the alphabet). In the sample input below, the first data set goes with the map above.<br><strong>Output</strong><br>The output is one integer per line for each data set: the minimum cost in aacms per month to maintain a road system that connect all the villages. Caution: A brute force solution that examines every possible set of roads will not finish within the one minute time limit. </p>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>9<br>A 2 B 12 I 25<br>B 3 C 10 H 40 I 8<br>C 2 D 18 G 55<br>D 1 E 44<br>E 2 F 60 G 38<br>F 0<br>G 1 H 35<br>H 1 I 35<br>3 A 2 B 10 C 40<br>B 1 C 20<br>0</p>
+</blockquote>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>216<br>30</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;algorithm&gt;
+
+using namespace std;
+
+const int MAXN=100;
+
+struct Edge{
+    int from;
+    int to;
+    int length;
+    bool operator&lt;(const Edge&amp; e) const{//жиди&lt;a
+        return length&lt;e.length;
+    }
+};
+
+Edge edge[MAXN*MAXN];
+int father[MAXN];
+int height[MAXN];
+
+void Initial(int n){
+    for(int i=0;i&lt;n;i++){
+        father[i]=i;
+        height[i]=0;
+    }
+}
+
+int Find(int x){
+    if(father[x]!=x) return Find(father[x]);
+    else return father[x];
+}
+
+void Union(int x,int y){
+    x=Find(x);
+    y=Find(y);
+    if(x!=y){
+        if(height[x]&lt;height[y]) father[x]=y;
+        else if(height[x]&gt;height[y]) father[y]=x;
+        else{
+            father[y]=x; height[x]++;
+        }
+    }
+}
+
+int Kruskal(int n,int edgeNumber){
+    Initial(n);
+    sort(edge,edge+edgeNumber);
+    int sum=0;
+    for(int i=0;i&lt;edgeNumber;i++){
+        Edge current=edge[i];
+        //cout&lt;&lt;current.from&lt;&lt;&quot;-&gt;&quot;&lt;&lt;current.to&lt;&lt;&quot; &quot;&lt;&lt;current.length&lt;&lt;endl;
+        if(Find(current.from)!=Find(current.to)){
+            Union(current.from,current.to);
+            sum+=current.length;
+        }
+    }
+    return sum;
+}
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n==0) break;
+        int k=0;
+        for(int i=0;i&lt;n-1;i++){
+            char v; int num;
+            cin&gt;&gt;v&gt;&gt;num;
+            for(int j=0;j&lt;num;j++){
+                char v1; int length;
+                cin&gt;&gt;v1&gt;&gt;length;
+                edge[k].from=i;
+                edge[k].to=v1-&#39;A&#39;;
+                edge[k].length=length;
+                k++;
+            }
+        }
+        int answer=Kruskal(n,k);
+        cout&lt;&lt;answer&lt;&lt;endl;
+    }
+}</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%9C%80%E5%B0%8F%E7%94%9F%E6%88%90%E6%A0%91">最小生成树</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -222,6 +401,11 @@
 
 
 
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
@@ -262,7 +446,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Tag&nbsp;",
+        "Jungle roads&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
