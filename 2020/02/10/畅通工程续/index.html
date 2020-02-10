@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Archives ~ Hexo</title>
+  <title>畅通工程续 ~ Hexo</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Monday, February 10th 2020, 7:56 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    671 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,41 +163,141 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">6 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/10/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">畅通工程续</span>
-      <span style="float: right;">02-10</span>
-    </a>
-  
-    
-    <a href="/2020/02/10/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">确定比赛名次</span>
-      <span style="float: right;">02-10</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>Problem Description</strong><br>某省自从实行了很多年的畅通工程计划后，终于修建了很多路。不过路多了也不好，每次要从一个城镇到另一个城镇时，都有许多种道路方案可以选择，而某些方案要比另一些方案行走的距离要短很多。这让行人很困扰。</p>
+<p>现在，已知起点和终点，请你计算出要从起点到终点，最短需要行走多少距离。</p>
+<p><strong>Input</strong><br>本题目包含多组数据，请处理到文件结束。<br>每组数据第一行包含两个正整数N和M(0&lt;N&lt;200,0&lt;M&lt;1000)，分别代表现有城镇的数目和已修建的道路的数目。城镇分别以0～N-1编号。<br>接下来是M行道路信息。每一行有三个整数A,B,X(0&lt;=A,B&lt;N,A!=B,0&lt;X&lt;10000),表示城镇A和城镇B之间有一条长度为X的双向道路。<br>再接下一行有两个整数S,T(0&lt;=S,T&lt;N)，分别代表起点和终点。</p>
+<p><strong>Output</strong><br>对于每组数据，请在一行里输出最短需要行走的距离。如果不存在从S到T的路线，就输出-1.<br><strong>Sample Input</strong></p>
+<blockquote>
+<p>3 3<br>0 1 1<br>0 2 3<br>1 2 1<br>0 2<br>3 1<br>0 1 1<br>1 2</p>
+</blockquote>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>2<br>-1</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+using namespace std;
 
-              </div>
-            </div>
+const int MAXN=500;
+
+vector&lt;int&gt; graph[MAXN];//邻接表的实现
+int inDegree[MAXN];
+
+vector&lt;int&gt; TopologicalSort(int n){
+    vector&lt;int&gt; topology;
+    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面
+    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号
+        if(inDegree[i]==0){//先把初始入度为零的全部放入队列
+            node.push(i);
+        }
+    }
+//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰
+    while(!node.empty()){
+        int u=node.top();
+        node.pop();
+        topology.push_back(u);
+        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧
+            int v=graph[u][i];
+            inDegree[v]--;
+            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列
+                node.push(v);
+            }
+        }
+    }
+    return topology;
+}
+
+int main(){
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(n==0&amp;&amp;m==0) break;
+        memset(graph,0,sizeof(graph));
+        memset(inDegree,0,sizeof(inDegree));
+        while(m--){
+            int from,to;
+            cin&gt;&gt;from&gt;&gt;to;
+            graph[from].push_back(to);
+            inDegree[to]++;//在输入时更新入度数组
+        }
+        vector&lt;int&gt; answer=TopologicalSort(n);
+        for(int i=0;i&lt;answer.size();i++){
+            if(i==0) cout&lt;&lt;answer[i];
+            else cout&lt;&lt;&quot; &quot;&lt;&lt;answer[i];
+        }
+    }
+}</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84">最短路径</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -241,6 +376,11 @@
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -281,7 +421,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "畅通工程续&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
