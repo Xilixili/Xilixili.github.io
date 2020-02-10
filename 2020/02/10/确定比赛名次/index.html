@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>Hexo</title>
+  <title>确定比赛名次 ~ Hexo</title>
 
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
 <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,12 +118,43 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Monday, February 10th 2020, 7:45 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    625 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="fas fa-angle-down scroll-down-arrow"></i>
-            </div>
           
         </div>
       </div>
@@ -132,288 +163,140 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/10/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/">
-        <p class="h4 index-header">确定比赛名次</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Problem Description有N个比赛队（1&lt;=N&lt;=500），编号依次为1，2，3，。。。。，N进行比赛，比赛结束后，裁判委员会要将所有参赛队伍从前往后依次排名，但现在裁判委员会不能直接获得每个队的比赛成绩，只知道每场比赛的结果，即P1赢P2，用P1，P2表示，排名时P1在P2之前。现在请你编程序确定排名。
-Input输入有若干组，每组中的第一行为二个数N（1&lt;=N&lt;=500），M；其中N表示队伍的个数，M表示接着有M行的输入数据。接下来的M行数据中，每行也有两个整数P1，P2表示即P1队赢了P2队。
-Output给出一个符合要求的排名。输出时队伍号之间有空格，最后一名后面没有空格。
-其他说明：符合条件的排名可能不是唯一的，此时要求输出时编号小的队伍在前；输入数据保证是正确的，即输入数据确保一定能有一个符合要求的排名。
-Sample Input
-
-4 31 22 34 3
-
-Sample Output
-
-1 2 4 3
-
-#include&lt;iostream&gt;
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>Problem Description</strong><br>有N个比赛队（1&lt;=N&lt;=500），编号依次为1，2，3，。。。。，N进行比赛，比赛结束后，裁判委员会要将所有参赛队伍从前往后依次排名，但现在裁判委员会不能直接获得每个队的比赛成绩，只知道每场比赛的结果，即P1赢P2，用P1，P2表示，排名时P1在P2之前。现在请你编程序确定排名。</p>
+<p><strong>Input</strong><br>输入有若干组，每组中的第一行为二个数N（1&lt;=N&lt;=500），M；其中N表示队伍的个数，M表示接着有M行的输入数据。接下来的M行数据中，每行也有两个整数P1，P2表示即P1队赢了P2队。</p>
+<p><strong>Output</strong><br>给出一个符合要求的排名。输出时队伍号之间有空格，最后一名后面没有空格。</p>
+<p>其他说明：符合条件的排名可能不是唯一的，此时要求输出时编号小的队伍在前；输入数据保证是正确的，即输入数据确保一定能有一个符合要求的排名。</p>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>4 3<br>1 2<br>2 3<br>4 3</p>
+</blockquote>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1 2 4 3</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
 #include&lt;cstdio&gt;
-#include&lt;cstri</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-10&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/09/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9XML%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E5%80%BC/">
-        <p class="h4 index-header">批量修改XML中的标签值</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">因为用labelimg给图片打标签的时候打错了，本来是water dispenser弄成了drinking_fountain了，尴尬_(:з)∠)_，并且已经标了1500张了，只能自己写程序改，xml文件示例如下：
-&lt;?xml version=&#39;1.0&#39; encoding=&#39;us-ascii&#39;?&gt;
-&lt;annotation verified=&quot;no&quot;&gt;
-  &lt;folder&gt;drinking_fountain&lt;/folder&gt;
-  &lt;filename&gt;1&lt;/filename&gt;
-  &lt;path&gt;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain\1.jpg&lt;/path&gt;
-  &lt;source&gt;
-    &lt;database&gt;Unknown&lt;/database&gt;
-  &lt;/source&gt;
-  &lt;size&gt;
-    &lt;width&gt;720</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/python">python</a>&nbsp;
-          
-            <a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/09/%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98no_2/">
-        <p class="h4 index-header">约瑟夫问题no_2</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目：n 个小孩围坐成一圈，并按顺时针编号为1,2,…,n，从编号为 p 的小孩顺时针依次报数，由1报到m ，当报到 m 时，该小孩从圈中出去，然后下一个再从1报数，当报到 m 时再出去。如此反复，直至所有的小孩都从圈中出去。请按出去的先后顺序输出小孩的编号。
-Input:每行是用空格分开的三个整数，第一个是n,第二个是p,第三个是m (0 &lt; m,n &lt; 300)。最后一行是: 0 0 0
-Output:按出圈的顺序输出编号，编号之间以逗号间隔。
-Sample Input:
-8 3 40 0 0
-
-Sample Output:
-6,2,7,4,3,5,1,8
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
 #include&lt;queue&gt;
-
 using namespace std;
-//用循环队列的方式解决约瑟夫问题
+
+const int MAXN=500;
+
+vector&lt;int&gt; graph[MAXN];//邻接表的实现
+int inDegree[MAXN];
+
+vector&lt;int&gt; TopologicalSort(int n){
+    vector&lt;int&gt; topology;
+    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面
+    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号
+        if(inDegree[i]==0){//先把初始入度为零的全部放入队列
+            node.push(i);
+        }
+    }
+//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰
+    while(!node.empty()){
+        int u=node.top();
+        node.pop();
+        topology.push_back(u);
+        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧
+            int v=graph[u][i];
+            inDegree[v]--;
+            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列
+                node.push(v);
+            }
+        }
+    }
+    return topology;
+}
+
 int main(){
-    int n,p,m;
-    while(cin&gt;&gt;n&gt;&gt;p&gt;&gt;m){
-        queue&lt;int&gt; chil</div>
-        </div>
-      </a>
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(n==0&amp;&amp;m==0) break;
+        memset(graph,0,sizeof(graph));
+        memset(inDegree,0,sizeof(inDegree));
+        while(m--){
+            int from,to;
+            cin&gt;&gt;from&gt;&gt;to;
+            graph[from].push_back(to);
+            inDegree[to]++;//在输入时更新入度数组
+        }
+        vector&lt;int&gt; answer=TopologicalSort(n);
+        for(int i=0;i&lt;answer.size();i++){
+            if(i==0) cout&lt;&lt;answer[i];
+            else cout&lt;&lt;&quot; &quot;&lt;&lt;answer[i];
+        }
+    }
+}</code></pre>
 
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/09/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">
-        <p class="h4 index-header">二叉搜索树</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述判断两序列是否为同一二叉搜索树序列
-输入描述:开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。输出描述:如果序列相同则输出YES，否则输出NO示例
-输入
-
-2567432543267576342`0 
-
-输出
-
-YESNO
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-#include&lt;string&gt;
-//前序遍历和中序遍历可以唯一确定一棵二叉树，
-//而对二叉排序树而言，相同元素的二叉排序树中
-//序遍历一定相同，而不同元素二叉排序树使用前
-//序遍历就可以发现不相同，所以只需要前序遍历
-//两个二叉树，比较一下就可以判断
-
-using namespace std;
-
-string pre,in;
-
-struct TreeNode{
-    char data</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/09/%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E5%85%A8%E5%9B%BD%E5%8E%86%E5%8F%B2%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE/">
-        <p class="h4 index-header">爬虫爬取全国历史天气数据</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">一段很简单的爬虫程序，爬取的网站为http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据
-from bs4 import BeautifulSoup
-import requests
-import pymysql
-import warnings
-# import pinyin
-# from pinyin import PinYin
-from pypinyin import pinyin, lazy_pinyin
-import pypinyin
-warnings.filterwarnings(&quot;ignore&quot;)
-
-conn = pymysql.connect(host=&#39;localhost&#39;, user=&#39;root&#39;, passwd=&#39;root&#39;, db=&#39;test2&#39;, port=3306, charset=&#39;utf8&#39;)
-cursor = conn.cursor()
-def get_temperature(url,city)</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-09&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
-          
-            <a href="/tags/python">python</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-
-
-
-
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -492,6 +375,11 @@ def get_temperature(url,city)</div>
 
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="/lib/smooth-scroll/smooth-scroll.min.js" ></script>
@@ -532,7 +420,7 @@ def get_temperature(url,city)</div>
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "淅淅沥沥的博客&nbsp;",
+        "确定比赛名次&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

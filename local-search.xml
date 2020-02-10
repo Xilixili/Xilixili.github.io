@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>确定比赛名次</title>
+    <link href="/2020/02/10/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/"/>
+    <url>/2020/02/10/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/</url>
+    
+    <content type="html"><![CDATA[<p><strong>Problem Description</strong><br>有N个比赛队（1&lt;=N&lt;=500），编号依次为1，2，3，。。。。，N进行比赛，比赛结束后，裁判委员会要将所有参赛队伍从前往后依次排名，但现在裁判委员会不能直接获得每个队的比赛成绩，只知道每场比赛的结果，即P1赢P2，用P1，P2表示，排名时P1在P2之前。现在请你编程序确定排名。</p><p><strong>Input</strong><br>输入有若干组，每组中的第一行为二个数N（1&lt;=N&lt;=500），M；其中N表示队伍的个数，M表示接着有M行的输入数据。接下来的M行数据中，每行也有两个整数P1，P2表示即P1队赢了P2队。</p><p><strong>Output</strong><br>给出一个符合要求的排名。输出时队伍号之间有空格，最后一名后面没有空格。</p><p>其他说明：符合条件的排名可能不是唯一的，此时要求输出时编号小的队伍在前；输入数据保证是正确的，即输入数据确保一定能有一个符合要求的排名。</p><p><strong>Sample Input</strong></p><blockquote><p>4 3<br>1 2<br>2 3<br>4 3</p></blockquote><p><strong>Sample Output</strong></p><blockquote><p>1 2 4 3</p></blockquote><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;cstring&gt;#include&lt;queue&gt;using namespace std;const int MAXN=500;vector&lt;int&gt; graph[MAXN];//邻接表的实现int inDegree[MAXN];vector&lt;int&gt; TopologicalSort(int n){    vector&lt;int&gt; topology;    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号        if(inDegree[i]==0){//先把初始入度为零的全部放入队列            node.push(i);        }    }//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰    while(!node.empty()){        int u=node.top();        node.pop();        topology.push_back(u);        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧            int v=graph[u][i];            inDegree[v]--;            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列                node.push(v);            }        }    }    return topology;}int main(){    int n,m;    while(cin&gt;&gt;n&gt;&gt;m){        if(n==0&amp;&amp;m==0) break;        memset(graph,0,sizeof(graph));        memset(inDegree,0,sizeof(inDegree));        while(m--){            int from,to;            cin&gt;&gt;from&gt;&gt;to;            graph[from].push_back(to);            inDegree[to]++;//在输入时更新入度数组        }        vector&lt;int&gt; answer=TopologicalSort(n);        for(int i=0;i&lt;answer.size();i++){            if(i==0) cout&lt;&lt;answer[i];            else cout&lt;&lt;&quot; &quot;&lt;&lt;answer[i];        }    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>批量修改XML中的标签值</title>
     <link href="/2020/01/09/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9XML%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E5%80%BC/"/>
     <url>/2020/01/09/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9XML%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E5%80%BC/</url>
