@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>爬虫爬取全国历史天气数据 ~ xixilili</title>
+  <title>二叉搜索树 ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, January 9th 2020, 4:26 pm
+                  Sunday, February 9th 2020, 4:26 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    1.3k 字
+                    492 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      6 分钟
+                      2 分钟
                   </span>&nbsp;
                 
 
@@ -172,72 +172,81 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>一段很简单的爬虫程序，爬取的网站为<a href="http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据" target="_blank" rel="noopener">http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据</a></p>
-<pre><code class="cpp">from bs4 import BeautifulSoup
-import requests
-import pymysql
-import warnings
-# import pinyin
-# from pinyin import PinYin
-from pypinyin import pinyin, lazy_pinyin
-import pypinyin
-warnings.filterwarnings(&quot;ignore&quot;)
+            <p><strong>题目描述</strong><br>判断两序列是否为同一二叉搜索树序列</p>
+<p><strong>输入描述:</strong><br>开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。<br>接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。<br>接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。<br><strong>输出描述:</strong><br>如果序列相同则输出YES，否则输出NO<br><strong>示例</strong></p>
+<p>输入</p>
+<blockquote>
+<p>2<br>567432<br>543267<br>576342`<br>0 </p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>YES<br>NO</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;string&gt;
+//前序遍历和中序遍历可以唯一确定一棵二叉树，
+//而对二叉排序树而言，相同元素的二叉排序树中
+//序遍历一定相同，而不同元素二叉排序树使用前
+//序遍历就可以发现不相同，所以只需要前序遍历
+//两个二叉树，比较一下就可以判断
 
-conn = pymysql.connect(host=&#39;localhost&#39;, user=&#39;root&#39;, passwd=&#39;root&#39;, db=&#39;test2&#39;, port=3306, charset=&#39;utf8&#39;)
-cursor = conn.cursor()
-def get_temperature(url,city):
-    headers = {
-        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,  like Gecko) Chrome/63.0.3239.132 Safari/537.36&#39;}           # 设置头文件信息
-    response = requests.get(url,  headers=headers).content    # 提交requests get 请求
-    soup = BeautifulSoup(response,  &quot;lxml&quot;)       # 用Beautifulsoup 进行解析
+using namespace std;
 
-    conmid2 = soup.findAll(&#39;div&#39;,  class_=&#39;wdetail&#39;)
-    # conmid2 = conmid.findAll(&#39;div&#39;,  class_=&#39;wdetail&#39;)
+string pre,in;
 
-    for info in conmid2:
-        tr_list = info.find_all(&#39;tr&#39;)[1:]       # 使用切片取到第三个tr标签
-        for index,  tr in enumerate(tr_list):     # enumerate可以返回元素的位置及内容
-            td_list = tr.find_all(&#39;td&#39;)
-            # if index == 0:
+struct TreeNode{
+    char data;
+    TreeNode* leftchild;
+    TreeNode* rightchild;
+    TreeNode(char c):data(c),leftchild(NULL),rightchild(NULL){}
+};
 
-            date = td_list[0].text.strip().replace(&quot;\n&quot;, &quot;&quot;)  # 取每个标签的text信息，并使用replace()函数将换行符删除
-            weather = td_list[1].text.strip().replace(&quot;\n&quot;, &quot;&quot;).split(&quot;/&quot;)[0].strip()
-            temperature = td_list[2].text.strip().replace(&quot;\n&quot;,  &quot;&quot;).split(&quot;/&quot;)[0].strip()
-            wind = td_list[3].text.strip().replace(&quot;\n&quot;,  &quot;&quot;).split(&quot;/&quot;)[0].strip()
+TreeNode* Insert(TreeNode* root,char x){
+    if(root==NULL){
+        root=new TreeNode(x);
+    }
+    else if(x&lt;root-&gt;data){
+        root-&gt;leftchild=Insert(root-&gt;leftchild,x);
+    }
+    else if(x&gt;root-&gt;data){
+        root-&gt;rightchild=Insert(root-&gt;rightchild,x);
+    }
+    return root;
+}
 
-            # else:
-            #     city_name = td_list[0].text.replace(&#39;\n&#39;,  &#39;&#39;)
-            #     weather = td_list[4].text.replace(&#39;\n&#39;,  &#39;&#39;)
-            #     wind = td_list[5].text.replace(&#39;\n&#39;,  &#39;&#39;)
-            #     max = td_list[3].text.replace(&#39;\n&#39;,  &#39;&#39;)
-            #     min = td_list[6].text.replace(&#39;\n&#39;,  &#39;&#39;)
-
-            print(city,date,  weather,  wind,  temperature)
-            cursor.execute(&#39;insert into weather(city, date, weather, wind, temp) values(%s, %s, %s, %s, %s)&#39;
-                           ,  (city,  date,  weather,  wind,  temperature ))
-if __name__==&#39;__main__&#39;:
-
-    # citys1= [&quot;成都市&quot;,&quot;广元市&quot;,&quot;绵阳市&quot;,&quot;德阳市&quot;,&quot;南充市&quot;,&quot;广安市&quot;,&quot;遂宁市&quot;,&quot;内江市&quot;,&quot;乐山市&quot;,&quot;自贡市&quot;,&quot;泸州市&quot;,&quot;宜宾市&quot;,&quot;攀枝花市&quot;,&quot;巴中市&quot;,&quot;达州市&quot;,&quot;资阳市&quot;,&quot;眉山市&quot;,&quot;雅安市&quot;,&quot;崇州市&quot;,&quot;邛崃市&quot;,&quot;都江堰市&quot;,&quot;彭州市&quot;,&quot;江油市&quot;,&quot;什邡市&quot;,&quot;广汉市&quot;,&quot;绵竹市&quot;,&quot;阆中市&quot;,&quot;华蓥市&quot;,&quot;峨眉山市&quot;,&quot;万源市&quot;,&quot;简阳市&quot;,&quot;西昌市&quot;,&quot;康定市&quot;,&quot;马尔康市&quot;,&quot;隆昌市&quot;]
-    # citys1= [&quot;郑州市&quot;,&quot;开封市&quot;,&quot;洛阳市&quot;,&quot;平顶山市&quot;,&quot;安阳市&quot;,&quot;鹤壁市&quot;,&quot;新乡市&quot;,&quot;焦作市&quot;,&quot;濮阳市&quot;,&quot;许昌市&quot;,&quot;漯河市&quot;,&quot;三门峡市&quot;,&quot;南阳市&quot;,&quot;商丘市&quot;,&quot;周口市&quot;,&quot;驻马店市&quot;,&quot;信阳市&quot;,&quot;荥阳市&quot;,&quot;新郑市&quot;,&quot;登封市&quot;,&quot;新密市&quot;,&quot;偃师市&quot;,&quot;孟州市&quot;,&quot;沁阳市&quot;,&quot;卫辉市&quot;,&quot;辉县市&quot;,&quot;林州市&quot;,&quot;禹州市&quot;,&quot;长葛市&quot;,&quot;舞钢市&quot;,&quot;义马市&quot;,&quot;灵宝市&quot;,&quot;项城市&quot;,&quot;巩义市&quot;,&quot;邓州市&quot;,&quot;永城市&quot;,&quot;汝州市&quot;,&quot;济源市&quot;]
-    # citys1= [&quot;呼和浩特市&quot;,&quot;包头市&quot;,&quot;乌海市&quot;,&quot;赤峰市&quot;,&quot;通辽市&quot;,&quot;鄂尔多斯市&quot;,&quot;呼伦贝尔市&quot;,&quot;巴彦淖尔市&quot;,&quot;乌兰察布市&quot;,&quot;霍林郭勒市&quot;,&quot;满洲里市&quot;,&quot;牙克石市&quot;,&quot;扎兰屯市&quot;,&quot;额尔古纳市&quot;,&quot;根河市&quot;,&quot;丰镇市&quot;,&quot;乌兰浩特市&quot;,&quot;阿尔山市&quot;,&quot;二连浩特市&quot;,&quot;锡林浩特市&quot;]
-    # citys1= [&quot;沈阳市&quot;,&quot;大连市&quot;,&quot;鞍山市&quot;,&quot;抚顺市&quot;,&quot;本溪市&quot;,&quot;丹东市&quot;,&quot;锦州市&quot;,&quot;营口市&quot;,&quot;阜新市&quot;,&quot;辽阳市&quot;,&quot;盘锦市&quot;,&quot;铁岭市&quot;,&quot;朝阳市&quot;,&quot;葫芦岛市&quot;,&quot;新民市&quot;,&quot;瓦房店市&quot;,&quot;庄河市&quot;,&quot;海城市&quot;,&quot;东港市&quot;,&quot;凤城市&quot;,&quot;凌海市&quot;,&quot;北镇市&quot;,&quot;盖州市&quot;,&quot;大石桥市&quot;,&quot;灯塔市&quot;,&quot;调兵山市&quot;,&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
-    # citys1= [&quot;葫芦岛市&quot;,&quot;新民市&quot;,&quot;瓦房店市&quot;,&quot;庄河市&quot;,&quot;海城市&quot;,&quot;东港市&quot;,&quot;凤城市&quot;,&quot;凌海市&quot;,&quot;北镇市&quot;,&quot;盖州市&quot;,&quot;大石桥市&quot;,&quot;灯塔市&quot;,&quot;调兵山市&quot;,&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
-    citys1= [&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
+string preorder(TreeNode* root){
+    if(root==NULL) return &quot;#&quot;;
+    return root-&gt;data+preorder(root-&gt;leftchild)+preorder(root-&gt;rightchild);
+}
 
 
-    for city in citys1:
-        city1 = &#39;&#39;.join(lazy_pinyin(city[:-1]))
-        print(city1)
-        urls = [&#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201801.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201802.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201803.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201804.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201805.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201806.html&#39;,
-                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201807.html&#39;]
-        for url in urls:
-            get_temperature(url, city)
-        conn.commit()</code></pre>
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(n==0) break;
+        string s; TreeNode* root=NULL;
+        cin&gt;&gt;s;
+        //构建初始的排序树
+        for(int i=0;i&lt;s.size();i++){
+            root=Insert(root,s[i]);
+        }
+        string pre=preorder(root);
+        //构建用来比较的排序树
+        for(int i=0;i&lt;n;i++){
+            string str; TreeNode* T=NULL;
+            cin&gt;&gt;str;
+            for(int j=0;j&lt;str.size();j++){
+                T=Insert(T,str[j]);
+            }
+            string pre1=preorder(T);
+        //进行比较
+            if(pre1==pre) cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
+            else cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
+        }
+    }
+    return 0;
+}</code></pre>
 
             <hr>
           </div>
@@ -248,7 +257,7 @@ if __name__==&#39;__main__&#39;:
               <span>
                 <i class="iconfont icon-inbox"></i>
                 
-                  <a class="hover-with-bg" href="/categories/%E7%88%AC%E8%99%AB">爬虫</a>
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
                   &nbsp;
                 
               </span>&nbsp;&nbsp;
@@ -257,9 +266,11 @@ if __name__==&#39;__main__&#39;:
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
                 
-                  <a class="hover-with-bg" href="/tags/python">python</a>
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91">二叉排序树</a>
                 
               </span>
             
@@ -420,7 +431,7 @@ if __name__==&#39;__main__&#39;:
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "爬虫爬取全国历史天气数据&nbsp;",
+        "二叉搜索树&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

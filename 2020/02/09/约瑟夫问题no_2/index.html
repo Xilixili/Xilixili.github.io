@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>批量修改XML中的标签值 ~ xixilili</title>
+  <title>约瑟夫问题no_2 ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, January 9th 2020, 6:47 pm
+                  Sunday, February 9th 2020, 5:12 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    454 字
+                    350 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      1 分钟
                   </span>&nbsp;
                 
 
@@ -172,64 +172,47 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p>因为用labelimg给图片打标签的时候打错了，本来是water dispenser弄成了drinking_fountain了，尴尬_(:з)∠)_，并且已经标了1500张了，只能自己写程序改，xml文件示例如下：</p>
-<pre><code class="cpp">&lt;?xml version=&#39;1.0&#39; encoding=&#39;us-ascii&#39;?&gt;
-&lt;annotation verified=&quot;no&quot;&gt;
-  &lt;folder&gt;drinking_fountain&lt;/folder&gt;
-  &lt;filename&gt;1&lt;/filename&gt;
-  &lt;path&gt;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain\1.jpg&lt;/path&gt;
-  &lt;source&gt;
-    &lt;database&gt;Unknown&lt;/database&gt;
-  &lt;/source&gt;
-  &lt;size&gt;
-    &lt;width&gt;720&lt;/width&gt;
-    &lt;height&gt;1280&lt;/height&gt;
-    &lt;depth&gt;3&lt;/depth&gt;
-  &lt;/size&gt;
-  &lt;segmented&gt;0&lt;/segmented&gt;
-  &lt;object&gt;
-    &lt;name&gt;drinking_fountain&lt;/name&gt;
-    &lt;pose&gt;Unspecified&lt;/pose&gt;
-    &lt;truncated&gt;0&lt;/truncated&gt;
-    &lt;difficult&gt;0&lt;/difficult&gt;
-    &lt;bndbox&gt;
-      &lt;xmin&gt;153&lt;/xmin&gt;
-      &lt;ymin&gt;6&lt;/ymin&gt;
-      &lt;xmax&gt;587&lt;/xmax&gt;
-      &lt;ymax&gt;1157&lt;/ymax&gt;
-    &lt;/bndbox&gt;
-  &lt;/object&gt;
-&lt;/annotation&gt;</code></pre>
-<p>用来修改的python代码的如下：</p>
-<pre><code class="cpp">import os
-import os.path
-from xml.etree.ElementTree import parse, Element
-#批量修改xml中内容
-def test():
-    path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;#xml文件所在的目录
-    files = os.listdir(path)  # 得到文件夹下所有文件名称
-    s = []
-    for xmlFile in files:  # 遍历文件夹
-        if not os.path.isdir(xmlFile):  # 判断是否是文件夹,不是文件夹才打开
-            print
-            xmlFile
-            pass
-        path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;
-        print(xmlFile)
-        path1 = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;+xmlFile#定位当前处理的文件的路径
-        newStr = os.path.join(path, xmlFile)
-        name = &quot;water dispenser&quot;
-        dom = parse(newStr)  ###最核心的部分,路径拼接,输入的是具体路径
-        root = dom.getroot()
-        print(root)
-        for obj in root.iter(&#39;object&#39;):#获取object节点中的name子节点
-            obj.find(&#39;name&#39;).text=name
-            name1 = obj.find(&#39;name&#39;).text#修改
-            print(name1)
-        dom.write(path1, xml_declaration=True)#保存到指定文件
-        pass
-if __name__ == &#39;__main__&#39;:
-    test()</code></pre>
+            <h4 id="题目："><a href="#题目：" class="headerlink" title="题目："></a><strong>题目：</strong></h4><p>n 个小孩围坐成一圈，并按顺时针编号为1,2,…,n，从编号为 p 的小孩顺时针依次报数，由1报到m ，当报到 m 时，该小孩从圈中出去，然后下一个再从1报数，当报到 m 时再出去。如此反复，直至所有的小孩都从圈中出去。请按出去的先后顺序输出小孩的编号。</p>
+<h4 id="Input"><a href="#Input" class="headerlink" title="Input:"></a><strong>Input:</strong></h4><p>每行是用空格分开的三个整数，第一个是n,第二个是p,第三个是m (0 &lt; m,n &lt; 300)。最后一行是: 0 0 0</p>
+<h4 id="Output"><a href="#Output" class="headerlink" title="Output:"></a>Output:</h4><p>按出圈的顺序输出编号，编号之间以逗号间隔。</p>
+<h4 id="Sample-Input"><a href="#Sample-Input" class="headerlink" title="Sample Input:"></a>Sample Input:</h4><blockquote>
+<p>8 3 4<br>0 0 0</p>
+</blockquote>
+<h4 id="Sample-Output"><a href="#Sample-Output" class="headerlink" title="Sample Output:"></a>Sample Output:</h4><blockquote>
+<p>6,2,7,4,3,5,1,8</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+//用循环队列的方式解决约瑟夫问题
+int main(){
+    int n,p,m;
+    while(cin&gt;&gt;n&gt;&gt;p&gt;&gt;m){
+        queue&lt;int&gt; children;
+        for(int i=1;i&lt;=n;i++){
+            children.push(i);
+        }
+        //使编号为p的小孩放在队首
+        for(int i=1;i&lt;p;i++){
+            //这两句实现了循环队列，将要pop出去的再次放入队尾
+            children.push(children.front());
+            children.pop();
+        }
+        //m-1个小孩重新入队
+        while(!children.empty()){
+            for(int i=1;i&lt;m;i++){
+                children.push(children.front());
+                children.pop();
+            }
+            //将第m个小孩出队
+            if(children.size()==1) cout&lt;&lt;children.front()&lt;&lt;endl;
+            else cout&lt;&lt;children.front();
+            children.pop();
+        }
+    }
+}</code></pre>
 
             <hr>
           </div>
@@ -240,7 +223,7 @@ if __name__ == &#39;__main__&#39;:
               <span>
                 <i class="iconfont icon-inbox"></i>
                 
-                  <a class="hover-with-bg" href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
                   &nbsp;
                 
               </span>&nbsp;&nbsp;
@@ -249,9 +232,11 @@ if __name__ == &#39;__main__&#39;:
               <span>
                 <i class="iconfont icon-tag"></i>
                 
-                  <a class="hover-with-bg" href="/tags/python">python</a>
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
                 
-                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E9%98%9F%E5%88%97">队列</a>
                 
               </span>
             
@@ -412,7 +397,7 @@ if __name__ == &#39;__main__&#39;:
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "批量修改XML中的标签值&nbsp;",
+        "约瑟夫问题no_2&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

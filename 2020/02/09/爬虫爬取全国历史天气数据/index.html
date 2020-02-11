@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="xixilili">
+  <meta name="keywords" content="">
+  <title>爬虫爬取全国历史天气数据 ~ xixilili</title>
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.8.9/css/mdb.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xixilili</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('https://capsule-1254369940.cos.ap-chengdu.myqcloud.com/xilixiliBg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Sunday, February 9th 2020, 4:26 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.3k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      6 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>一段很简单的爬虫程序，爬取的网站为<a href="http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据" target="_blank" rel="noopener">http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据</a></p>
+<pre><code class="cpp">from bs4 import BeautifulSoup
+import requests
+import pymysql
+import warnings
+# import pinyin
+# from pinyin import PinYin
+from pypinyin import pinyin, lazy_pinyin
+import pypinyin
+warnings.filterwarnings(&quot;ignore&quot;)
+
+conn = pymysql.connect(host=&#39;localhost&#39;, user=&#39;root&#39;, passwd=&#39;root&#39;, db=&#39;test2&#39;, port=3306, charset=&#39;utf8&#39;)
+cursor = conn.cursor()
+def get_temperature(url,city):
+    headers = {
+        &#39;User-Agent&#39;: &#39;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,  like Gecko) Chrome/63.0.3239.132 Safari/537.36&#39;}           # 设置头文件信息
+    response = requests.get(url,  headers=headers).content    # 提交requests get 请求
+    soup = BeautifulSoup(response,  &quot;lxml&quot;)       # 用Beautifulsoup 进行解析
+
+    conmid2 = soup.findAll(&#39;div&#39;,  class_=&#39;wdetail&#39;)
+    # conmid2 = conmid.findAll(&#39;div&#39;,  class_=&#39;wdetail&#39;)
+
+    for info in conmid2:
+        tr_list = info.find_all(&#39;tr&#39;)[1:]       # 使用切片取到第三个tr标签
+        for index,  tr in enumerate(tr_list):     # enumerate可以返回元素的位置及内容
+            td_list = tr.find_all(&#39;td&#39;)
+            # if index == 0:
+
+            date = td_list[0].text.strip().replace(&quot;\n&quot;, &quot;&quot;)  # 取每个标签的text信息，并使用replace()函数将换行符删除
+            weather = td_list[1].text.strip().replace(&quot;\n&quot;, &quot;&quot;).split(&quot;/&quot;)[0].strip()
+            temperature = td_list[2].text.strip().replace(&quot;\n&quot;,  &quot;&quot;).split(&quot;/&quot;)[0].strip()
+            wind = td_list[3].text.strip().replace(&quot;\n&quot;,  &quot;&quot;).split(&quot;/&quot;)[0].strip()
+
+            # else:
+            #     city_name = td_list[0].text.replace(&#39;\n&#39;,  &#39;&#39;)
+            #     weather = td_list[4].text.replace(&#39;\n&#39;,  &#39;&#39;)
+            #     wind = td_list[5].text.replace(&#39;\n&#39;,  &#39;&#39;)
+            #     max = td_list[3].text.replace(&#39;\n&#39;,  &#39;&#39;)
+            #     min = td_list[6].text.replace(&#39;\n&#39;,  &#39;&#39;)
+
+            print(city,date,  weather,  wind,  temperature)
+            cursor.execute(&#39;insert into weather(city, date, weather, wind, temp) values(%s, %s, %s, %s, %s)&#39;
+                           ,  (city,  date,  weather,  wind,  temperature ))
+if __name__==&#39;__main__&#39;:
+
+    # citys1= [&quot;成都市&quot;,&quot;广元市&quot;,&quot;绵阳市&quot;,&quot;德阳市&quot;,&quot;南充市&quot;,&quot;广安市&quot;,&quot;遂宁市&quot;,&quot;内江市&quot;,&quot;乐山市&quot;,&quot;自贡市&quot;,&quot;泸州市&quot;,&quot;宜宾市&quot;,&quot;攀枝花市&quot;,&quot;巴中市&quot;,&quot;达州市&quot;,&quot;资阳市&quot;,&quot;眉山市&quot;,&quot;雅安市&quot;,&quot;崇州市&quot;,&quot;邛崃市&quot;,&quot;都江堰市&quot;,&quot;彭州市&quot;,&quot;江油市&quot;,&quot;什邡市&quot;,&quot;广汉市&quot;,&quot;绵竹市&quot;,&quot;阆中市&quot;,&quot;华蓥市&quot;,&quot;峨眉山市&quot;,&quot;万源市&quot;,&quot;简阳市&quot;,&quot;西昌市&quot;,&quot;康定市&quot;,&quot;马尔康市&quot;,&quot;隆昌市&quot;]
+    # citys1= [&quot;郑州市&quot;,&quot;开封市&quot;,&quot;洛阳市&quot;,&quot;平顶山市&quot;,&quot;安阳市&quot;,&quot;鹤壁市&quot;,&quot;新乡市&quot;,&quot;焦作市&quot;,&quot;濮阳市&quot;,&quot;许昌市&quot;,&quot;漯河市&quot;,&quot;三门峡市&quot;,&quot;南阳市&quot;,&quot;商丘市&quot;,&quot;周口市&quot;,&quot;驻马店市&quot;,&quot;信阳市&quot;,&quot;荥阳市&quot;,&quot;新郑市&quot;,&quot;登封市&quot;,&quot;新密市&quot;,&quot;偃师市&quot;,&quot;孟州市&quot;,&quot;沁阳市&quot;,&quot;卫辉市&quot;,&quot;辉县市&quot;,&quot;林州市&quot;,&quot;禹州市&quot;,&quot;长葛市&quot;,&quot;舞钢市&quot;,&quot;义马市&quot;,&quot;灵宝市&quot;,&quot;项城市&quot;,&quot;巩义市&quot;,&quot;邓州市&quot;,&quot;永城市&quot;,&quot;汝州市&quot;,&quot;济源市&quot;]
+    # citys1= [&quot;呼和浩特市&quot;,&quot;包头市&quot;,&quot;乌海市&quot;,&quot;赤峰市&quot;,&quot;通辽市&quot;,&quot;鄂尔多斯市&quot;,&quot;呼伦贝尔市&quot;,&quot;巴彦淖尔市&quot;,&quot;乌兰察布市&quot;,&quot;霍林郭勒市&quot;,&quot;满洲里市&quot;,&quot;牙克石市&quot;,&quot;扎兰屯市&quot;,&quot;额尔古纳市&quot;,&quot;根河市&quot;,&quot;丰镇市&quot;,&quot;乌兰浩特市&quot;,&quot;阿尔山市&quot;,&quot;二连浩特市&quot;,&quot;锡林浩特市&quot;]
+    # citys1= [&quot;沈阳市&quot;,&quot;大连市&quot;,&quot;鞍山市&quot;,&quot;抚顺市&quot;,&quot;本溪市&quot;,&quot;丹东市&quot;,&quot;锦州市&quot;,&quot;营口市&quot;,&quot;阜新市&quot;,&quot;辽阳市&quot;,&quot;盘锦市&quot;,&quot;铁岭市&quot;,&quot;朝阳市&quot;,&quot;葫芦岛市&quot;,&quot;新民市&quot;,&quot;瓦房店市&quot;,&quot;庄河市&quot;,&quot;海城市&quot;,&quot;东港市&quot;,&quot;凤城市&quot;,&quot;凌海市&quot;,&quot;北镇市&quot;,&quot;盖州市&quot;,&quot;大石桥市&quot;,&quot;灯塔市&quot;,&quot;调兵山市&quot;,&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
+    # citys1= [&quot;葫芦岛市&quot;,&quot;新民市&quot;,&quot;瓦房店市&quot;,&quot;庄河市&quot;,&quot;海城市&quot;,&quot;东港市&quot;,&quot;凤城市&quot;,&quot;凌海市&quot;,&quot;北镇市&quot;,&quot;盖州市&quot;,&quot;大石桥市&quot;,&quot;灯塔市&quot;,&quot;调兵山市&quot;,&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
+    citys1= [&quot;开原市&quot;,&quot;北票市&quot;,&quot;凌源市&quot;,&quot;兴城市&quot;]
+
+
+    for city in citys1:
+        city1 = &#39;&#39;.join(lazy_pinyin(city[:-1]))
+        print(city1)
+        urls = [&#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201801.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201802.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201803.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201804.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201805.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201806.html&#39;,
+                &#39;http://www.tianqihoubao.com/lishi/&#39;+city1+&#39;/month/201807.html&#39;]
+        for url in urls:
+            get_temperature(url, city)
+        conn.commit()</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%88%AC%E8%99%AB">爬虫</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>
+                
+                  <a class="hover-with-bg" href="/tags/python">python</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js" ></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.8.9/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/r298/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.10/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "爬虫爬取全国历史天气数据&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.0/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+
+
+
+
+</body>
+</html>

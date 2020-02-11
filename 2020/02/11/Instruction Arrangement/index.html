@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>二叉搜索树 ~ xixilili</title>
+  <title>Instruction Arrangement ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -122,7 +122,7 @@
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, January 9th 2020, 4:26 pm
+                  Tuesday, February 11th 2020, 12:32 pm
                 </p>
               
 
@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    492 字
+                    656 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      2 分钟
+                      3 分钟
                   </span>&nbsp;
                 
 
@@ -172,80 +172,92 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <p><strong>题目描述</strong><br>判断两序列是否为同一二叉搜索树序列</p>
-<p><strong>输入描述:</strong><br>开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。<br>接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。<br>接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。<br><strong>输出描述:</strong><br>如果序列相同则输出YES，否则输出NO<br><strong>示例</strong></p>
-<p>输入</p>
+            <p><strong>Problem Description</strong><br>Ali has taken the Computer Organization and Architecture course this term. He learned that there may be dependence between instructions, like WAR (write after read), WAW, RAW.<br>If the distance between two instructions is less than the Safe Distance, it will result in hazard, which may cause wrong result. So we need to design special circuit to eliminate hazard. However the most simple way to solve this problem is to add bubbles (useless operation), which means wasting time to ensure that the distance between two instructions is not smaller than the Safe Distance.<br>The definition of the distance between two instructions is the difference between their beginning times.<br>Now we have many instructions, and we know the dependent relations and Safe Distances between instructions. We also have a very strong CPU with infinite number of cores, so you can run as many instructions as you want simultaneity, and the CPU is so fast that it just cost 1ns to finish any instruction.<br>Your job is to rearrange the instructions so that the CPU can finish all the instructions using minimum time.<br><strong>Input</strong><br>The input consists several testcases.<br>The first line has two integers N, M (N &lt;= 1000, M &lt;= 10000), means that there are N instructions and M dependent relations.<br>The following M lines, each contains three integers X, Y , Z, means the Safe Distance between X and Y is Z, and Y should run after X. The instructions are numbered from 0 to N - 1.<br><strong>Output</strong><br>Print one integer, the minimum time the CPU needs to run.</p>
+<p><strong>Sample Input</strong></p>
 <blockquote>
-<p>2<br>567432<br>543267<br>576342`<br>0 </p>
+<p>5 2<br>1 2 1<br>3 4 1</p>
 </blockquote>
-<p>输出</p>
+<p><strong>Sample Output</strong></p>
 <blockquote>
-<p>YES<br>NO</p>
+<p>2</p>
 </blockquote>
+<p><strong>Hint</strong><br>In the 1st ns, instruction 0, 1 and 3 are executed;<br>In the 2nd ns, instruction 2 and 4 are executed.<br>So the answer should be 2.</p>
 <pre><code class="cpp">#include&lt;iostream&gt;
 #include&lt;cstdio&gt;
-#include&lt;string&gt;
-//前序遍历和中序遍历可以唯一确定一棵二叉树，
-//而对二叉排序树而言，相同元素的二叉排序树中
-//序遍历一定相同，而不同元素二叉排序树使用前
-//序遍历就可以发现不相同，所以只需要前序遍历
-//两个二叉树，比较一下就可以判断
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+#include&lt;vector&gt;
+#include&lt;climits&gt;
 
 using namespace std;
 
-string pre,in;
+const int MAXN=1001;
+const int INF=INT_MAX;
 
-struct TreeNode{
-    char data;
-    TreeNode* leftchild;
-    TreeNode* rightchild;
-    TreeNode(char c):data(c),leftchild(NULL),rightchild(NULL){}
+struct Edge{
+    int to;
+    int length;
+    Edge(int t,int l):to(t),length(l){}
 };
 
-TreeNode* Insert(TreeNode* root,char x){
-    if(root==NULL){
-        root=new TreeNode(x);
-    }
-    else if(x&lt;root-&gt;data){
-        root-&gt;leftchild=Insert(root-&gt;leftchild,x);
-    }
-    else if(x&gt;root-&gt;data){
-        root-&gt;rightchild=Insert(root-&gt;rightchild,x);
-    }
-    return root;
-}
+vector&lt;Edge&gt; graph[MAXN];//邻接表
+int earliest[MAXN];//最早开始时间
+int latest[MAXN];//最晚开始时间
+int inDegree[MAXN];
 
-string preorder(TreeNode* root){
-    if(root==NULL) return &quot;#&quot;;
-    return root-&gt;data+preorder(root-&gt;leftchild)+preorder(root-&gt;rightchild);
+void CriticalPath(int n){
+    vector&lt;int&gt; topology;//拓扑序列
+    queue&lt;int&gt; node;
+    for(int i=0;i&lt;n;i++){
+        if(inDegree[i]==0){
+            node.push(i);
+            earliest[i]=1;//初始化为1,题目中的要求：1ns
+        }
+    }
+    while(!node.empty()){
+        int u=node.front();
+        topology.push_back(u);
+        node.pop();
+        for(int i=0;i&lt;graph[u].size();i++){
+            int v=graph[u][i].to;
+            int l=graph[u][i].length;
+            earliest[v]=max(earliest[v],earliest[u]+l);//正向找最大，形成earliest
+            inDegree[v]--;
+            if(inDegree[v]==0) node.push(v);
+        }
+    }
+    for(int i=topology.size()-1;i&gt;=0;i--){
+        int u=topology[i];
+        if(graph[u].size()==0) latest[u]=earliest[u];//汇点的最晚开始时间初始化
+        else latest[u]=INF;//非汇点的最晚开始时间的初始化
+        for(int j=0;j&lt;graph[u].size();j++){
+            int v=graph[u][j].to;
+            int l=graph[u][j].length;
+            latest[u]=min(latest[u],latest[v]-l);//逆向找最小，形成latest
+        }
+    }
 }
-
 
 int main(){
-    int n;
-    while(cin&gt;&gt;n){
-        if(n==0) break;
-        string s; TreeNode* root=NULL;
-        cin&gt;&gt;s;
-        //构建初始的排序树
-        for(int i=0;i&lt;s.size();i++){
-            root=Insert(root,s[i]);
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        memset(graph,0,sizeof(graph));
+        memset(earliest,0,sizeof(earliest));
+        memset(latest,0,sizeof(latest));
+        memset(inDegree,0,sizeof(inDegree));
+        while(m--){
+            int from,to,length;
+            cin&gt;&gt;from&gt;&gt;to&gt;&gt;length;
+            graph[from].push_back(Edge(to,length));
+            inDegree[to]++;
         }
-        string pre=preorder(root);
-        //构建用来比较的排序树
+        CriticalPath(n);
+        int answer=0;
         for(int i=0;i&lt;n;i++){
-            string str; TreeNode* T=NULL;
-            cin&gt;&gt;str;
-            for(int j=0;j&lt;str.size();j++){
-                T=Insert(T,str[j]);
-            }
-            string pre1=preorder(T);
-        //进行比较
-            if(pre1==pre) cout&lt;&lt;&quot;YES&quot;&lt;&lt;endl;
-            else cout&lt;&lt;&quot;NO&quot;&lt;&lt;endl;
+            answer=max(answer,earliest[i]);
         }
+        cout&lt;&lt;answer&lt;&lt;endl;
     }
-    return 0;
 }</code></pre>
 
             <hr>
@@ -270,7 +282,7 @@ int main(){
                 
                   <a class="hover-with-bg" href="/tags/c++">c++</a>
                 
-                  <a class="hover-with-bg" href="/tags/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91">二叉排序树</a>
+                  <a class="hover-with-bg" href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84">关键路径</a>
                 
               </span>
             
@@ -431,7 +443,7 @@ int main(){
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "二叉搜索树&nbsp;",
+        "Instruction Arrangement&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>Archives ~ xixilili</title>
+  <title>批量修改XML中的标签值 ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Sunday, February 9th 2020, 6:47 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    454 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      2 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,53 +163,132 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">7 posts in total.</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/01/09/%E6%89%B9%E9%87%8F%E4%BF%AE%E6%94%B9XML%E4%B8%AD%E7%9A%84%E6%A0%87%E7%AD%BE%E5%80%BC/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">批量修改XML中的标签值</span>
-      <span style="float: right;">01-09</span>
-    </a>
-  
-    
-    <a href="/2020/01/09/%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98no_2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">约瑟夫问题no_2</span>
-      <span style="float: right;">01-09</span>
-    </a>
-  
-    
-    <a href="/2020/01/09/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">二叉搜索树</span>
-      <span style="float: right;">01-09</span>
-    </a>
-  
-    
-    <a href="/2020/01/09/%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E5%85%A8%E5%9B%BD%E5%8E%86%E5%8F%B2%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">爬虫爬取全国历史天气数据</span>
-      <span style="float: right;">01-09</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>因为用labelimg给图片打标签的时候打错了，本来是water dispenser弄成了drinking_fountain了，尴尬_(:з)∠)_，并且已经标了1500张了，只能自己写程序改，xml文件示例如下：</p>
+<pre><code class="cpp">&lt;?xml version=&#39;1.0&#39; encoding=&#39;us-ascii&#39;?&gt;
+&lt;annotation verified=&quot;no&quot;&gt;
+  &lt;folder&gt;drinking_fountain&lt;/folder&gt;
+  &lt;filename&gt;1&lt;/filename&gt;
+  &lt;path&gt;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain\1.jpg&lt;/path&gt;
+  &lt;source&gt;
+    &lt;database&gt;Unknown&lt;/database&gt;
+  &lt;/source&gt;
+  &lt;size&gt;
+    &lt;width&gt;720&lt;/width&gt;
+    &lt;height&gt;1280&lt;/height&gt;
+    &lt;depth&gt;3&lt;/depth&gt;
+  &lt;/size&gt;
+  &lt;segmented&gt;0&lt;/segmented&gt;
+  &lt;object&gt;
+    &lt;name&gt;drinking_fountain&lt;/name&gt;
+    &lt;pose&gt;Unspecified&lt;/pose&gt;
+    &lt;truncated&gt;0&lt;/truncated&gt;
+    &lt;difficult&gt;0&lt;/difficult&gt;
+    &lt;bndbox&gt;
+      &lt;xmin&gt;153&lt;/xmin&gt;
+      &lt;ymin&gt;6&lt;/ymin&gt;
+      &lt;xmax&gt;587&lt;/xmax&gt;
+      &lt;ymax&gt;1157&lt;/ymax&gt;
+    &lt;/bndbox&gt;
+  &lt;/object&gt;
+&lt;/annotation&gt;</code></pre>
+<p>用来修改的python代码的如下：</p>
+<pre><code class="cpp">import os
+import os.path
+from xml.etree.ElementTree import parse, Element
+#批量修改xml中内容
+def test():
+    path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;#xml文件所在的目录
+    files = os.listdir(path)  # 得到文件夹下所有文件名称
+    s = []
+    for xmlFile in files:  # 遍历文件夹
+        if not os.path.isdir(xmlFile):  # 判断是否是文件夹,不是文件夹才打开
+            print
+            xmlFile
+            pass
+        path = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;
+        print(xmlFile)
+        path1 = &quot;E:\LabelImgv1.3.3\windows_v1.3.3\drinking_fountain_label/&quot;+xmlFile#定位当前处理的文件的路径
+        newStr = os.path.join(path, xmlFile)
+        name = &quot;water dispenser&quot;
+        dom = parse(newStr)  ###最核心的部分,路径拼接,输入的是具体路径
+        root = dom.getroot()
+        print(root)
+        for obj in root.iter(&#39;object&#39;):#获取object节点中的name子节点
+            obj.find(&#39;name&#39;).text=name
+            name1 = obj.find(&#39;name&#39;).text#修改
+            print(name1)
+        dom.write(path1, xml_declaration=True)#保存到指定文件
+        pass
+if __name__ == &#39;__main__&#39;:
+    test()</code></pre>
 
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/python">python</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86">图像处理</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -253,6 +367,11 @@
 
 
 
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
@@ -293,7 +412,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Archive&nbsp;",
+        "批量修改XML中的标签值&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
