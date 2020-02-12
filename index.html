@@ -145,6 +145,71 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">
+        <p class="h4 index-header">最大序列和</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">输入描述:第一行为一个正整数N，第二行为N个整数，表示序列中的数。输出描述:输入可能包括多组数据，对于每一组输入数据，仅输出一个数，表示最大序列和。输入
+
+51 5 -3 2 461 -2 3 4 -10 64-3 -1 -2 -5
+
+输出
+
+97-1
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+const int MAXN=1000000;
+int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
+int a[MAXN];
+int maxSub(int n){
+    int Max=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i];//初始
+        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
+        if(dp[i]&gt;Max) Max=dp[i];
+    }
+    return Max;
+}
+
+
+in</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/11/%E8%AE%BA%E6%96%87/">
         <p class="h4 index-header">论文</p>
         

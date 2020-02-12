@@ -16,7 +16,7 @@
   <meta name="description" content="">
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
-  <title>Tags - c++ ~ xixilili</title>
+  <title>最大序列和 ~ xixilili</title>
 
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
@@ -39,7 +39,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -118,6 +118,41 @@
             </span>
 
             
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Wednesday, February 12th 2020, 5:06 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    219 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      1 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
           </div>
 
           
@@ -128,78 +163,112 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-<!--  <p class="h4">8 posts in total.</p>-->
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">最大序列和</span>
-      <span style="float: right;">02-12</span>
-    </a>
-  
-    
-    <a href="/2020/02/11/%E8%AE%BA%E6%96%87/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">论文</span>
-      <span style="float: right;">02-11</span>
-    </a>
-  
-    
-    <a href="/2020/02/11/Instruction%20Arrangement/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Instruction Arrangement</span>
-      <span style="float: right;">02-11</span>
-    </a>
-  
-    
-    <a href="/2020/02/10/Jungle%20roads/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">Jungle roads</span>
-      <span style="float: right;">02-10</span>
-    </a>
-  
-    
-    <a href="/2020/02/10/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">畅通工程续</span>
-      <span style="float: right;">02-10</span>
-    </a>
-  
-    
-    <a href="/2020/02/10/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">确定比赛名次</span>
-      <span style="float: right;">02-10</span>
-    </a>
-  
-    
-    <a href="/2020/02/09/%E7%BA%A6%E7%91%9F%E5%A4%AB%E9%97%AE%E9%A2%98no_2/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">约瑟夫问题no_2</span>
-      <span style="float: right;">02-09</span>
-    </a>
-  
-    
-    <a href="/2020/02/09/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">二叉搜索树</span>
-      <span style="float: right;">02-09</span>
-    </a>
-  
-</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>输入描述</strong>:<br>第一行为一个正整数N，第二行为N个整数，表示序列中的数。<br><strong>输出描述:</strong><br>输入可能包括多组数据，对于每一组输入数据，<br>仅输出一个数，表示最大序列和。<br><strong>输入</strong></p>
+<blockquote>
+<p>5<br>1 5 -3 2 4<br>6<br>1 -2 3 4 -10 6<br>4<br>-3 -1 -2 -5</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>9<br>7<br>-1</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+const int MAXN=1000000;
+int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
+int a[MAXN];
+int maxSub(int n){
+    int Max=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i];//初始
+        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
+        if(dp[i]&gt;Max) Max=dp[i];
+    }
+    return Max;
+}
 
 
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+        }
+        cout&lt;&lt;maxSub(n)&lt;&lt;endl;
 
-              </div>
-            </div>
+    }
+}</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -278,6 +347,11 @@
 
 
 
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
 
   <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
@@ -318,7 +392,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "Tag - c++&nbsp;",
+        "最大序列和&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,
