@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>点菜问题</title>
+    <link href="/2020/02/15/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/"/>
+    <url>/2020/02/15/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/</url>
+    
+    <content type="html"><![CDATA[<p><strong>题目描述</strong><br>    北大网络实验室经常有活动需要叫外卖，但是每次叫外卖的报销经费的总额最大为C元，有N种菜可以点，经过长时间的点菜，网络实验室对于每种菜i都有一个量化的评价分数（表示这个菜可口程度），为Vi，每种菜的价格为Pi, 问如何选择各种菜，使得在报销额度范围内能使点到的菜的总评价分数最大。     注意：由于需要营养多样化，每种菜只能点一次。</p><p><strong>输入描述:</strong><br>    输入的第一行有两个整数C（1 &lt;= C &lt;= 1000）和N（1 &lt;= N &lt;= 100），C代表总共能够报销的额度，N&gt;代表能点菜的数目。接下来的N行每行包括两个在1到100之间（包括1和100）的的整数，分别表示菜的&gt;价格和菜的评价分数。</p><p><strong>输出描述:</strong><br>    输出只包括一行，这一行只包含一个整数，表示在报销额度范围内，所点的菜得到的最大评价分数。</p><p><strong>输入</strong></p><blockquote><p>90 4<br>20 25<br>30 20<br>40 50<br>10 18<br>40 2<br>25 30<br>10 8</p></blockquote><p><strong>输出</strong></p><blockquote><p>95 38</p></blockquote><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstdio&gt;//背包问题using namespace std;const int MAXN=1001;int dp[MAXN];int v[MAXN];//物品价值int w[MAXN];//物品重量int main(){    int n,m;    cin&gt;&gt;m&gt;&gt;n;    for(int i=0;i&lt;n;i++){        cin&gt;&gt;w[i]&gt;&gt;v[i];    }    for(int i=0;i&lt;=m;i++){        dp[i]=0;//初始化    }    for(int i=0;i&lt;n;i++){        for(int j=m;j&gt;=w[i];j--){            dp[j]=max(dp[j],dp[j-w[i]]+v[i]);        }    }    cout&lt;&lt;dp[m]&lt;&lt;endl;}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>动态规划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>合唱队列</title>
+    <link href="/2020/02/14/Common%20Subsequence/"/>
+    <url>/2020/02/14/Common%20Subsequence/</url>
+    
+    <content type="html"><![CDATA[<p><strong>Description</strong><br>A subsequence of a given sequence is the given sequence with some elements (possible none) left out. Given a sequence X = &lt; x1, x2, …, xm &gt; another sequence Z = &lt; z1, z2, …, zk &gt; is a subsequence of X if there exists a strictly increasing sequence &lt; i1, i2, …, ik &gt; of indices of X such that for all j = 1,2,…,k, xij = zj. For example, Z = &lt; a, b, f, c &gt; is a subsequence of X = &lt; a, b, c, f, b, c &gt; with index sequence &lt; 1, 2, 4, 6 &gt;. Given two sequences X and Y the problem is to find the length of the maximum-length common subsequence of X and Y.</p><p><strong>Input</strong><br>The program input is from the std input. Each data set in the input contains two strings representing the given sequences. The sequences are separated by any number of white spaces. The input data are correct.</p><p><strong>Output</strong><br>For each set of data the program prints on the standard output the length of the maximum-length common subsequence from the beginning of a separate line.</p><p><strong>Sample Input</strong></p><blockquote><p>abcfbc            abfcab<br>programming    contest<br>abcd           mnp</p></blockquote><p><strong>Sample Output</strong></p><blockquote><p>4<br>2<br>0</p></blockquote><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;cstring&gt;//最长公共子序列using namespace std;const int MAXN=1001;char s1[MAXN];char s2[MAXN];int dp[MAXN][MAXN];int main(){    while(scanf(&quot;%s%s&quot;,s1+1,s2+1)!=EOF){//从下标1开始输入        int n=strlen(s1+1);        int m=strlen(s2+1);        for(int i=0;i&lt;=n;i++){            for(int j=0;j&lt;=m;j++){                if(i==0||j==0){//边界条件初始化                    dp[i][j]=0;                    continue;                }                //状态转移方程                if(s1[i]==s2[j]) dp[i][j]=dp[i-1][j-1]+1;                else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);            }        }        cout&lt;&lt;dp[n][m]&lt;&lt;endl;    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>动态规划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>合唱队列</title>
     <link href="/2020/02/13/%E5%90%88%E5%94%B1%E9%98%9F%E5%88%97/"/>
     <url>/2020/02/13/%E5%90%88%E5%94%B1%E9%98%9F%E5%88%97/</url>
