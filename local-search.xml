@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>动态规划状态转移公式</title>
+    <link href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/"/>
+    <url>/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/</url>
+    
+    <content type="html"><![CDATA[<p><strong>最大连续子序列和</strong></p><table><thead><tr><th align="left">题目</th><th align="left">描述</th><th align="left">dp描述</th><th align="left">转移公式</th></tr></thead><tbody><tr><td align="left">最大连续子序列和</td><td align="left">在一个给定的序列中，找出一个连续的子序列，使得这个子序列的和最大</td><td align="left">dp[i]表示以A[i]作为末尾的连续序列最大和</td><td align="left">dp[i]=max(A[i],dp[i-1]+A[i])</td></tr><tr><td align="left">转移情况：</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">①最大和的连续序列只有一个元素，即A[i]本身，为A[i]</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">②最大和的连续序列有多个元素，即从A[j]开始到A[i]，为dp[i-1]+A[i]</td><td align="left"></td><td align="left"></td><td align="left"></td></tr></tbody></table><pre><code class="cpp">int maxSub(int n){    int Max=0;    for(int i=0;i&lt;n;i++){        if(i==0) dp[i]=a[i];//初始        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个        if(dp[i]&gt;Max) Max=dp[i];    }    return Max;}</code></pre><p><strong>最长递增子序列</strong><br>| 题目 | 描述 |dp描述|转移公式|<br>|:-|:-|:-|:-|<br>| 最长递增子序列 |在一个给定的序列中，找出一个的最长的递增子序列（不必连续）  |dp[i]表示以A[i]作为末尾的最长递增子序列长度|dp[i]=max(1,dp[j]+1 | j&lt;i&amp;&amp;A[j]&lt;A[i])<br>转移情况：<br>①A[i]之前的元素都比A[i]大，即最长递增子序列只有A[i]本身，为dp[i]=1<br>②A[i]之前的元素A[j]比A[i]小此时只需将A[i]添加到以A[j]为末尾的最长递增子序列,而求长度则是通过将i之前的元素逐一遍历，就可以获得dp[i]</p><pre><code class="cpp">  int answer=0;  for(int i=0;i&lt;n;i++){      dp[i]=1;//初始化为1      for(int j=0;j&lt;i;j++){//得出以i为最后一个的最大的序列长度          if(height[i]&lt;=height[j]){              dp[i]=max(dp[i],dp[j]+1);          }      }      answer=max(answer,dp[i]);  }</code></pre><p><strong>最长公共子序列</strong><br>| 题目 | 描述 |dp描述|转移公式 |<br>|:-|:-|:-|:-|<br>| 最长公共子序列 |给定字符串s1,s2求一个最长的公共子序列(不一定连续)  |dp[i][j]表示以s1[i]作为末尾和以s2[j]为末尾的最长公共子序列的长度|dp[i][j]=dp[i-1][j-1]+1(s1[i]=s2[j])___   否则dp[i][j]==max(dp[i-1][j],dp[i][j-1])<br>转移情况：<br>①s1[i]=s2[j]，此时比存在一个最长公共子序列以s1[i]和s2[j]结尾，其他部分相当于s1的前i-1和s2的前j-1个字符的最长公共子序列，为dp[i-1][j-1]+1<br>②s1[i]!=s2[j],此时最长公共子序列的长度为<u>s1的前i-1个字符和s2的前j个字符的最长公共子序列</u>与<u>s1的前i个字符和s2中的前j-1个字符的最长公共子串</u>的较大者，为max(dp[i-1][j],dp[i][j-1])</p><p>边界情况：<br>dp[i][0]=0;       dp[0][j]=0;</p><pre><code class="cpp">while(scanf(&quot;%s%s&quot;,s1+1,s2+1)!=EOF){//从下标1开始输入    int n=strlen(s1+1);    int m=strlen(s2+1);    for(int i=0;i&lt;=n;i++){        for(int j=0;j&lt;=m;j++){            if(i==0||j==0){//边界条件初始化                dp[i][j]=0;                continue;            }            //状态转移方程            if(s1[i]==s2[j]) dp[i][j]=dp[i-1][j-1]+1;            else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);        }    }    cout&lt;&lt;dp[n][m]&lt;&lt;endl;}</code></pre><p><strong>背包问题</strong></p><ul><li>0-1背包</li></ul><table><thead><tr><th align="left">题目</th><th align="left">描述</th><th align="left">dp描述</th><th align="left">转移公式</th></tr></thead><tbody><tr><td align="left">0–1背包</td><td align="left">n种物品(<u>一种只取一次</u>),重量分别为w[i],现有容量为m背包,要使装进背包物品价值最大</td><td align="left">dp[i][j]表示前i个物品装进容量为j的背包能获得的最大价值</td><td align="left">dp[j]=max(dp[j],dp[j-w[i]]+v[i])</td></tr><tr><td align="left">转移情况：</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">①对于容量为j的背包，如果不放入第i件物品，问题就转化成了前i-1个物品放入容量为j的背包的问题，为dp[i-1][j]</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">②对于容量为j的背包，如果放入第i件物品，问题就转化成了将前面i-1个物品放入容量为j-w[i]的背包的问题，为dp[i-1][j-w[i]]+v[i]</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">最终转化成了dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">经观察dp[i][j]只与二维数组中本行的上一行有关，根据这个可以将二维数组优化为一维数组：</td><td align="left"></td><td align="left"></td><td align="left"></td></tr><tr><td align="left">dp[j]=max(dp[j],dp[j-w[i]+v[i])</td><td align="left"></td><td align="left"></td><td align="left"></td></tr></tbody></table><p>边界情况：<br>dp[i][0]=0;       dp[0][j]=0;</p><pre><code class="cpp">for(int i=0;i&lt;=m;i++){    dp[i]=0;//初始化}for(int i=0;i&lt;n;i++){    for(int j=m;j&gt;=w[i];j--){        dp[j]=max(dp[j],dp[j-w[i]]+v[i]);    }}</code></pre><ul><li><del>完全背包</del> ：暂时不是很理解(╯°Д°)╯︵┻━┻</li><li><del>多重背包</del> ：暂时不是很理解ヽ(｀Д´)ﾉ︵ ┻━┻ ┻━┻ </li></ul>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>动态规划</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>最小邮票数</title>
     <link href="/2020/02/15/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/"/>
     <url>/2020/02/15/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/</url>
