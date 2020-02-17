@@ -133,7 +133,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    671 字
+                    628 字
                   </span>&nbsp;
                 
 
@@ -187,56 +187,67 @@
 </blockquote>
 <pre><code class="cpp">#include&lt;iostream&gt;
 #include&lt;cstdio&gt;
+#include&lt;vector&gt;
 #include&lt;cstring&gt;
 #include&lt;queue&gt;
+#include&lt;climits&gt;
 using namespace std;
+const int MAXN=200;
+const int INF=INT_MAX;
 
-const int MAXN=500;
+struct Edge{
+    int to;
+    int length;
+    Edge(int t,int l):to{t},length(l){}
+};
 
-vector&lt;int&gt; graph[MAXN];//邻接表的实现
-int inDegree[MAXN];
-
-vector&lt;int&gt; TopologicalSort(int n){
-    vector&lt;int&gt; topology;
-    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面
-    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号
-        if(inDegree[i]==0){//先把初始入度为零的全部放入队列
-            node.push(i);
-        }
+struct Point{
+    int number;
+    int distance;
+    Point(int n,int d):number(n),distance(d){}
+    bool operator&lt; (const Point&amp; p) const{
+        return distance&gt;p.distance;
     }
-//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰
-    while(!node.empty()){
-        int u=node.top();
-        node.pop();
-        topology.push_back(u);
-        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧
-            int v=graph[u][i];
-            inDegree[v]--;
-            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列
-                node.push(v);
+};
+
+vector&lt;Edge&gt; graph[MAXN];   //邻接表实现的图，数组中是点，而每一个点后面都跟了一个vector
+int dis[MAXN];
+
+void Dijkstra(int s){
+    priority_queue&lt;Point&gt; pqueue;
+    dis[s]=0;
+    pqueue.push(Point(s,dis[s]));
+    while(!pqueue.empty()){
+        int u=pqueue.top().number;//离源点最近的点
+        pqueue.pop();
+        for(int i=0;i&lt;graph[u].size();i++){
+            int v=graph[u][i].to;//u为顶点的编号，i为边的序号
+            int d=graph[u][i].length;
+            if(dis[v]&gt;dis[u]+d){
+                dis[v]=dis[u]+d;
+                pqueue.push(Point(v,dis[v]));
             }
         }
     }
-    return topology;
+    return ;
 }
 
 int main(){
     int n,m;
     while(cin&gt;&gt;n&gt;&gt;m){
-        if(n==0&amp;&amp;m==0) break;
-        memset(graph,0,sizeof(graph));
-        memset(inDegree,0,sizeof(inDegree));
+        memset(graph,0,sizeof(graph));//图初始化
+        fill(dis,dis+n,INF);//距离初始化为无穷
         while(m--){
-            int from,to;
-            cin&gt;&gt;from&gt;&gt;to;
-            graph[from].push_back(to);
-            inDegree[to]++;//在输入时更新入度数组
+            int from,to,length;
+            cin&gt;&gt;from&gt;&gt;to&gt;&gt;length;
+            graph[from].push_back(Edge(to,length));
+            graph[to].push_back(Edge(from,length));
         }
-        vector&lt;int&gt; answer=TopologicalSort(n);
-        for(int i=0;i&lt;answer.size();i++){
-            if(i==0) cout&lt;&lt;answer[i];
-            else cout&lt;&lt;&quot; &quot;&lt;&lt;answer[i];
-        }
+        int s,t;
+        cin&gt;&gt;s&gt;&gt;t;
+        Dijkstra(s);
+        if(dis[t]==INF) dis[t]=-1;
+        cout&lt;&lt;dis[t]&lt;&lt;endl;
     }
 }</code></pre>
 
@@ -263,6 +274,8 @@ int main(){
                   <a class="hover-with-bg" href="/tags/c++">c++</a>
                 
                   <a class="hover-with-bg" href="/tags/%E6%9C%80%E7%9F%AD%E8%B7%AF%E5%BE%84">最短路径</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E5%9B%BE%E8%AE%BA">图论</a>
                 
               </span>
             
