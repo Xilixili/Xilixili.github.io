@@ -4,6 +4,35 @@
   
   
   <entry>
+    <title>畅通工程续</title>
+    <link href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/"/>
+    <url>/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/</url>
+    
+    <content type="html"><![CDATA[<p>2.给出四个[年,月],判断此月有多少天.题目给出了闰年判断方法的伪代码.</p><pre><code class="cpp">#include&lt;iostream&gt;using namespace std;int months[2][13]={    {0,31,28,31,30,31,30,31,31,30,31,30,31},//平年    {0,31,29,31,30,31,30,31,31,30,31,30,31}//闰年};bool isrein(int year){    return (year%400==0)||(year%4==0&amp;&amp;year%100!=0);}int main(){    int year,month;    while(cin&gt;&gt;year&gt;&gt;month){        if(isrein(year)) cout&lt;&lt;months[1][month];        else cout&lt;&lt;months[0][month];    }}</code></pre><p>3.给出一些标识符,判断合法标识符有多少个.(与 C语言中标识符定义一致.)</p><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstring&gt;#include&lt;vector&gt;using namespace std;bool first(char c){    return (c&gt;=&#39;a&#39;&amp;&amp;c&lt;=&#39;z&#39;)||(c&gt;=&#39;A&#39;&amp;&amp;c&lt;=&#39;Z&#39;)||(c==&#39;_&#39;);}bool others(char c){    return (c&gt;=&#39;a&#39;&amp;&amp;c&lt;=&#39;z&#39;)||(c&gt;=&#39;A&#39;&amp;&amp;c&lt;=&#39;Z&#39;)||isdigit(c)||(c==&#39;_&#39;);}int main(){    int n;    while(cin&gt;&gt;n){        vector&lt;string&gt; v;        int Count=0;        for(int i=0;i&lt;n;i++){            string s;            cin&gt;&gt;s;            v.push_back(s);        }        for(int i=0;i&lt;v.size();i++){            string s1=v[i];            if(first(s1[0])){                bool flag=true;                for(int j=1;j&lt;s1.size();j++){                    if(!others(s1[j])) flag=false;                }                if(flag) Count++;            }            else continue;        }        cout&lt;&lt;Count&lt;&lt;endl;    }}</code></pre><p>4.第四道,给出无向图连接矩阵,求各个连通分量</p><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;vector&gt;#include&lt;cstdio&gt;const int MAXN=1000;int father[MAXN];int height[MAXN];//以该节点为根的树的高度using namespace std;void Initial(){    for(int i=0;i&lt;MAXN;i++){        father[i]=i;        height[i]=0;        //inDegree[i]=0;        //visit[i]=false;    }}int FindRoot(int x){    if(father[x]!=x) father[x]=FindRoot(father[x]);//注意写法    return father[x];}void Union(int x,int y){    x=FindRoot(x);    y=FindRoot(y);    if(x!=y){        if(height[x]&lt;height[y]) father[x]=y;        else if(height[x]&gt;height[y]) father[y]=x;//前面两种情况树高并没有变        else{            father[y]=x;            height[x]++;        }    }    return ;}int main(){    FILE *fp1,*fp2;//1.定义指针    fp1=fopen(&quot;in.txt&quot;,&quot;r&quot;);//2.指向文件    fp2=fopen(&quot;out.txt&quot;,&quot;w&quot;);    int n;    fscanf(fp1,&quot;%d&quot;,&amp;n);//3.进行读写    Initial();    while(!feof(fp1)){        int a,b;        fscanf(fp1,&quot;%d&quot;,&amp;a);        fscanf(fp1,&quot;%d&quot;,&amp;b);        Union(a,b);    }    vector&lt;int&gt; roots;    for(int i=1;i&lt;=n;i++){//因为序号是从1开始        if(FindRoot(i)==i){            roots.push_back(i);        }    }}</code></pre><p>5.给出一个整数分解成尽可能多的连续整数的和</p><pre><code class="cpp">#include&lt;iostream&gt;using namespace std;int main(){    int n;    while(cin&gt;&gt;n){        int maxi=0,maxj=0;        bool flag=false;        for(int i=1;i&lt;=n/2;i++){            int sum=0;            for(int j=2;j&lt;n;j++){//j表示从i开始往后连续的长度                sum=(i+i+j-1)*j/2;                if(sum&gt;n) break;                else if(sum==n){                    flag=true;                    if(j&gt;maxj){                        maxi=i;                        maxj=j;                    }                }            }        }        if(flag){            for(int i=maxi;maxj&gt;0;maxj--,i++){                cout&lt;&lt;i&lt;&lt;&quot; &quot;;            }            cout&lt;&lt;endl;        }        else cout&lt;&lt;&quot;分解失败&quot;&lt;&lt;endl;    }}</code></pre><p>6.给出带括号的四则运算表达式,要求给出逆波兰式</p><pre><code class="cpp">#include&lt;iostream&gt;#include&lt;cstdio&gt;#include&lt;cctype&gt;#include&lt;cstring&gt;#include&lt;stack&gt;using namespace std;stack&lt;char&gt; Stack;char output[500];int outLen;int Priority(char c){//判断运算符优先级    if(c==&#39;*&#39;||c==&#39;/&#39;) return 2;    else if(c==&#39;+&#39;||c==&#39;-&#39;) return 1;    else return 0;//&#39;(&#39;}bool isOperator(char op)                //判断是不是操作符{    return (op==&#39;+&#39; || op==&#39;-&#39; || op==&#39;*&#39; || op==&#39;/&#39;);}void rePolish(string s,int len){//输出逆波兰式    memset(output,&#39;\0&#39;,sizeof(output));    outLen=0;    for(int i=0;i&lt;len;++i){        //操作数        if(isdigit(s[i])){            cout&lt;&lt;&quot;shu:&quot;&lt;&lt;s[i]&lt;&lt;endl;            output[outLen++] = s[i];            while (i+1&lt;len&amp;&amp;isdigit(s[i+1])){                output[outLen++] = s[i+1];                ++i;            }            output[outLen++] = &#39; &#39;;        //空格隔开        }        //运算符        else if (isOperator(s[i])){            cout&lt;&lt;&quot;fu:&quot;&lt;&lt;s[i]&lt;&lt;endl;            if(!Stack.empty()&amp;&amp;Priority(Stack.top())&gt;=Priority(s[i])){                while(Priority(Stack.top())&gt;=Priority(s[i])){                    output[outLen++]=Stack.top();                    output[outLen++] = &#39; &#39;;                    Stack.pop();                }            }            else Stack.push(s[i]);//栈为空，或者栈顶优先级更小        }        //&#39;(&#39;        else if (s[i]==&#39;(&#39;){            cout&lt;&lt;&quot;(:&quot;&lt;&lt;s[i]&lt;&lt;endl;            Stack.push(s[i]);        }        //&#39;)&#39;        else if (s[i]==&#39;)&#39;){            cout&lt;&lt;&quot;):&quot;&lt;&lt;s[i]&lt;&lt;endl;            while (Stack.top()!=&#39;(&#39;){                output[outLen++] = Stack.top();                output[outLen++] = &#39; &#39;;                Stack.pop();            }            Stack.pop();// 此时Stack.top()=&#39;(&#39;,跳过)        }        else continue;    }    while (!Stack.empty()){//输入完毕，栈中剩余的所有操作符出栈        output[outLen++] = Stack.top();        output[outLen++] = &#39; &#39;;        Stack.pop();    }}int main(){    string s;    while (getline(cin,s)){        cout&lt;&lt;s&lt;&lt;&quot; &quot;&lt;&lt;s.size();        Stack.push(&#39;#&#39;);        rePolish(s,s.size());        output[outLen-1] = &#39;\0&#39;;        printf(&quot;%s\n&quot;,output);    }    return 0;}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>图算法中的常用代码</title>
     <link href="/2020/02/17/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/"/>
     <url>/2020/02/17/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/</url>
