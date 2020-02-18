@@ -6,16 +6,14 @@
 
 
 
-{% if theme.daovoice %}
+
+<head>
  <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
  daovoice('init', {
   app_id: "246e9537"
 });
 daovoice('update');
  </script>
-{% endif %}
-
-<head>
   <meta charset="UTF-8">
   <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
   <link rel="icon" type="image/png" href="/img/favicon.png">
@@ -186,11 +184,6 @@ daovoice('update');
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
-			{% if post.top %}
-  <i class="fa fa-thumb-tack"></i>
-  <font color=7D26CD>置顶</font>
-  <span class="post-meta-divider">|</span>
-{% endif %}
           <div class="markdown-body">
             <p><strong>Problem Description</strong><br>有N个比赛队（1&lt;=N&lt;=500），编号依次为1，2，3，。。。。，N进行比赛，比赛结束后，裁判委员会要将所有参赛队伍从前往后依次排名，但现在裁判委员会不能直接获得每个队的比赛成绩，只知道每场比赛的结果，即P1赢P2，用P1，P2表示，排名时P1在P2之前。现在请你编程序确定排名。</p>
 <p><strong>Input</strong><br>输入有若干组，每组中的第一行为二个数N（1&lt;=N&lt;=500），M；其中N表示队伍的个数，M表示接着有M行的输入数据。接下来的M行数据中，每行也有两个整数P1，P2表示即P1队赢了P2队。</p>
