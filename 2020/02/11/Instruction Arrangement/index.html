@@ -4,6 +4,8 @@
 
 
 
+
+
 {% if theme.daovoice %}
  <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
  daovoice('init', {
@@ -12,8 +14,6 @@
 daovoice('update');
  </script>
 {% endif %}
-
-
 
 <head>
   <meta charset="UTF-8">
@@ -175,11 +175,8 @@ daovoice('update');
 
   <main>
     
-      {% if post.top %}
-  <i class="fa fa-thumb-tack"></i>
-  <font color=7D26CD>置顶</font>
-  <span class="post-meta-divider">|</span>
-{% endif %}
+      
+
 
 
 
@@ -189,6 +186,11 @@ daovoice('update');
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+			{% if post.top %}
+  <i class="fa fa-thumb-tack"></i>
+  <font color=7D26CD>置顶</font>
+  <span class="post-meta-divider">|</span>
+{% endif %}
           <div class="markdown-body">
             <p><strong>Problem Description</strong><br>Ali has taken the Computer Organization and Architecture course this term. He learned that there may be dependence between instructions, like WAR (write after read), WAW, RAW.<br>If the distance between two instructions is less than the Safe Distance, it will result in hazard, which may cause wrong result. So we need to design special circuit to eliminate hazard. However the most simple way to solve this problem is to add bubbles (useless operation), which means wasting time to ensure that the distance between two instructions is not smaller than the Safe Distance.<br>The definition of the distance between two instructions is the difference between their beginning times.<br>Now we have many instructions, and we know the dependent relations and Safe Distances between instructions. We also have a very strong CPU with infinite number of cores, so you can run as many instructions as you want simultaneity, and the CPU is so fast that it just cost 1ns to finish any instruction.<br>Your job is to rearrange the instructions so that the CPU can finish all the instructions using minimum time.<br><strong>Input</strong><br>The input consists several testcases.<br>The first line has two integers N, M (N &lt;= 1000, M &lt;= 10000), means that there are N instructions and M dependent relations.<br>The following M lines, each contains three integers X, Y , Z, means the Safe Distance between X and Y is Z, and Y should run after X. The instructions are numbered from 0 to N - 1.<br><strong>Output</strong><br>Print one integer, the minimum time the CPU needs to run.</p>
 <p><strong>Sample Input</strong></p>

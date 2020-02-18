@@ -4,6 +4,8 @@
 
 
 
+
+
 {% if theme.daovoice %}
  <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
  daovoice('init', {
@@ -12,8 +14,6 @@
 daovoice('update');
  </script>
 {% endif %}
-
-
 
 <head>
   <meta charset="UTF-8">
@@ -175,11 +175,8 @@ daovoice('update');
 
   <main>
     
-      {% if post.top %}
-  <i class="fa fa-thumb-tack"></i>
-  <font color=7D26CD>置顶</font>
-  <span class="post-meta-divider">|</span>
-{% endif %}
+      
+
 
 
 
@@ -189,6 +186,11 @@ daovoice('update');
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+			{% if post.top %}
+  <i class="fa fa-thumb-tack"></i>
+  <font color=7D26CD>置顶</font>
+  <span class="post-meta-divider">|</span>
+{% endif %}
           <div class="markdown-body">
             <p><strong>题目描述</strong><br>给出一个整数序列S，其中有N个数，定义其中一个非空连续子序列T中所有数的和为T的“序列和”。 对于S的所有非空连续子序列T，求最大的序列和。 变量条件：N为正整数，N≤1000000，结果序列和在范围（-2^63,2^63-1）以内。<br><strong>输入描述</strong>:<br>第一行为一个正整数N，第二行为N个整数，表示序列中的数。<br><strong>输出描述:</strong><br>输入可能包括多组数据，对于每一组输入数据，<br>仅输出一个数，表示最大序列和。<br><strong>输入</strong></p>
 <blockquote>

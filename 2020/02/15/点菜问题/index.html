@@ -4,6 +4,8 @@
 
 
 
+
+
 {% if theme.daovoice %}
  <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
  daovoice('init', {
@@ -12,8 +14,6 @@
 daovoice('update');
  </script>
 {% endif %}
-
-
 
 <head>
   <meta charset="UTF-8">
@@ -175,11 +175,8 @@ daovoice('update');
 
   <main>
     
-      {% if post.top %}
-  <i class="fa fa-thumb-tack"></i>
-  <font color=7D26CD>置顶</font>
-  <span class="post-meta-divider">|</span>
-{% endif %}
+      
+
 
 
 
@@ -189,6 +186,11 @@ daovoice('update');
     <div class="col-lg-8 nopadding-md">
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
+			{% if post.top %}
+  <i class="fa fa-thumb-tack"></i>
+  <font color=7D26CD>置顶</font>
+  <span class="post-meta-divider">|</span>
+{% endif %}
           <div class="markdown-body">
             <p><strong>题目描述</strong><br>    北大网络实验室经常有活动需要叫外卖，但是每次叫外卖的报销经费的总额最大为C元，有N种菜可以点，经过长时间的点菜，网络实验室对于每种菜i都有一个量化的评价分数（表示这个菜可口程度），为Vi，每种菜的价格为Pi, 问如何选择各种菜，使得在报销额度范围内能使点到的菜的总评价分数最大。     注意：由于需要营养多样化，每种菜只能点一次。</p>
 <p><strong>输入描述:</strong><br>    输入的第一行有两个整数C（1 &lt;= C &lt;= 1000）和N（1 &lt;= N &lt;= 100），C代表总共能够报销的额度，N&gt;代表能点菜的数目。接下来的N行每行包括两个在1到100之间（包括1和100）的的整数，分别表示菜的&gt;价格和菜的评价分数。</p>
