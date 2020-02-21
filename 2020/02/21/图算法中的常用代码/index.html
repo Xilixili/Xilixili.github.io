@@ -132,7 +132,7 @@ daovoice('update');
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Monday, February 17th 2020, 8:34 pm
+                  Friday, February 21st 2020, 11:23 am
                 </p>
               
 
@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    776 字
+                    1.1k 字
                   </span>&nbsp;
                 
 
@@ -149,7 +149,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      4 分钟
+                      5 分钟
                   </span>&nbsp;
                 
 
@@ -220,6 +220,57 @@ void Union(int x,int y){
     Edge(int t,int l):to{t},length(l){}
 };
 vector&lt;Edge&gt; graph[MAXN];</code></pre>
+<p><strong>广度优先搜索</strong></p>
+<pre><code class="cpp">struct Status{
+    int n,t;//t表示起点到n的时间
+    Status(int n,int t):n(n),t(t){}
+};
+
+bool visit[MAXN];
+
+int BFS(int n,int k){
+    queue&lt;Status&gt; myqueue;
+    myqueue.push(Status(n,0)); //初始状态
+    visit[n]=true;   //起始点已被访问
+    while(!myqueue.empty()){
+        Status current=myqueue.front();
+        myqueue.pop();
+        if(current.n==k) return current.t;  //查找成功
+        for(int i=0;i&lt;3;i++){       //转入三种不同的状态
+            Status next(current.n,current.t+1);
+            if(i==0) next.n+=1;
+            else if(i==1) next.n-=1;
+            else next.n*=2;
+            if(next.n&lt;0||next.n&gt;=MAXN||visit[next.n]) continue;//新状态不合法
+            myqueue.push(next);
+            visit[next.n]=true;//置访问标记
+        }
+    }
+}</code></pre>
+<p><strong>深度优先搜索</strong></p>
+<pre><code class="cpp">int side; //边长
+int m;  //树枝数目
+int sticks[MAXN];
+bool visit[MAXN];
+
+bool DFS(int sum,int number,int position){
+    if(number==3) return true;
+    int sample=0;       //剪枝(3)
+    for(int i=position;i&lt;m;i++){
+        if(visit[i]||sum+sticks[i]&gt;side||sticks[i]==sample) continue;
+        visit[i]=true;
+        if(sum+sticks[i]==side){    //能凑成一条边
+            if(DFS(0,number+1,0)) return true;
+            else sample=sticks[i];  //记录失败的棍子的长度
+        }
+        else{
+            if(DFS(sum+sticks[i],number,i+1)) return true;
+            else sample=sticks[i];  //记录失败的棍子的长度
+        }
+        visit[i]=false;
+    }
+    return false;
+}</code></pre>
 <p><strong>最小生成树</strong></p>
 <pre><code class="cpp">int Kruskal(int n,int edgeNumber){
     Initial(n);
@@ -379,7 +430,7 @@ vector&lt;int&gt; TopologicalSort(int n){
       
       
   <!--PC和WAP自适应版-->
-  <div id="SOHUCS" sid='http://yoursite.com/2020/02/17/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/'></div>
+  <div id="SOHUCS" sid='http://yoursite.com/2020/02/21/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/'></div>
   <script type="text/javascript">
     (function () {
       var appid = 'cyuGAy6Y7';
