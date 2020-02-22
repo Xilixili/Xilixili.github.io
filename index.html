@@ -155,6 +155,78 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/22/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8A/">
+        <p class="h4 index-header">USTC机试_07上</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.编写程序，判断回文数
+#include&lt;iostream&gt;
+
+
+using namespace std;
+
+int Reverse(int x){
+    int result=0;
+    while(x!=0){
+        result=result*10+x%10;
+        x/=10;
+    }
+    return result;
+}
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        if(Reverse(n)==n) cout&lt;&lt;&quot;Y&quot;&lt;&lt;endl;
+        else cout&lt;&lt;&quot;N&quot;&lt;&lt;endl;
+    }
+}
+
+
+2.队列的循环报数问题
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    queue&l</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/21/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8B/">
         <p class="h4 index-header">USTC机试_06下</p>
         
@@ -413,6 +485,44 @@ dp[i]表示以A[i]作</div>
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
+        <p class="h4 index-header">标准c++中string类函数介绍</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">注意不是CString之所以抛弃char*的字符串而选用C++标准程序库中的string类，是因为他和前者比较起来，不必 担心内存是否足够、字符串长度等等，而且作为一个类出现，他集成的操作函数足以完成我们大多数情况下(甚至是100%)的需要。我们可以用 = 进行赋值操作，== 进行比较，+ 做串联（是不是很简单?）。我们尽可以把它看成是C++的基本数据类型。
+好了，进入正题………首先，为了在我们的程序中使用string类型，我们必须包含头文件 。
+如下：#include  //注意这里不是string.h string.h是C字符串头文件#include using namespace std;
+1．声明一个C++字符串声明一个字符串变量很简单：string Str;这样我们就声明了一个字符串变量，但既然是一个类，就有构造函数和析构函数。上面的声明没有传入参数，所以就直接使用了string的默认的构造函数，这个函数所作的就是把Str初始化为一个空字符串。String类的构造函数和析构函数如下：a)      string s;    //生成一个空字符串sb)      string </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/c++">c++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/15/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/">
         <p class="h4 index-header">最小邮票数</p>
         
@@ -583,107 +693,6 @@ using namespa</div>
 
 #include &lt;bits/stdc++.h&gt;
 using nam</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-13&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/13/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C/">
-        <p class="h4 index-header">最大上升子序列和</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述一个数的序列bi，当b1 &lt; b2 &lt; … &lt; bS的时候，我们称这个序列是上升的。对于给定的一个序列(a1, a2, …,aN)，我们可以得到一些上升的子序列(ai1, ai2, …, aiK)，这里1 &lt;= i1 &lt; i2 &lt; … &lt; iK &lt;= N。比如，对于序列(1, 7, 3, 5, 9, 4, 8)，有它的一些上升子序列，如(1, 7), (3, 4, 8)等等。这些子序列中序列和最大为18，为子序列(1, 3, 5, 9)的和. 你的任务，就是对于给定的序列，求出最大上升子序列和。注意，最长的上升子序列的和不一定是最大的，比如序列(100, 1, 2, 3)的最大上升子序列和为100，而最长上升子序列为(1, 2, 3)。
-输入描述:输入包含多组测试数据。每组测试数据由两行组成。第一行是序列的长度N (1 &lt;= N &lt;= 1000)。第二行给出序列中的N个整数，这些整数的取值范围都在0到10000（可能重复）。
-输出描述:对于每组测试数据，输出其最大上升子序列和。
-输入
-
-71 7 3 5 9 4 8
-
-</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-13&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/13/%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9/">
-        <p class="h4 index-header">拦截导弹</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述某国为了防御敌国的导弹袭击，开发出一种导弹拦截系统。但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭，并观测到导弹依次飞来的高度，请计算这套系统最多能拦截多少导弹。拦截来袭导弹时，必须按来袭导弹袭击的时间顺序，不允许先拦截后面的导弹，再拦截前面的导弹。 
-输入描述:每组输入有两行，第一行，输入雷达捕捉到的敌国导弹的数量k（k&lt;=25），第二行，输入k个正整数，表示k枚导弹的高度，按来袭导弹的袭击时间顺序给出，以空格分隔。
-输出描述:每组输出只有一行，包含一个整数，表示最多能拦截多少枚导弹。
-输入
-
-8300 207 155 300 299 170 158 65
-
-输出
-
-6
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-//动态规划：最长递增子序列
-//状态转移方程：dp[i]=max(1,dp[j]+1|j&lt;i&amp;&amp;Aj&gt;Ai)
-using namespace std;
-const int MAXN=</div>
         </div>
       </a>
 
