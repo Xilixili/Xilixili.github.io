@@ -5,6 +5,64 @@
   
   <entry>
     <title>USTC机试_07下</title>
+    <link href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8B/"/>
+    <url>/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8B/</url>
+    
+    <content type="html"><![CDATA[<p>1.输入十进制正整数将其转换成任意的进制</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;vector&gt;using namespace std;vector&lt;int&gt; v;int main(){    int n,m;    cin&gt;&gt;n;    cout&lt;&lt;&quot;进制:&quot;;    cin&gt;&gt;m;    while(n!=0){        v.push_back(n%m);        n/=m;    }    for(int i=v.size()-1;i&gt;=0;i--){        cout&lt;&lt;v[i];    }}</code></pre><p>2.从文件读入 2个矩阵，转置后相加再输出</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;string&gt;#include&lt;cstdlib&gt;using namespace std;const int n=3;const int m=2;int matrix1[n][m];int matrix2[n][m];int main(){    ifstream infile(&quot;in.txt&quot;);    string s;    for(int i=0;i&lt;m;i++){        getline(infile,s);        for(int j=0;j&lt;n;j++){            if(s.find(&quot; &quot;)!=string::npos){                int pos=s.find(&quot; &quot;);                matrix1[j][i]=atoi((char*)s.substr(0,pos).data());//转置                s=s.substr(pos+1);            }            else{                matrix1[j][i]=atoi((char*)s.data());            }        }    }    for(int i=0;i&lt;n;i++){        getline(infile,s);        for(int j=0;j&lt;m;j++){            if(s.find(&quot; &quot;)!=string::npos){                int pos=s.find(&quot; &quot;);                matrix2[i][j]=atoi((char*)s.substr(0,pos).data());                s=s.substr(pos+1);            }            else{                matrix2[i][j]=atoi((char*)s.data());            }        }    }    for(int i=0;i&lt;n;i++){        for(int j=0;j&lt;m;j++){            cout&lt;&lt;matrix1[i][j]+matrix2[i][j]&lt;&lt;&quot; &quot;;        }        cout&lt;&lt;endl;    }}</code></pre><p>3.读入一个文件，第一行是字符串集合个数，第二行到第五行是这四个集合，从中<br>找到，字符串集合中出现两次的字符串，然后标识出第几个集合（行数）</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;map&gt;#include&lt;cstdlib&gt;#include&lt;string&gt;using namespace std;map&lt;string,int&gt; m;void Count1(string key){    if(m.find(key)==m.end()){//没找到这个key        m.insert(pair&lt;string,int&gt;(key,1));    }    else{//已经存在这个key        m[key]=m[key]+1;    }}int main(){    string s;    ifstream infile(&quot;in.txt&quot;);    getline(infile,s);    int n=atoi((char*)s.data());    for(int i=0;i&lt;n;i++){        getline(infile,s);        while(s.size()&gt;0){            if(s.find(&quot; &quot;)!=string::npos){//                int pos=s.find(&quot; &quot;);                string key=s.substr(0,pos);                Count1(key);                s=s.substr(pos+1);            }            else{                string key=s;                Count1(key);                s=s.substr(s.size());//为了能跳出循环            }        }    }    map&lt;string,int&gt;::iterator it;    for(it=m.begin();it!=m.end();it++){//        if(it-&gt;second==2){            ifstream in(&quot;in.txt&quot;);            string s; int i=0;            getline(in,s);            while(getline(in,s)){                i++;                if(s.find(it-&gt;first)!=string::npos){                    cout&lt;&lt;it-&gt;first&lt;&lt;&quot; &quot;&lt;&lt;i; break;                }            }            in.close();            cout&lt;&lt;endl;        }    }}</code></pre><p>4.给一个先序(中序)遍历序列，按层次输出该树的结点</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;queue&gt;using namespace std;string pre;string in;struct TreeNode{    char data;    TreeNode* left;    TreeNode* right;    TreeNode(char data):data(data){}};void LevelOrder(TreeNode* T){    queue&lt;TreeNode*&gt; q;    q.push(T);    while(!q.empty()){        TreeNode* p=q.front();        cout&lt;&lt;p-&gt;data;        q.pop();        if(p-&gt;left) q.push(p-&gt;left);        if(p-&gt;right) q.push(p-&gt;right);    }    return ;}TreeNode* build(int l1,int h1,int l2,int h2){//前序中序建树    char c=pre[l1];    TreeNode* T=new TreeNode(c);    int i;    for(i=l2;in[i]!=c;i++) ;    int llen=i-l2;    int rlen=h2-i;    if(llen) T-&gt;left=build(l1+1,l1+llen,l2,l2+llen-1);    else T-&gt;left=NULL;    if(rlen) T-&gt;right=build(h1-rlen+1,h1,h2-rlen+1,h2);    else T-&gt;right=NULL;    return T;}int main(){    cin&gt;&gt;pre&gt;&gt;in;    TreeNode* root=build(0,pre.size()-1,0,in.size()-1);    LevelOrder(root);}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>USTC机试_07下</title>
+    <link href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8A/"/>
+    <url>/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8A/</url>
+    
+    <content type="html"><![CDATA[<p>1.一个十进制正整数转换成二进制有多少个1</p><pre><code class="c">#include&lt;iostream&gt;using namespace std;int main(){    int x;    cin&gt;&gt;x;    int Count=0;    while(x!=0){        if(x%2==1) Count++;        x/=2;    }    cout&lt;&lt;Count;}</code></pre><p>2.约瑟夫环问题</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;queue&gt;#include&lt;fstream&gt;#include&lt;cstdlib&gt;using namespace std;int main(){    queue&lt;int&gt; q;    ifstream infile(&quot;in.txt&quot;);    string s;    getline(infile,s);    int n=atoi((char*)s.data());    for(int i=1;i&lt;=n;i++){        q.push(i);    }    int m=4;    while(!q.empty()){        for(int i=1;i&lt;m;i++){            int k=q.front();            q.pop();            q.push(k);        }        cout&lt;&lt;q.front();        q.pop();    }}</code></pre><p>3.从文件读入 2个矩阵，输出矩阵相乘后的矩阵</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;string&gt;#include&lt;cstdlib&gt;using namespace std;int matrix1[3][3];int matrix2[3][2];int matrix3[3][2];int main(){    ifstream infile(&quot;in.txt&quot;);    ofstream outfile(&quot;out.txt&quot;);    string s;    for(int i=0;i&lt;3;i++){        getline(infile,s);        int j;        for(j=0;j&lt;2;j++){            int pos=s.find(&quot; &quot;);            matrix1[i][j]=atoi((char*)s.substr(0,pos).data());            s=s.substr(pos+1);        }        matrix1[i][j]=atoi((char*)s.data());    }    for(int i=0;i&lt;3;i++){        getline(infile,s);        int j;        for(j=0;j&lt;1;j++){            int pos=s.find(&quot; &quot;);            matrix2[i][j]=atoi((char*)s.substr(0,pos).data());            s=s.substr(pos+1);        }        matrix2[i][j]=atoi((char*)s.data());    }    infile.close();    for(int i=0;i&lt;3;i++){        for(int j=0;j&lt;2;j++){//前两个for为最终矩阵的每一个位置            int temp=0;            for(int k=0;k&lt;3;k++){                temp+=matrix1[i][k]*matrix2[k][j];//            }            matrix3[i][j]=temp;        }    }    for(int i=0;i&lt;3;i++){        for(int j=0;j&lt;2;j++){            outfile&lt;&lt;matrix3[i][j]&lt;&lt;&quot; &quot;;        }        outfile&lt;&lt;endl;    }}</code></pre><p>4.符串问题。从文件中读入几行英文句子。输出单词，行号，并按单词字典索<br>引。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;map&gt;#include&lt;cstdlib&gt;#include&lt;string&gt;using namespace std;map&lt;string,int&gt; m;//写成计数了，不过字典索引也不难，懒得改了void Count(string key){    if(m.find(key)==m.end()){//没找到这个key        m.insert(pair&lt;string,int&gt;(key,1));    }    else{//已经存在这个key        cout&lt;&lt;&quot;存在&quot;&lt;&lt;key&lt;&lt;&quot;:&quot;&lt;&lt;m[key]&lt;&lt;endl;        m[key]=m[key]+1;    }}int main(){    string s;    ifstream infile(&quot;in.txt&quot;);    getline(infile,s);    int n=atoi((char*)s.data());    for(int i=0;i&lt;n;i++){        getline(infile,s);        while(s.size()&gt;0){            cout&lt;&lt;s&lt;&lt;endl;            if(s.find(&quot; &quot;)!=string::npos){//                int pos=s.find(&quot; &quot;);                string key=s.substr(0,pos);                Count(key);                s=s.substr(pos+1);            }            else{                string key=s;                Count(key);                s=s.substr(s.size());//为了能跳出循环            }        }    }    map&lt;string,int&gt;::iterator it;    for(it=m.begin();it!=m.end();it++){//        cout&lt;&lt;it-&gt;first&lt;&lt;&quot; &quot;&lt;&lt;it-&gt;second&lt;&lt;endl;    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>USTC机试_07下</title>
     <link href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8B/"/>
     <url>/2020/02/23/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8B/</url>
     

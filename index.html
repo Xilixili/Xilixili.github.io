@@ -155,6 +155,139 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8B/">
+        <p class="h4 index-header">USTC机试_07下</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.输入十进制正整数将其转换成任意的进制
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+vector&lt;int&gt; v;
+int main(){
+    int n,m;
+    cin&gt;&gt;n;
+    cout&lt;&lt;&quot;进制:&quot;;
+    cin&gt;&gt;m;
+    while(n!=0){
+        v.push_back(n%m);
+        n/=m;
+    }
+    for(int i=v.size()-1;i&gt;=0;i--){
+        cout&lt;&lt;v[i];
+    }
+}
+
+2.从文件读入 2个矩阵，转置后相加再输出
+#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+#include&lt;string&gt;
+#include&lt;cstdlib&gt;
+
+using namespace std;
+const int n=3;
+con</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8A/">
+        <p class="h4 index-header">USTC机试_07下</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.一个十进制正整数转换成二进制有多少个1
+#include&lt;iostream&gt;
+using namespace std;
+
+int main(){
+    int x;
+    cin&gt;&gt;x;
+    int Count=0;
+    while(x!=0){
+        if(x%2==1) Count++;
+        x/=2;
+    }
+    cout&lt;&lt;Count;
+}
+
+2.约瑟夫环问题
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;fstream&gt;
+#include&lt;cstdlib&gt;
+using namespace std;
+
+int main(){
+    queue&lt;int&gt; q;
+    ifstream infile(&quot;in.txt&quot;);
+    string s;
+    getline(infile,s);
+    int n=atoi((char*)s.data());
+    for(i</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8B/">
         <p class="h4 index-header">USTC机试_07下</p>
         
@@ -613,98 +746,6 @@ dp[i]表示以A[i]作</div>
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-15&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/15/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/">
-        <p class="h4 index-header">点菜问题</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述    北大网络实验室经常有活动需要叫外卖，但是每次叫外卖的报销经费的总额最大为C元，有N种菜可以点，经过长时间的点菜，网络实验室对于每种菜i都有一个量化的评价分数（表示这个菜可口程度），为Vi，每种菜的价格为Pi, 问如何选择各种菜，使得在报销额度范围内能使点到的菜的总评价分数最大。     注意：由于需要营养多样化，每种菜只能点一次。
-输入描述:    输入的第一行有两个整数C（1 &lt;= C &lt;= 1000）和N（1 &lt;= N &lt;= 100），C代表总共能够报销的额度，N&gt;代表能点菜的数目。接下来的N行每行包括两个在1到100之间（包括1和100）的的整数，分别表示菜的&gt;价格和菜的评价分数。
-输出描述:    输出只包括一行，这一行只包含一个整数，表示在报销额度范围内，所点的菜得到的最大评价分数。
-输入
-
-90 420 2530 2040 5010 1840 225 3010 8
-
-输出
-
-95 38
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-//背包问题
-using namespa</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-15&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/14/Common%20Subsequence/">
-        <p class="h4 index-header">合唱队列</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">DescriptionA subsequence of a given sequence is the given sequence with some elements (possible none) left out. Given a sequence X = &lt; x1, x2, …, xm &gt; another sequence Z = &lt; z1, z2, …, zk &gt; is a subsequence of X if there exists a strictly increasing sequence &lt; i1, i2, …, ik &gt; of indices of X such that for all j = 1,2,…,k, xij = zj. For example, Z = &lt; a, b, f, c &gt; is a subsequence of X = &lt; a, b, c, f, b, c &gt; with index sequence &lt; 1, 2, 4, 6 &gt;. Given two sequenc</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-14&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>
