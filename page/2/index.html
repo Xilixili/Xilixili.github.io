@@ -155,6 +155,102 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
+        <p class="h4 index-header">标准c++中string类函数介绍</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">注意不是CString之所以抛弃char*的字符串而选用C++标准程序库中的string类，是因为他和前者比较起来，不必 担心内存是否足够、字符串长度等等，而且作为一个类出现，他集成的操作函数足以完成我们大多数情况下(甚至是100%)的需要。我们可以用 = 进行赋值操作，== 进行比较，+ 做串联（是不是很简单?）。我们尽可以把它看成是C++的基本数据类型。
+好了，进入正题………首先，为了在我们的程序中使用string类型，我们必须包含头文件 。
+如下：#include  //注意这里不是string.h string.h是C字符串头文件#include using namespace std;
+1．声明一个C++字符串声明一个字符串变量很简单：string Str;这样我们就声明了一个字符串变量，但既然是一个类，就有构造函数和析构函数。上面的声明没有传入参数，所以就直接使用了string的默认的构造函数，这个函数所作的就是把Str初始化为一个空字符串。String类的构造函数和析构函数如下：a)      string s;    //生成一个空字符串sb)      string </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/c++">c++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/15/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/">
+        <p class="h4 index-header">最小邮票数</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">题目描述    有若干张邮票，要求从中选取最少的邮票张数凑成一个给定的总值。     如，有1分，3分，3分，3分，4分五张邮票，要求凑成10分，则使用3张邮票：3分、3分、4分即可。
+输入描述:    有多组数据，对于每组数据，首先是要求凑成的邮票总值M，M&lt;100。然后是一个数N，N〈20，表示有N张邮票。接下来是N个正整数，分别表示这N张邮票的面值，且以升序排列。
+输出描述:      对于每组数据，能够凑成总值M的最少邮票张数。若无解，输出0。
+输入
+
+1051 3 3 3 4
+
+输出
+
+3
+
+/*
+    最少邮票数 &gt;&gt; 01动态规划
+
+    状态
+    集合中数字
+    dp[i][j]    0   1   2   3   4   5   6   7   8   9   10
+    1           0   1   ∞   ∞   ∞   ∞   ∞   ∞   ∞   ∞   ∞
+    1 3         0   1   ∞   1   2   ∞   ∞   ∞   ∞   ∞   ∞
+    1 3 3       0   1</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-15&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/15/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/">
         <p class="h4 index-header">点菜问题</p>
         
@@ -542,87 +638,6 @@ int maxSub(int n){
             <a href="/tags/c++">c++</a>&nbsp;
           
             <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/11/%E8%AE%BA%E6%96%87/">
-        <p class="h4 index-header">论文</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述小H为了完成一篇论文，一共要完成n个实验。其中第i个实验需要ai的时间去完成。小H可以同时进行若干实验，但存在一些实验，只有当它的若干前置实验完成时，才能开始进行该实验。同时我们认为小H在一个实验的前置实验都完成时，就能马上开始该实验。为了让小H尽快完成论文，需要知道在最优的情况下，最后一个完成的实验什么时候完成？小H还想知道，在保证最后一个实验尽快完成的情况下（即保证上一问的答案不变），他想知道每个实验最晚可以什么时候开始。设第i个实验最早可能的开始时间为fi，不影响最后一个实验完成时间的最晚开始时间为gi，请你证明除以10^9+7所得的余数。题目保证有解。
-输入描述:从标准输入读入数据。第一行输入一个整数n，m。第二行输入n个正整数，a1,a2,…..an,描述每个实验完成所需要的时间。接下来读入m行，每行读入两个整数u,v，表示编号为u的实验是编号为v的实验的前置实验。对于所有的输入数据，都满足1&lt;=n&lt;=10^5,1&lt;=m&lt;=510^5,1&lt;=ai&lt;=10^6。*输出描述:**输出到标准输出。第一行输出一个整数表示最晚完成的实验的时间</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-11&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84">关键路径</a>&nbsp;
-          
-            <a href="/tags/%E5%9B%BE%E8%AE%BA">图论</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/11/Instruction%20Arrangement/">
-        <p class="h4 index-header">Instruction Arrangement</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Problem DescriptionAli has taken the Computer Organization and Architecture course this term. He learned that there may be dependence between instructions, like WAR (write after read), WAW, RAW.If the distance between two instructions is less than the Safe Distance, it will result in hazard, which may cause wrong result. So we need to design special circuit to eliminate hazard. However the most simple way to solve this problem is to add bubbles (useless operation), which means wasting time to en</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-11&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84">关键路径</a>&nbsp;
           
         
       </div>

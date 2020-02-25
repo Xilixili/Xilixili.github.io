@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>USTC机试_10</title>
+    <link href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/"/>
+    <url>/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/</url>
+    
+    <content type="html"><![CDATA[<p>1.input.txt文件里面有一段文章，由字符串和一些特殊字符构成。先把  input文件中的内容读入缓冲区，在从缓冲区中取字符，进行如下操作：</p><ul><li>如果是字符，空格，输出</li><li>如果是’!’，删除前面一个字符</li><li>如果是’*’，删除前面 1行字符串</li><li>如果是’&gt;’，讲前面一个单词的首字符，进行大小写转化</li><li>如果是数字，则不作任何操作</li></ul><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;vector&gt;#include&lt;sstream&gt;using namespace std;vector&lt;string&gt; v;int main(){    ifstream infile(&quot;in.txt&quot;);    string s;    while(getline(infile,s)){        v.push_back(s);    }    for(int i=0;i&lt;v.size();i++){        s=v[i];        if(s.find(&#39;!&#39;)!=string::npos){            int pos=s.find(&quot;!&quot;);            v[i]=s.substr(0,pos-1)+s.substr(pos);        }        if(s.find(&#39;*&#39;)!=string::npos){            if(i==0) cout&lt;&lt;&quot;已在第一行无法删除&quot;;            else{                v.erase(v.begin()+i-1,v.begin()+i);                i--;            }        }        if(s.find(&#39;&gt;&#39;)!=string::npos){            int pos=s.find(&#39;&gt;&#39;);            string s1=s.substr(0,pos);//&gt;前面的字符串            s1=s1.substr(0,s1.find_last_of(&quot; &quot;));            int pos1=s1.find(&quot; &quot;);//&gt;的前一个单词前面的空格位置            string c=s.substr(pos1+1,1);            if(c[0]&gt;&#39;a&#39;&amp;&amp;c[0]&lt;&#39;z&#39;) c[0]=c[0]-32;            else c[0]=c[0]+32;            //cout&lt;&lt;&quot;字母&quot;&lt;&lt;c&lt;&lt;endl;            s.replace(pos1+1,1,(char*)c.data());            v[i]=s;        }    }    for(int i=0;i&lt;v.size();i++){        cout&lt;&lt;v[i]&lt;&lt;endl;    }    infile.close();}</code></pre><p>2.从键盘输入 N，建立  N*N矩阵，每个元素是一个字符串，为每个元素赋值。然后求出按字典序排列最大的元素所在的行列</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;algorithm&gt;#include&lt;string&gt;#include&lt;string.h&gt;#include&lt;cstdio&gt;using namespace std;const int MAXN=100;struct M{//为了排序方便，将矩阵化成一维处理    char s[MAXN];    int i,j;    bool operator &lt;(const M &amp;e) const{        if(strcmp(s,e.s)&lt;0) return true;        else return false;    }}M[MAXN];int main(){    int N;    cin&gt;&gt;N;    int k=0;//M中的下标    for(int i=0;i&lt;N;i++){        for(int j=0;j&lt;N;j++){            scanf(&quot;%s&quot;,M[k].s);            M[k].i=i;            M[k].j=j;            k++;        }    }    sort(M,M+N*N);    cout&lt;&lt;M[N*N-1].i+1&lt;&lt;&quot; &quot;&lt;&lt;M[N*N-1].j+1&lt;&lt;endl;}</code></pre><p>3.已知二叉排序树用二叉链表存储，结点的关键字为  1正整数。从键盘输入结点的关键字（以 0表示结束）建立一棵二叉排序树，并输出其后序遍历序列</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;vector&gt;using namespace std;vector&lt;int&gt; v;struct TreeNode{    int data;    TreeNode* left;    TreeNode* right;    TreeNode(int data):data(data),left(NULL),right(NULL){}};//x插入到以root为根结点的排序树中，从根结点不断的向下比TreeNode* Insert(TreeNode* root,int n){    if(root==NULL) root=new TreeNode(n);    else if(n&lt;root-&gt;data) root-&gt;left=Insert(root-&gt;left,n);    else if(n&gt;root-&gt;data) root-&gt;right=Insert(root-&gt;right,n);    return root;}void PostOrder(TreeNode* root){    if(root==NULL) return  ;    PostOrder(root-&gt;left);    PostOrder(root-&gt;right);    cout&lt;&lt;root-&gt;data&lt;&lt;&quot; &quot;;}int main(){    int n;    TreeNode* root=NULL;    while(cin&gt;&gt;n){        if(n==0) break;        else root=Insert(root,n);    }    PostOrder(root);}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>USTC机试_09</title>
+    <link href="/2020/02/24/USTC%E6%9C%BA%E8%AF%95_09/"/>
+    <url>/2020/02/24/USTC%E6%9C%BA%E8%AF%95_09/</url>
+    
+    <content type="html"><![CDATA[<p>1.处理：比如输入4，转化为16位二进制数   0000 0000 0000 0100，4个一组，相异或，变为0001，然后把0001转化为十进制的1输出</p><pre><code class="c">// 1.cpp : Defines the entry point for the console application.//#include&lt;iostream&gt;#include&lt;queue&gt;#include&lt;math.h&gt;using namespace std;queue&lt;int&gt; q;int main(){    int x;    cin&gt;&gt;x;    while(x!=0){        int a,b;        a=x%2;//当前最后一位        x/=2;        b=x%2;        a=a^b;//1 2位异或        x/=2;        b=x%2;        a=a^b;//1 2 3位异或        x/=2;        b=x%2;        a=a^b;//1 2 3 4位异或        q.push(a);    }    int i=0,answer=0;    while(!q.empty()){        answer+=q.front()*pow(2,i++);        q.pop();    }    cout&lt;&lt;answer&lt;&lt;endl;}</code></pre><p>2.将n个数由小到大排序，如果  n是奇数，输出正中间的数；如果n是偶数，输出<br>正中间的两个数</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;algorithm&gt;using namespace std;const int MAXN=1000;int arr[MAXN];int main(){    int n;    cin&gt;&gt;n;    for(int i=0;i&lt;n;i++){        cin&gt;&gt;arr[i];    }    sort(arr,arr+n);    if(n%2==0){        cout&lt;&lt;arr[n/2-1]&lt;&lt;&quot; &quot;&lt;&lt;arr[n/2];    }    else cout&lt;&lt;arr[n/2];}</code></pre><p>3.文件读入类ABC00DE00…的二叉树先序序列，0表示叶子<br>输出：中序输出深度&lt;=depth/2的节点，其中depth是你所建立的树的深度</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;using namespace std;//数据:ABC00D00E00int depth=0;string pre;int i=0;struct TreeNode{    char data;    TreeNode* left;    TreeNode* right;    TreeNode(char data):data(data){}};TreeNode* buildTree(){//仅用带null符号的先序序列构建树    if(i&gt;pre.size()-1) return NULL;    char c=pre[i++];    if(c==&#39;0&#39;) return NULL;    TreeNode* T=new TreeNode(c);    T-&gt;left=buildTree();    T-&gt;right=buildTree();    return T;}void PostOrder(TreeNode* T,int deep){//计算深度    if(T==NULL)return ;    if(deep&gt;depth) depth=deep;    PostOrder(T-&gt;left,deep+1);    PostOrder(T-&gt;right,deep+1);}void PostOrder1(TreeNode* T,int deep){    if(T==NULL)return ;    if(deep&gt;depth) depth=deep;    PostOrder(T-&gt;left,deep+1);    PostOrder(T-&gt;right,deep+1);    if(deep&lt;=depth/2){        cout&lt;&lt;T-&gt;data;    }    return ;}int main(){    ifstream infile(&quot;in.txt&quot;);    getline(infile,pre);    infile.close();    cout&lt;&lt;pre&lt;&lt;endl;    TreeNode* root=buildTree();    PostOrder(root,1);    //cout&lt;&lt;&quot;deep:&quot;&lt;&lt;depth&lt;&lt;endl;    PostOrder1(root,1);}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>USTC机试_08下</title>
     <link href="/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8B/"/>
     <url>/2020/02/23/USTC%E6%9C%BA%E8%AF%95_08%E4%B8%8B/</url>
