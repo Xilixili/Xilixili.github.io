@@ -155,6 +155,126 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/">
+        <p class="h4 index-header">USTC机试_12</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.字符串处理：从   string.in文件里读入两个字符串，字符串除了数字还可能包括    ‘—‘、’E’、’e’、’．’，相加之后输出到文件 string.out中，如果是浮点型，要求用科学计数法表示（最多包含 10个有效数字）。
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;cstdio&gt;
+#include&lt;fstream&gt;
+#include&lt;cstdlib&gt;
+#include&lt;math.h&gt;
+using namespace std;
+
+int main(){
+    ifstream infile(&quot;in.txt&quot;);
+    string s1,s2;
+    double x,y;
+    getline(infile,s1);
+    getline(infile,s2);
+    if(s1.find(&#39;e&#39;)!=string::npos||s1.find(&#39;E&#39;)!=string::npos){
+  </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_11/">
+        <p class="h4 index-header">USTC机试_11</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.给两个十进制数，先异或，然后输出其二进制形式
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+using namespace std;
+vector&lt;int&gt; v;
+int main(){
+    int x,y;
+    cin&gt;&gt;x&gt;&gt;y;
+    int n=x^y;
+    while(n!=0){
+        v.push_back(n%2);
+        n/=2;
+    }
+    for(int i=v.size()-1;i&gt;=0;i--) cout&lt;&lt;v[i];
+}
+
+2.一共有十二个球，其颜色有红、黄、黑三种，红黄黑分别有想  x，y，k个，现在从其中取出八个球，共有多少种取法，输出到文件中？（x，y，k是从键盘输入，痛颜色的球不区分）
+#include&lt;iostream&gt;
+
+using namespace std;
+const int MAXN=1000;
+
+struct E{
+    int x,y,k;
+}E[MAXN];
+
+int </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-25&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/">
         <p class="h4 index-header">USTC机试_10</p>
         
@@ -656,151 +776,11 @@ void Union(int x,int y){
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">
-        <p class="h4 index-header">USTC机试_06上</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">2.给出四个[年,月],判断此月有多少天.题目给出了闰年判断方法的伪代码.
-#include&lt;iostream&gt;
-
-using namespace std;
-
-int months[2][13]={
-    {0,31,28,31,30,31,30,31,31,30,31,30,31},//平年
-    {0,31,29,31,30,31,30,31,31,30,31,30,31}//闰年
-};
-
-bool isrein(int year){
-    return (year%400==0)||(year%4==0&amp;&amp;year%100!=0);
-}
-
-int main(){
-    int year,month;
-    while(cin&gt;&gt;year&gt;&gt;month){
-        if(isrein(year)) cout&lt;&lt;months[1][month];
-        else cout&lt;&lt;months[0][month];
-    }
-}
-
-3.给出一些标识符,判断合法标识符有多少个.(与 C语</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-18&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/">
-        <p class="h4 index-header">动态规划状态转移公式</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">最大连续子序列和
-
-
-
-题目
-描述
-dp描述
-转移公式
-
-
-
-最大连续子序列和
-在一个给定的序列中，找出一个连续的子序列，使得这个子序列的和最大
-dp[i]表示以A[i]作为末尾的连续序列最大和&#124;dp[i]=max(A[i],dp[i-1]+A[i])
-
-
-
-转移情况：①最大和的连续序列只有一个元素，即A[i]本身，为A[i]②最大和的连续序列有多个元素，即从A[j]开始到A[i]，为dp[i-1]+A[i]
-int maxSub(int n){
-    int Max=0;
-    for(int i=0;i&lt;n;i++){
-        if(i==0) dp[i]=a[i];//初始
-        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
-        if(dp[i]&gt;Max) Max=dp[i];
-    }
-    return Max;
-}
-最长递增子序列
-
-
-
-题目
-描述
-dp描述
-转移公式
-
-
-
-最长递增子序列
-在一个给定的序列中，找出一个的最长的递增子序列（不必连续）
-dp[i]表示以A[i]作</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-16&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

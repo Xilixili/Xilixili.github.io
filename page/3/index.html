@@ -155,6 +155,104 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/">
+        <p class="h4 index-header">最大连续子序列</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">题目描述    给定K个整数的序列{ N1, N2, …, NK }，其任意连续子序列可表示为{ Ni, Ni+1, …, Nj }，其中 1 &lt;= i &lt;= j &lt;= K。最大连续子序列是所有连续子序列中元素和最大的一个，例如给定序列{ -2, 11, -4, 13, -5, -2 }，其最大连续子序列为{ 11, -4, 13 }，最大和为20。现在增加一个要求，即还需要输出该子序列的第一个和最后一个元素。输入描述:    测试输入包含若干测试用例，每个测试用例占2行，第1行给出正整数K( K&lt; 10000 )，第2行给出K个整数，中间用空格分隔。当K为0时，输入结束，该用例不被处理。输出描述:    对每个测试用例，在1行里输出最大和、最大连续子序列的第一个和最后一个元素，中间用空格分隔。如果最大连续子序列不唯一，则输出序号i和j最小的那个（如输入样例的第2、3组）。若所有K个元素都是负数，则定义其最大和为0，输出整个序列的首尾元素。输入
+
+6-2 11 -4 13 -5 -2 10-101 2 3 4 -5 -23 3 7 -2165 -8 3 2 5 </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">
+        <p class="h4 index-header">最大序列和</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">题目描述给出一个整数序列S，其中有N个数，定义其中一个非空连续子序列T中所有数的和为T的“序列和”。 对于S的所有非空连续子序列T，求最大的序列和。 变量条件：N为正整数，N≤1000000，结果序列和在范围（-2^63,2^63-1）以内。输入描述:第一行为一个正整数N，第二行为N个整数，表示序列中的数。输出描述:输入可能包括多组数据，对于每一组输入数据，仅输出一个数，表示最大序列和。输入
+
+51 5 -3 2 461 -2 3 4 -10 64-3 -1 -2 -5
+
+输出
+
+97-1
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+const int MAXN=1000000;
+int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
+int a[MAXN];
+int maxSub(int n){
+    int Max=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i]</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/11/%E8%AE%BA%E6%96%87/">
         <p class="h4 index-header">论文</p>
         
@@ -545,61 +643,11 @@ struct TreeNode{
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/09/%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E5%85%A8%E5%9B%BD%E5%8E%86%E5%8F%B2%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE/">
-        <p class="h4 index-header">爬虫爬取全国历史天气数据</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">一段很简单的爬虫程序，爬取的网站为http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据
-from bs4 import BeautifulSoup
-import requests
-import pymysql
-import warnings
-# import pinyin
-# from pinyin import PinYin
-from pypinyin import pinyin, lazy_pinyin
-import pypinyin
-warnings.filterwarnings(&quot;ignore&quot;)
-
-conn = pymysql.connect(host=&#39;localhost&#39;, user=&#39;root&#39;, passwd=&#39;root&#39;, db=&#39;test2&#39;, port=3306, charset=&#39;utf8&#39;)
-cursor = conn.cursor()
-def get_temperature(url,city)</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-09&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/python">python</a>&nbsp;
-          
-            <a href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

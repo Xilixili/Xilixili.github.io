@@ -155,6 +155,146 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">
+        <p class="h4 index-header">USTC机试_06上</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">2.给出四个[年,月],判断此月有多少天.题目给出了闰年判断方法的伪代码.
+#include&lt;iostream&gt;
+
+using namespace std;
+
+int months[2][13]={
+    {0,31,28,31,30,31,30,31,31,30,31,30,31},//平年
+    {0,31,29,31,30,31,30,31,31,30,31,30,31}//闰年
+};
+
+bool isrein(int year){
+    return (year%400==0)||(year%4==0&amp;&amp;year%100!=0);
+}
+
+int main(){
+    int year,month;
+    while(cin&gt;&gt;year&gt;&gt;month){
+        if(isrein(year)) cout&lt;&lt;months[1][month];
+        else cout&lt;&lt;months[0][month];
+    }
+}
+
+3.给出一些标识符,判断合法标识符有多少个.(与 C语</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-18&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/">
+        <p class="h4 index-header">动态规划状态转移公式</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">最大连续子序列和
+
+
+
+题目
+描述
+dp描述
+转移公式
+
+
+
+最大连续子序列和
+在一个给定的序列中，找出一个连续的子序列，使得这个子序列的和最大
+dp[i]表示以A[i]作为末尾的连续序列最大和&#124;dp[i]=max(A[i],dp[i-1]+A[i])
+
+
+
+转移情况：①最大和的连续序列只有一个元素，即A[i]本身，为A[i]②最大和的连续序列有多个元素，即从A[j]开始到A[i]，为dp[i-1]+A[i]
+int maxSub(int n){
+    int Max=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i];//初始
+        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
+        if(dp[i]&gt;Max) Max=dp[i];
+    }
+    return Max;
+}
+最长递增子序列
+
+
+
+题目
+描述
+dp描述
+转移公式
+
+
+
+最长递增子序列
+在一个给定的序列中，找出一个的最长的递增子序列（不必连续）
+dp[i]表示以A[i]作</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
         <p class="h4 index-header">标准c++中string类函数介绍</p>
         
@@ -546,109 +686,11 @@ in</div>
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/">
-        <p class="h4 index-header">最大连续子序列</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述    给定K个整数的序列{ N1, N2, …, NK }，其任意连续子序列可表示为{ Ni, Ni+1, …, Nj }，其中 1 &lt;= i &lt;= j &lt;= K。最大连续子序列是所有连续子序列中元素和最大的一个，例如给定序列{ -2, 11, -4, 13, -5, -2 }，其最大连续子序列为{ 11, -4, 13 }，最大和为20。现在增加一个要求，即还需要输出该子序列的第一个和最后一个元素。输入描述:    测试输入包含若干测试用例，每个测试用例占2行，第1行给出正整数K( K&lt; 10000 )，第2行给出K个整数，中间用空格分隔。当K为0时，输入结束，该用例不被处理。输出描述:    对每个测试用例，在1行里输出最大和、最大连续子序列的第一个和最后一个元素，中间用空格分隔。如果最大连续子序列不唯一，则输出序号i和j最小的那个（如输入样例的第2、3组）。若所有K个元素都是负数，则定义其最大和为0，输出整个序列的首尾元素。输入
-
-6-2 11 -4 13 -5 -2 10-101 2 3 4 -5 -23 3 7 -2165 -8 3 2 5 </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">
-        <p class="h4 index-header">最大序列和</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述给出一个整数序列S，其中有N个数，定义其中一个非空连续子序列T中所有数的和为T的“序列和”。 对于S的所有非空连续子序列T，求最大的序列和。 变量条件：N为正整数，N≤1000000，结果序列和在范围（-2^63,2^63-1）以内。输入描述:第一行为一个正整数N，第二行为N个整数，表示序列中的数。输出描述:输入可能包括多组数据，对于每一组输入数据，仅输出一个数，表示最大序列和。输入
-
-51 5 -3 2 461 -2 3 4 -10 64-3 -1 -2 -5
-
-输出
-
-97-1
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-using namespace std;
-
-const int MAXN=1000000;
-int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
-int a[MAXN];
-int maxSub(int n){
-    int Max=0;
-    for(int i=0;i&lt;n;i++){
-        if(i==0) dp[i]=a[i]</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

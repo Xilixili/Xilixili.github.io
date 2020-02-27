@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>USTC机试_12</title>
+    <link href="/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/"/>
+    <url>/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/</url>
+    
+    <content type="html"><![CDATA[<p>1.字符串处理：从   string.in文件里读入两个字符串，字符串除了数字还可能包括    ‘—‘、’E’、’e’、’．’，相加之后输出到文件 string.out中，如果是浮点型，要求用科学计数法表示（最多包含 10个有效数字）。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;string&gt;#include&lt;cstdio&gt;#include&lt;fstream&gt;#include&lt;cstdlib&gt;#include&lt;math.h&gt;using namespace std;int main(){    ifstream infile(&quot;in.txt&quot;);    string s1,s2;    double x,y;    getline(infile,s1);    getline(infile,s2);    if(s1.find(&#39;e&#39;)!=string::npos||s1.find(&#39;E&#39;)!=string::npos){        if(s1.find(&#39;e&#39;)!=string::npos){            int pos=s1.find(&#39;e&#39;);            double a=atof((char*)s1.substr(0,pos).data());//底数            double b=atof((char*)s1.substr(pos+1).data());//次数            x=a*pow(10,b);        }        else{            int pos=s1.find(&#39;E&#39;);            double a=atof((char*)s1.substr(0,pos).data());//底数            double b=atof((char*)s1.substr(pos+1).data());//次数            x=a*pow(10,b);        }    }    else{        x=atof((char*)s1.data());    }    if(s2.find(&#39;e&#39;)!=string::npos||s2.find(&#39;E&#39;)!=string::npos){        if(s2.find(&#39;e&#39;)!=string::npos){            int pos=s2.find(&#39;e&#39;);            double a=atof((char*)s2.substr(0,pos).data());//底数            double b=atof((char*)s2.substr(pos+1).data());//次数            y=a*pow(10,b);        }        else{            int pos=s2.find(&#39;e&#39;);            double a=atof((char*)s2.substr(0,pos).data());//底数            double b=atof((char*)s2.substr(pos+1).data());//次数            y=a*pow(10,b);        }    }    else{        y=atol((char*)s2.data());    }    printf(&quot;%e&quot;,x+y);    infile.close();}</code></pre><p>2.最大公约数：从    number.in文件中读入   n个数，求出这   n个数的最小值、最大值以及它们两的最大公约数，输出到文件 number.out中。number.in中第一行为     n，接下来为  n个大于零的整数。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;algorithm&gt;#include&lt;fstream&gt;#include&lt;cstdlib&gt;#include &lt;sstream&gt;using namespace std;const int MAXN=100;int a[MAXN];//若是最小公倍数则是两数乘积除以它们的最大公约数int gcd(int a,int b){//    if(b==0) return a;    else return gcd(b,a%b);}int main(){    ifstream infile(&quot;in.txt&quot;);    string s;    getline(infile,s);    int n=atoi((char*)s.data());    getline(infile,s);    stringstream stringin(s);//实现按空格读取,需要导入sstream文件    int i=0;    while(stringin&gt;&gt;a[i]){        i++;    }    sort(a,a+n);    int Min=a[0],Max=a[n-1];    cout&lt;&lt;Min&lt;&lt;&quot; &quot;&lt;&lt;Max&lt;&lt;&quot; &quot;&lt;&lt;gcd(Min,Max);}</code></pre><p>3.任务调度：从   task.in文件中读入任务调度序列，输出    n个任务适合的一种调度方式到 task.out中。每行第一个表示前序任务，括号中的任务为若干个后序任务，表示只有在前序任务完成的情况下，后序任务才能开始。若后序为 NULL则表示无后继任务。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;vector&gt;#include&lt;queue&gt;#include&lt;string&gt;#include&lt;cstdlib&gt;#include&lt;cstring&gt;using namespace std;const int MAXN=500;vector&lt;int&gt; graph[MAXN];int indegree[MAXN];vector&lt;int&gt; TopologicalSort(int n){    vector&lt;int&gt; topology;    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; q;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面    for(int i=0;i&lt;n;i++){        if(indegree[i]==0) q.push(i);    }    while(!q.empty()){        int T=q.top();        topology.push_back(T);        q.pop();        for(int i=0;i&lt;graph[T].size();i++){            int v=graph[T][i];            indegree[v]--;            if(indegree[v]==0) q.push(v);        }    }    return topology;}int main(){    ifstream infile(&quot;in.txt&quot;);    string s;    memset(indegree,0,sizeof(indegree));    int Count=0;    while(getline(infile,s)){        Count++;        int pos=s.find(&quot;Task&quot;);        int T=atoi((char*)s.substr(pos+4,1).data());        s=s.substr(pos+5);        while(s.find(&quot;Task&quot;)!=string::npos){            int pos1=s.find(&quot;Task&quot;);            int p=atoi((char*)s.substr(pos1+4,1).data());            indegree[p]++;            graph[T].push_back(p);            s=s.substr(pos1+5);        }    }    vector&lt;int&gt; v=TopologicalSort(Count);    for(int i=0;i&lt;v.size();i++){        cout&lt;&lt;&quot;Task&quot;&lt;&lt;v[i]&lt;&lt;&quot; &quot;;    }}</code></pre><p>4.火车票订购：火车经过   X站，火车最大载客人数为   m，有 n个订票请求，请求订购从 a站到  b站的  k张票，若能满足订购要求则输出   1，否则输出 0。数据从 ticket.in中输入，第一行有四个数，分别为 n，m。接下来有  n行，每行三个数分别为   a，b，k。结果输出到文件 ticket.out中</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;sstream&gt;using namespace std;const int MAXN=100;int station[MAXN];int n,m;int result[MAXN];bool jugde(int a,int b,int k){    bool flag=true;    for(int i=a;i&lt;=b;i++){        if(station[i]+k&gt;m){            flag=false;            break;        }    }    return flag;}int main(){    string s;    ifstream infile(&quot;in.txt&quot;);    getline(infile,s);    stringstream stringin(s);    stringin&gt;&gt;n; stringin&gt;&gt;m;    int j=0;    for(int i=0;i&lt;n;i++){        int a,b,k;        getline(infile,s);        stringstream stringin1(s);        stringin1&gt;&gt;a; stringin1&gt;&gt;b; stringin1&gt;&gt;k;        if(jugde(a,b,k)){            for(int i=a;i&lt;=b;i++){                station[i]+=k;            }            result[j++]=1;        }        else{            result[j++]=0;        }    }    infile.close();    ofstream outfile(&quot;out.txt&quot;);    for(int i=0;i&lt;n;i++){        outfile&lt;&lt;result[i]&lt;&lt;endl;    }    outfile.close();}</code></pre><p>5.最短路径：有   n个城市   m条道路（n&lt;1000,   m&lt;10000)，每条道路有个长度，请找到从起点 s到终点  t的最短距离，并且输出经过的城市的名，如果有多条，输出字典序最小的那条；若从 s到   t没有路径，则输出“can’t   arrive”。从 road.in中读入数据，第一行有四个数，分别为 n，m，s，t。接下来 m行，每行三个数，分别为两个城市名和距离。输出结果到 road.out中。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;queue&gt;#include&lt;sstream&gt;#include&lt;cstring&gt;#include&lt;climits&gt;#include&lt;cstdio&gt;using namespace std;const int INF=INT_MAX;//struct Edge{    int to;    int length;    Edge(int to,int length):to(to),length(length){}};const int MAXN=100;vector&lt;Edge&gt; graph[MAXN];int dis[MAXN];//存的最小距离int path[MAXN];//path[j]=i表示从i到j最短路的路径struct Point{    int number;    int distance;//到源点距离    Point(int n,int d):number(n),distance(d){}    bool operator&lt; (const Point&amp; e) const{        return distance&lt;e.distance;    }};void Dijkstra(int s){    priority_queue&lt;Point&gt; q;//若是逆向从时要对Point中的&gt;进行重载    dis[s]=0;    q.push(Point(s,dis[s]));    while(!q.empty()){        int u=q.top().number;//距离源点最近的点        q.pop();        for(int i=0;i&lt;graph[u].size();i++){            int v=graph[u][i].to;            int d=graph[u][i].length;            if(dis[v]&gt;dis[u]+d){//所以初始化应该是无穷                dis[v]=dis[u]+d;                q.push(Point(v,dis[v]));                path[v]=u;//由u到v是最短            }        }    }    return ;}int main(){    int n,m,s,t;    ifstream infile(&quot;in.txt&quot;);    string str;    getline(infile,str);    stringstream in(str);    in&gt;&gt;n; in&gt;&gt;m; in&gt;&gt;s; in&gt;&gt;t;    memset(graph,0,sizeof(graph));    //对int数组用fill初始化    fill(dis,dis+MAXN,INF);//注意初始化的范围    fill(path,path+MAXN,-1);    //cout&lt;&lt;n&lt;&lt;&quot; &quot;&lt;&lt;m&lt;&lt;&quot; &quot;&lt;&lt;s&lt;&lt;&quot; &quot;&lt;&lt;t&lt;&lt;endl;    for(int i=0;i&lt;m;i++){        int a,b,l;        getline(infile,str);        stringstream in(str);        in&gt;&gt;a; in&gt;&gt;b; in&gt;&gt;l;        graph[a].push_back(Edge(b,l));        graph[b].push_back(Edge(a,l));    }    Dijkstra(s);    cout&lt;&lt;dis[t]&lt;&lt;endl;    vector&lt;int&gt; v;    while(path[t]!=-1){        v.push_back(t);        t=path[t];    }    v.push_back(s);    for(int i=v.size()-1;i&gt;=0;i--){        cout&lt;&lt;v[i]&lt;&lt;&quot; &quot;;    }}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>USTC机试_11</title>
+    <link href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_11/"/>
+    <url>/2020/02/25/USTC%E6%9C%BA%E8%AF%95_11/</url>
+    
+    <content type="html"><![CDATA[<p>1.给两个十进制数，先异或，然后输出其二进制形式</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;vector&gt;using namespace std;vector&lt;int&gt; v;int main(){    int x,y;    cin&gt;&gt;x&gt;&gt;y;    int n=x^y;    while(n!=0){        v.push_back(n%2);        n/=2;    }    for(int i=v.size()-1;i&gt;=0;i--) cout&lt;&lt;v[i];}</code></pre><p>2.一共有十二个球，其颜色有红、黄、黑三种，红黄黑分别有想  x，y，k个，现在从其中取出八个球，共有多少种取法，输出到文件中？（x，y，k是从键盘输入，痛颜色的球不区分）</p><pre><code class="c">#include&lt;iostream&gt;using namespace std;const int MAXN=1000;struct E{    int x,y,k;}E[MAXN];int main(){    int x,y,k;    cin&gt;&gt;x&gt;&gt;y&gt;&gt;k;    int Count=0;    for(int i=1;i&lt;=x;i++){        for(int j=1;j&lt;=y;j++){            for(int m=1;m&lt;=k;m++){                if(i+j+m==8){                    E[Count].x=i;                    E[Count].y=j;                    E[Count].k=m;                    Count++;                }            }        }    }    cout&lt;&lt;&quot;共&quot;&lt;&lt;Count&lt;&lt;&quot;种取法&quot;;    for(int i=0;i&lt;Count;i++){        cout&lt;&lt;E[i].x&lt;&lt;&quot;红球 &quot;&lt;&lt;E[i].y&lt;&lt;&quot;黄球 &quot;&lt;&lt;E[i].k&lt;&lt;&quot;黑球&quot;&lt;&lt;endl;    }}</code></pre><p>3.在in.txt中查看是否有模式  abcde。若有，输出“找到 abc<em>d?e匹配”；若无，则输出“没有找到  abc</em>d?e匹配”</p><pre><code class="c">不会做...</code></pre><p>4.给你一个二叉树，每个节点有编号，给你一个序列，每个节点给了左孩子和右孩子的编号，让你输出这个二叉树的后序遍历结果。</p><pre><code class="c">#include&lt;iostream&gt;#include&lt;fstream&gt;#include&lt;string&gt;using namespace std;const int MAXN=100;struct TreeNode{    char data;    TreeNode* left;    TreeNode* right;    TreeNode(char data):data(data),left(NULL),right(NULL){}};struct TreeNode* Tree[MAXN];void PostOrder(TreeNode* root){    if(root==NULL) return;    PostOrder(root-&gt;left);    PostOrder(root-&gt;right);    cout&lt;&lt;root-&gt;data;}int main(){    ifstream infile(&quot;in.txt&quot;);    string s;    TreeNode* T=NULL;    while(getline(infile,s)){        int pos=s.find(&quot; &quot;);        char a=s.substr(0,pos)[0];        s=s.substr(pos+1);        pos=s.find(&quot; &quot;);        char b=s.substr(0,pos)[0];        s=s.substr(pos+1);        pos=s.find(&quot; &quot;);        char c=s.substr(0,pos)[0];        cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b&lt;&lt;&quot; &quot;&lt;&lt;c&lt;&lt;endl;        TreeNode* Tl=NULL;        TreeNode* Tr=NULL;        if(Tree[a-&#39;0&#39;]) T=Tree[a-&#39;0&#39;];        else{            T=new TreeNode(a);            Tree[a-&#39;0&#39;]=T;        }        if(Tree[b-&#39;0&#39;]) Tl=Tree[b-&#39;0&#39;];        else{            Tl=new TreeNode(b);            Tree[b-&#39;0&#39;]=Tl;        }        if(Tree[c-&#39;0&#39;]) Tr=Tree[c-&#39;0&#39;];        else{            Tr=new TreeNode(c);            Tree[c-&#39;0&#39;]=Tr;        }        if(b!=&#39;0&#39;) T-&gt;left=Tl;        else T-&gt;left=NULL;        if(c!=&#39;0&#39;) T-&gt;right=Tr;        else T-&gt;right=NULL;    }    T=Tree[1];    PostOrder(T);    infile.close();}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>算法</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>算法</tag>
+      
+      <tag>c++</tag>
+      
+      <tag>复试真题</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>USTC机试_10</title>
     <link href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/"/>
     <url>/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/</url>
