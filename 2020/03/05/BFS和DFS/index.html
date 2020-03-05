@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+ <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
+ daovoice('init', {
+  app_id: "246e9537"
+});
+daovoice('update');
+ </script>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+
+  <meta name="author" content="xixilili">
+  <meta name="keywords" content="">
+  
+  <title>BFS和DFS ~ xixilili</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.8.9/css/mdb.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xixilili</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('https://capsule-1254369940.cos.ap-chengdu.myqcloud.com/xilixiliBg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Thursday, March 5th 2020, 12:20 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    3.3k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      15 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h1><h2 id="填涂颜色"><a href="#填涂颜色" class="headerlink" title="填涂颜色"></a>填涂颜色</h2><p><strong>题目描述</strong><br>由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：<br><img src="https://img-blog.csdnimg.cn/20200305115131657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>输入格式</strong><br>每组测试数据第一行一个整数n(1≤n≤30)<br>接下来n行，由0和1组成的n×n的方阵。<br>方阵内只有一个闭合圈，圈内至少有一个0。</p>
+<p><strong>输出格式</strong><br>已经填好数字22的完整方阵。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>6<br>0 0 0 0 0 0<br>0 0 1 1 1 1<br>0 1 1 0 0 1<br>1 1 0 0 0 1<br>1 0 0 0 0 1<br>1 1 1 1 1 1</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>0 0 0 0 0 0<br>0 0 1 1 1 1<br>0 1 1 2 2 1<br>1 1 2 2 2 1<br>1 2 2 2 2 1<br>1 1 1 1 1 1</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+const int MAXN=100;
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];//访问标记，为0表示没被访问
+//能走的四个方向
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+struct position{
+    int x,y;
+    position(int x,int y):x(x),y(y){};
+};
+queue&lt;position&gt; q;
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    //最开始应该在外面再加一圈零(从1开始输入),因为(0,0)这个点若是1就完蛋
+    //所以要注意遍历初始点的选取
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            cin&gt;&gt;Map[i][j];
+        }
+    }
+    q.push(position(0,0));//初始点进队列
+    vis[0][0]=1;
+    while(!q.empty()){
+        position current=q.front();
+        for(int i=0;i&lt;4;i++){
+            //沿着每个方向变化后的横纵坐标
+            int x=current.x+way[i][0];
+            int y=current.y+way[i][1];
+            //cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;endl;
+            //加了Map[x][y]==0的条件，将1围成的圈外部的0全部置已访问
+            if(x&gt;=0&amp;&amp;x&lt;=n+1&amp;&amp;y&gt;=0&amp;&amp;y&lt;=n+1&amp;&amp;Map[x][y]==0&amp;&amp;vis[x][y]==0){
+                q.push(position(x,y));
+                vis[x][y]=1;
+            }
+        }
+        q.pop();
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(Map[i][j]==0&amp;&amp;vis[i][j]==0){
+                cout&lt;&lt;2&lt;&lt;&quot; &quot;;
+            }
+            else  cout&lt;&lt;Map[i][j]&lt;&lt;&quot; &quot;;
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+<h2 id="马的遍历"><a href="#马的遍历" class="headerlink" title="马的遍历"></a>马的遍历</h2><p><strong>题目描述</strong><br>有一个n*m的棋盘(1&lt;n,m&lt;=400)，在某个点上有一个马,要求你计算出马到达棋盘上任意一个点最少要走几步</p>
+<p><strong>输入格式</strong><br>一行四个数据，棋盘的大小和马的坐标</p>
+<p><strong>输出格式</strong><br>一个n*m的矩阵，代表马到达某个点最少要走几步（左对齐，宽5格，不能到达则输出-1）</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>3 3 1 1</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>0    3    2<br>3    -1   1<br>2    1    4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+const int MAXN=500;
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];
+struct position{
+    int x,y;
+    int steps;
+    position(int x,int y,int steps):x(x),y(y),steps(steps){};
+};
+//马跳的8个方向
+int way[8][2]={{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{2,-1},{-2,1},{-2,-1}};
+
+queue&lt;position&gt; q;
+int main(){
+    int n,m,x1,y1;
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;x1&gt;&gt;y1;
+    q.push(position(x1-1,y1-1,0));//初始点
+    vis[x1-1][y1-1]=1;//这一步别忘了
+    while(!q.empty()){
+        position current=q.front();
+        for(int i=0;i&lt;8;i++){
+            int x=current.x+way[i][0];
+            int y=current.y+way[i][1];
+            if(x&gt;=0&amp;&amp;x&lt;=n-1&amp;&amp;y&gt;=0&amp;&amp;y&lt;=n-1&amp;&amp;vis[x][y]==0){
+                q.push(position(x,y,current.steps+1));
+                Map[x][y]=current.steps+1;
+                vis[x][y]=1;
+            }
+        }
+        q.pop();
+    }
+    for(int i=0;i&lt;n;i++){
+        for(int j=0;j&lt;m;j++){
+            if(vis[i][j]!=0) printf(&quot;%-5d&quot;,Map[i][j]);
+            else printf(&quot;%-5d&quot;,-1);
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+<h2 id="奇怪的电梯"><a href="#奇怪的电梯" class="headerlink" title="奇怪的电梯"></a>奇怪的电梯</h2><p><strong>题目描述</strong><br>呵呵，有一天我做了一个梦，梦见了一种很奇怪的电梯。大楼的每一层楼都可以停电梯，而且第ii层楼(1≤i≤N)上有一个数字Ki(0≤Ki≤N)。电梯只有四个按钮：开，关，上，下。上下的层数等于当前楼层上的那个数字。当然，如果不能满足要求，相应的按钮就会失灵。例如：3, 3 ,1 ,2 ,5代表了Ki(K1=3,K2=3,…)，从1楼开始。在1楼，按“上”可以到4楼，按“下”是不起作用的，因为没有−2楼。那么，从A楼到B楼至少要按几次按钮呢？</p>
+<p><strong>输入格式</strong><br>共二行。<br>第一行为3个用空格隔开的正整数，表示N,A,B(1≤N≤200, 1≤A,B≤N)。<br>第二行为N个用空格隔开的非负整数，表示Ki</p>
+<p><strong>输出格式</strong><br>一行，即最少按键次数,若无法到达，则输出−1。</p>
+<p>输入</p>
+<blockquote>
+<p>5 1 5<br>3 3 1 2 5</p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>3</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+struct sta{
+    int f;
+    int steps;
+    sta(int f,int steps):f(f),steps(steps){};
+};
+const int MAXN=300;
+int way[MAXN];//记录可以移动的步数
+int vis[MAXN];
+queue&lt;sta&gt; q;
+int main(){
+    int n,a,b;//a为起点,b为终点
+    cin&gt;&gt;n&gt;&gt;a&gt;&gt;b;
+    for(int i=1;i&lt;=n;i++){
+        cin&gt;&gt;way[i];
+    }
+    q.push(sta(a,0));
+    vis[a]=1;
+    while(!q.empty()){
+        sta current=q.front();
+        //cout&lt;&lt;current.f&lt;&lt;endl;
+        if(current.f==b){//出口
+            cout&lt;&lt;current.steps&lt;&lt;endl;
+            return 0;
+        }
+        int down=current.f-way[current.f];//向下
+        if(down&gt;=1&amp;&amp;vis[down]==0){
+            q.push(sta(down,current.steps+1));
+            vis[down]=1;
+        }
+        int up=current.f+way[current.f];//向下
+        if(up&lt;=n&amp;&amp;vis[up]==0){
+            q.push(sta(up,current.steps+1));
+            vis[up]=1;
+        }
+        q.pop();
+    }
+    cout&lt;&lt;-1&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="01迷宫"><a href="#01迷宫" class="headerlink" title="01迷宫"></a>01迷宫</h2><p><strong>题目描述</strong><br>有一个仅由数字0与1组成的n×n格迷宫。若你位于一格0上，那么你可以移动到相邻4格中的某一格1上，同样若你位于一格1上，那么你可以移动到相邻4格中的某一格0上。<br>你的任务是：对于给定的迷宫，询问从某一格开始能移动到多少个格子（包含自身）。</p>
+<p><strong>输入格式</strong><br>第1行为两个正整数n,m。<br>下面n行，每行n个字符，字符只可能是0或者1，字符之间没有空格。<br>接下来m行，每行2个用空格分隔的正整数i,j，对应了迷宫中第i行第j列的一个格子，询问从这一格开始能移动到多少格。</p>
+<p><strong>输出格式</strong><br>m行，对于每个询问输出相应答案。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>2 2<br>01<br>10<br>1 1<br>2 2</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>4<br>4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+const int MAXN=2000;
+
+struct position{
+    int x,y;
+    position(int x,int y):x(x),y(y){};
+};
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];
+int ans[10000000];//存的是各个颜色区域的结点数
+int color=0,n,m;
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+queue&lt;position&gt; q;
+void bfs(int x1,int y1){
+    int cnt=0;//用来对当前颜色的区域来计数
+    q.push(position(x1,y1));
+    vis[x1][y1]=color;
+    while(!q.empty()){
+        position current=q.front();
+        //cout&lt;&lt;current.x&lt;&lt;&quot; &quot;&lt;&lt;current.y&lt;&lt;endl;
+        for(int k=0;k&lt;4;k++){
+            int x=current.x+way[k][0];
+            int y=current.y+way[k][1];
+            if(x&gt;=1&amp;&amp;x&lt;=n&amp;&amp;y&gt;=1&amp;&amp;y&lt;=n&amp;&amp;vis[x][y]==0&amp;&amp;Map[x][y]!=Map[current.x][current.y]){
+                q.push(position(x,y));
+                vis[x][y]=color;
+            }
+        }
+        cnt++;
+        q.pop();
+    }
+    //cout&lt;&lt;color&lt;&lt;endl;
+    ans[color]=cnt;
+}
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            char c;
+            cin&gt;&gt;c;
+            Map[i][j]=c-&#39;0&#39;;
+            //cout&lt;&lt;Map[i][j]&lt;&lt;endl;
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(vis[i][j]==0){
+                color++;//每一个color来区分一块互相可以到达的区域
+                //cout&lt;&lt;color&lt;&lt;endl;
+                bfs(i,j);//注意函数中不能出现i,j
+            }
+        }
+    }
+    for(int i=1;i&lt;=m;i++){
+        int xx,yy;
+        cin&gt;&gt;xx&gt;&gt;yy;
+        cout&lt;&lt;ans[vis[xx][yy]]&lt;&lt;endl;
+    }
+
+
+}
+</code></pre>
+<h1 id="DFS-1"><a href="#DFS-1" class="headerlink" title="DFS"></a>DFS</h1><h2 id="八皇后问题"><a href="#八皇后问题" class="headerlink" title="八皇后问题"></a>八皇后问题</h2><p><strong>题目描述</strong><br>一个如下的6×6 的跳棋棋盘，有六个棋子被放置在棋盘上，使得每行、每列有且只有一个，每条对角线（包括两条主对角线的所有平行线）上至多有一个棋子。<br><img src="https://img-blog.csdnimg.cn/20200305121201768.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>上面的布局可以用序列2 4 6 1 3 5 来描述，第 i 个数字表示在第 i 行的相应位置有一个棋子，如下：<br>行号 1 2 3 4 5 6<br>列号 2 4 6 1 3 5<br>这只是棋子放置的一个解。请编一个程序找出所有棋子放置的解。<br>并把它们以上面的序列方法输出，解按字典顺序排列。<br>请输出前 3 个解。最后一行是解的总个数。</p>
+<p><strong>输入格式</strong><br>一行一个正整数 nn，表示棋盘是 n \times nn×n 大小的。</p>
+<p><strong>输出格式</strong><br>前三行为前三个解，每个解的两个数字之间用一个空格隔开。第四行只有一个数字，表示解的总数。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>6</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>2 4 6 1 3 5<br>3 6 2 5 1 4<br>4 1 5 2 6 3<br>4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;cstdlib&gt;
+using namespace std;
+int ans[13];//作为每次深搜出来的序列的结果
+int vis[13];
+int u[40];//正对角线
+int v[40];//副对角线
+int n;
+int Count=0;
+void print(){
+    for(int i=1;i&lt;=n;i++){
+        cout&lt;&lt;ans[i]&lt;&lt;&quot; &quot;;
+    }
+    cout&lt;&lt;endl;
+}
+
+void dfs(int x){//dfs中的参数是行号
+    if(x&gt;n){
+        Count++;
+        if(Count&lt;=3) print();
+        return ;
+    }
+    for(int i=1;i&lt;=n;i++){//i表示尝试列号
+        if(!vis[i]&amp;&amp;!u[x-i+n]&amp;&amp;!v[x+i]){//vis能保证不在同一列,u表示不在同一主对角(+n为了不为负数),v表示不在同一副对角
+            //i-ans[j]为列差,x-j为行差
+            vis[i]=1;
+            u[x-i+n]=1;
+            v[x+i]=1;
+            ans[x]=i;
+            dfs(x+1);
+            //为了回溯
+            vis[i]=0;
+            u[x-i+n]=0;
+            v[x+i]=0;
+        }
+    }
+}
+
+int main(){
+    cin&gt;&gt;n;
+    dfs(1);
+    cout&lt;&lt;Count&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="迷宫"><a href="#迷宫" class="headerlink" title="迷宫"></a>迷宫</h2><p><strong>题目背景</strong><br>给定一个N*M方格的迷宫，迷宫里有T处障碍，障碍处不可通过。给定起点坐标和终点坐标，问: 每个方格最多经过1次，有多少种从起点坐标到终点坐标的方案。在迷宫中移动有上下左右四种方式，每次只能移动一个方格。数据保证起点上没有障碍。</p>
+<p><strong>题目描述</strong><br>无</p>
+<p><strong>输入格式</strong><br>第一行N、M和T，N为行，M为列，T为障碍总数。第二行起点坐标SX,SY，终点坐标FX,FY。接下来T行，每行为障碍点的坐标。</p>
+<p><strong>输出格式</strong><br>给定起点坐标和终点坐标，问每个方格最多经过1次，从起点坐标到终点坐标的方案总数。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>2 2 1<br>1 1 2 2<br>1 2</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>1</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+
+using namespace std;
+int n,m,t,sx,sy,fx,fy,Count=0;
+int Map[10][10];//相当于vis数组
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+void dfs(int x,int y){
+    if(x==fx&amp;&amp;y==fy){
+        Count++;
+        return;
+    }
+    for(int i=0;i&lt;4;i++){
+        int dx=x+way[i][0];
+        int dy=y+way[i][1];
+        if(dx&gt;=1&amp;&amp;dx&lt;=n&amp;&amp;dy&gt;=1&amp;&amp;dy&lt;=n&amp;&amp;!Map[dx][dy]){
+            Map[dx][dy]=1;
+            dfs(dx,dy);
+            Map[dx][dy]=0;
+        }
+    }
+}
+
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;t&gt;&gt;sx&gt;&gt;sy&gt;&gt;fx&gt;&gt;fy;
+    while(t--){
+        int x,y;
+        cin&gt;&gt;x&gt;&gt;y;
+        Map[x][y]=1;
+    }
+    Map[sx][sy]=1;
+    dfs(sx,sy);
+    cout&lt;&lt;Count&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="单词方阵"><a href="#单词方阵" class="headerlink" title="单词方阵"></a>单词方阵</h2><p><strong>题目描述</strong><br>给一n×n的字母方阵，内可能蕴含多个“yizhong”单词。单词在方阵中是沿着同一方向连续摆放的。摆放可沿着 8 个方向的任一方向，同一单词摆放时不再改变方向，单词与单词之间可以交叉,因此有可能共用字母。输出时，将不是单词的字母用*代替，以突出显示单词。例如：<br><img src="https://img-blog.csdnimg.cn/20200305121648322.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>输入格式<br>第一行输入一个数nn。(7 \le n \le 1007≤n≤100)。</p>
+<p>第二行开始输入n \times nn×n的字母矩阵。</p>
+<p>输出格式<br>突出显示单词的n \times nn×n矩阵。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>8<br>qyizhong<br>gydthkjy<br>nwidghji<br>orbzsfgz<br>hhgrhwth<br>zzzzzozo<br>iwdfrgng<br>yyyygggg</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p><em>yizhong<br>gy<strong>**</strong><br>n<em>i****</em><br>o<strong>z**</strong><br>h<strong><em>h</em></strong><br>z<strong>**o</strong><br>i*****n</em><br>y<strong>**</strong>g</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+
+using namespace std;
+char Map[300][300];
+int vis[300][300];
+int way[8][2]={{0,1},{0,-1},{1,0},{-1,0},{1,1},{1,-1},{-1,1},{-1,-1}};
+string yz=&quot;yizhong&quot;;//是从i开始比较
+int n;
+void dfs(int x,int y){
+    for(int i=0;i&lt;8;i++){//8个方向
+        bool flag=true;
+        for(int j=1;j&lt;=6;j++){//需要比较的6，也相当于走的步数
+            int dx=x+j*way[i][0];
+            int dy=y+j*way[i][1];
+            if(!(dx&gt;=1&amp;&amp;dx&lt;=n&amp;&amp;dy&gt;=1&amp;&amp;dy&lt;=n)||yz[j]!=Map[dx][dy]){
+                flag=false;
+            }
+        }
+        if(flag){
+            for(int j=0;j&lt;7;j++){
+                int dx=x+j*way[i][0];
+                int dy=y+j*way[i][1];
+                vis[dx][dy]=1;
+            }
+        }
+    }
+}
+
+int main(){
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            cin&gt;&gt;Map[i][j];
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(Map[i][j]==&#39;y&#39;){
+                dfs(i,j);
+            }
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(vis[i][j]==1) cout&lt;&lt;Map[i][j];
+            else cout&lt;&lt;&#39;*&#39;;
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/BFS%E5%92%8CDFS%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">BFS和DFS最终总结</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <!--PC和WAP自适应版-->
+  <div id="SOHUCS" sid='http://yoursite.com/2020/03/05/BFS%E5%92%8CDFS/'></div>
+  <script type="text/javascript">
+    (function () {
+      var appid = 'cyuGAy6Y7';
+      var conf = '';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+        var head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.id = 'changyan_mobile_js';
+        script.src = 'https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+        head.appendChild(script);
+      } else {
+        var loadJs = function (d, a) {
+          var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+          var b = document.createElement('script');
+          b.setAttribute('type', 'text/javascript');
+          b.setAttribute('charset', 'UTF-8');
+          b.setAttribute('src', d);
+          if (typeof a === 'function') {
+            if (window.attachEvent) {
+              b.onreadystatechange = function () {
+                var e = b.readyState;
+                if (e === 'loaded' || e === 'complete') {
+                  b.onreadystatechange = null;
+                  a();
+                }
+              };
+            } else {
+              b.onload = a;
+            }
+          }
+          c.appendChild(b);
+        };
+        loadJs('https://changyan.sohu.com/upload/changyan.js', function () {
+          window.changyan.api.config({ appid: appid, conf: conf });
+        });
+      }
+    })(); </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js" ></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.8.9/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+    <!-- Baidu Analytics -->
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6a61255581242c8c58471dfbffd3bd66# 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/r298/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.10/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "BFS和DFS&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.0/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+  <script>(function (i, s, o, g, r, a, m) {
+      i['DaoVoiceObject'] = r;
+      i[r] = i[r] ||
+        function () {
+          (i[r].q = i[r].q || []).push(arguments);
+        };
+      i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      a.charset = 'utf-8';
+      m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', ('https:' === document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/246e9537.js", 'daovoice');
+    daovoice('init', {
+      app_id: "246e9537",
+    });
+    daovoice('update');
+  </script>
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
