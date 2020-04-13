@@ -26,7 +26,7 @@ daovoice('update');
   <meta name="author" content="xixilili">
   <meta name="keywords" content="">
   
-  <title>高精度计算 ~ xixilili</title>
+  <title>xixilili</title>
   <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
 <link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.8.9/css/mdb.min.css"  >
@@ -49,7 +49,7 @@ daovoice('update');
 
 
 <body>
-  <header style="height: 70vh;">
+  <header style="height: 100vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -128,43 +128,12 @@ daovoice('update');
             </span>
 
             
-              <br>
-              
-                <p class="mt-3">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Saturday, March 21st 2020, 7:16 pm
-                </p>
-              
-
-              <p>
-                
-                  
-                  &nbsp;<i class="far fa-chart-bar"></i>
-                  <span class="post-count">
-                    500 字
-                  </span>&nbsp;
-                
-
-                
-                  
-                  &nbsp;<i class="far fa-clock"></i>
-                  <span class="post-count">
-                      2 分钟
-                  </span>&nbsp;
-                
-
-                
-                  <!-- 不蒜子统计文章PV -->
-                  
-                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
-                  <span id="busuanzi_container_page_pv">
-                    <span id="busuanzi_value_page_pv"></span> 次
-                  </span>&nbsp;
-                
-              </p>
-            
           </div>
 
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
           
         </div>
       </div>
@@ -173,230 +142,149 @@ daovoice('update');
 
   <main>
     
-      
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
 
 
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/09/%E4%BA%8C%E5%8F%89%E6%90%9C%E7%B4%A2%E6%A0%91/">
+        <p class="h4 index-header">二叉搜索树</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">题目描述判断两序列是否为同一二叉搜索树序列
+输入描述:开始一个数n，(1&lt;=n&lt;=20) 表示有n个需要判断，n= 0 的时候输入结束。接下去一行是一个序列，序列长度小于10，包含(0~9)的数字，没有重复数字，根据这个序列可以构造出一颗二叉搜索树。接下去的n行有n个序列，每个序列格式跟第一个序列一样，请判断这两个序列是否能组成同一颗二叉搜索树。输出描述:如果序列相同则输出YES，否则输出NO示例
+输入
 
+2567432543267576342`0 
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="d-none d-lg-block col-lg-2"></div>
-    <div class="col-lg-8 nopadding-md">
-      <div class="py-5 z-depth-3" id="board">
-        <div class="post-content mx-auto" id="post">
-          <div class="markdown-body">
-            <pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+输出
+
+YESNO
+
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;string&gt;
+//前序遍历和中序遍历可以唯一确定一棵二叉树，
+//而对二叉排序树而言，相同元素的二叉排序树中
+//序遍历一定相同，而不同元素二叉排序树使用前
+//序遍历就可以发现不相同，所以只需要前序遍历
+//两个二叉树，比较一下就可以判断
+
 using namespace std;
-string x,y;
-int a[1000000];
-int b[1000000];
-int c[1000000];
-int la,lb,lc;
-//相等返回0，大于返回1，小于返回-1
-int compare(string s1,string s2){
-    if(s1.size()&gt;s2.size()) return 1;
-    else if(s1.size()&lt;s2.size()) return -1;
-    else return s1.compare(s2);//位数相同用compare函数进行比较
-}
 
-void add(string aa,string bb){
-    la=aa.size();
-    lb=bb.size();
-    for(int i=0;i&lt;la;i++){
-        a[la-i]=aa[i]-&#39;0&#39;;
-    }
-    for(int i=0;i&lt;lb;i++){
-        b[lb-i]=bb[i]-&#39;0&#39;;
-    }
-    lc=max(la,lb);
-    for(int i=1;i&lt;=lc;i++){
-        c[i]+=(a[i]+b[i])%10;
-        c[i+1]=(a[i]+b[i])/10;
-    }
-    if(c[lc+1]) lc++;
-    for(int i=lc;i&gt;=1;i--){
-        cout&lt;&lt;c[i];
-    }
-}
+string pre,in;
 
+struct TreeNode{
+    char data</div>
+        </div>
+      </a>
 
-void mul(string a,string b){
-    la=a.size();
-    lb=b.size();
-    //string-&gt;int数组,低位排在前面
-    for(int i=0;i&lt;la;i++){
-        a[la-i]=x[i]-&#39;0&#39;;
-    }
-    for(int i=0;i&lt;lb;i++){
-        b[lb-i]=y[i]-&#39;0&#39;;
-    }
-    //乘法计算
-    for(int i=1;i&lt;=la;i++){//从1开始
-        for(int j=1;j&lt;=lb;j++){
-            //别忘了+号，同一个结果为是多个乘积叠加的
-            c[i+j-1]+=a[i]*b[j];
-            c[i+j]+=c[i+j-1]/10;
-            c[i+j-1]%=10;
-        }
-    }
-    //计算结果的长度(消去没有用的)，方便打印
-    lc=la+lb;
-    while(c[lc]==0&amp;&amp;lc&gt;1){
-        lc--;
-    }
-    //反向输出
-    for(int i=lc;i&gt;=1;i--){
-        cout&lt;&lt;c[i];
-    }
-}
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91">二叉排序树</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
 
-void sub(string aa,string bb){
-    //比较大小
-    if(compare(aa,bb)==-1){
-        swap(aa,bb);
-        cout&lt;&lt;&quot;-&quot;;
-    }
-    else if(compare(aa,bb)==0){
-        cout&lt;&lt;0; return;
-    }
-    la=aa.size();
-    lb=bb.size();
-    //string-&gt;int数组,低位排在前面
-    for(int i=0;i&lt;la;i++){
-        a[la-i]=aa[i]-&#39;0&#39;;
-    }
-    for(int i=0;i&lt;lb;i++){
-        b[lb-i]=bb[i]-&#39;0&#39;;
-    }
-    //计算
-    for(int i=1;i&lt;=la;i++){
-        if(a[i]&lt;b[i]){
-            a[i]+=10;
-            a[i+1]--;
-        }
-        c[i]=a[i]-b[i];
-    }
-    //去除多余的0,la&gt;1防止去掉全0的情况
-    while(c[la]==0&amp;&amp;la&gt;1) la--;
-    for(int i=la;i&gt;=1;i--){
-        cout&lt;&lt;c[i];
-    }
-}
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/09/%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E5%85%A8%E5%9B%BD%E5%8E%86%E5%8F%B2%E5%A4%A9%E6%B0%94%E6%95%B0%E6%8D%AE/">
+        <p class="h4 index-header">爬虫爬取全国历史天气数据</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">一段很简单的爬虫程序，爬取的网站为http://www.tianqihoubao.com，可以自己修改爬取城市以及爬取的月份，这里爬取的是1到7月的数据
+from bs4 import BeautifulSoup
+import requests
+import pymysql
+import warnings
+# import pinyin
+# from pinyin import PinYin
+from pypinyin import pinyin, lazy_pinyin
+import pypinyin
+warnings.filterwarnings(&quot;ignore&quot;)
+
+conn = pymysql.connect(host=&#39;localhost&#39;, user=&#39;root&#39;, passwd=&#39;root&#39;, db=&#39;test2&#39;, port=3306, charset=&#39;utf8&#39;)
+cursor = conn.cursor()
+def get_temperature(url,city)</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/python">python</a>&nbsp;
+          
+            <a href="/tags/%E7%88%AC%E8%99%AB">爬虫</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
 
 
 
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <a class="extend prev" rel="prev" href="/page/4/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
+      ele.href += '#board';
+    }
+  </script>
 
-int main(){
-    cin&gt;&gt;x&gt;&gt;y;
-    add(x,y);
-    //sub(x,y);
-}
 
-</code></pre>
 
-            <hr>
-          </div>
-          <br>
-          <div>
-            <p>
-            
-              <span>
-                <i class="iconfont icon-inbox"></i>
-                
-                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
-                  &nbsp;
-                
-              </span>&nbsp;&nbsp;
-            
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
-                
-                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
-                
-                  <a class="hover-with-bg" href="/tags/c++">c++</a>
-                
-                  <a class="hover-with-bg" href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97">高精度计算</a>
-                
-              </span>
-            
-            </p>
-            
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-            
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="d-none d-lg-block col-lg-2 toc-container">
-      
-  <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
-    <div id="tocbot"></div>
-  </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- custom -->
-
-
-<!-- Comments -->
-<div class="col-lg-7 mx-auto nopadding-md">
-  <div class="container comments mx-auto" id="comments">
-    
-      <br><br>
-      
-      
-  <!--PC和WAP自适应版-->
-  <div id="SOHUCS" sid='http://yoursite.com/2020/03/21/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/'></div>
-  <script type="text/javascript">
-    (function () {
-      var appid = 'cyuGAy6Y7';
-      var conf = '';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {
-        var head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
-        var script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.charset = 'utf-8';
-        script.id = 'changyan_mobile_js';
-        script.src = 'https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
-        head.appendChild(script);
-      } else {
-        var loadJs = function (d, a) {
-          var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
-          var b = document.createElement('script');
-          b.setAttribute('type', 'text/javascript');
-          b.setAttribute('charset', 'UTF-8');
-          b.setAttribute('src', d);
-          if (typeof a === 'function') {
-            if (window.attachEvent) {
-              b.onreadystatechange = function () {
-                var e = b.readyState;
-                if (e === 'loaded' || e === 'complete') {
-                  b.onreadystatechange = null;
-                  a();
-                }
-              };
-            } else {
-              b.onload = a;
-            }
-          }
-          c.appendChild(b);
-        };
-        loadJs('https://changyan.sohu.com/upload/changyan.js', function () {
-          window.changyan.api.config({ appid: appid, conf: conf });
-        });
-      }
-    })(); </script>
-
-
-    
-  </div>
-</div>
-
     
   </main>
 
@@ -475,11 +363,6 @@ int main(){
 
 
 
-  
-    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
-  
-  <script src="/js/post.js" ></script>
-
 
 
   <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
@@ -531,7 +414,7 @@ int main(){
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "高精度计算&nbsp;",
+        "淅淅沥沥的博客&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

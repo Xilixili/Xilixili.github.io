@@ -155,6 +155,191 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/13/%E4%BA%8C%E5%8F%89%E6%A0%91%E9%81%8D%E5%8E%86/">
+        <p class="h4 index-header">二叉树遍历</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">删除二叉搜索树中的节点1、删除的结点无左右子节点，那么直接将其父节点指向NULL；2、删除的结点只有1个子节点，分左右两种情况，直接将其父节点指向删除节点的子节点；3、删除节点有2个子节点，这是最麻烦的情况了，最好是画个图理解，具体而言：
+
+
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(root-&gt;val==key){
+            //情况一和情况二
+            if(root-&gt;left==NULL) return root-&gt;right;
+            if(root-&gt;right==NULL) return root-&gt;left;
+            //情况三:此时需要找到最近的一个大于当前结点值的元素
+            TreeNode* RminNode=FindMin(root-&gt;right);
+            root-&gt;va</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-13&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E6%A0%91">树</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/13/max_element%E5%92%8Cmin_element/">
+        <p class="h4 index-header">max_element和min_element</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">auto min_values=min_element(v.begin(),v.end())auto max_values=max_element(v.begin(),v.end())会分别返回一个指向输入序列的最小元素以及最大元素的迭代器(里面存的是对应的物理地址)；1.取 * 可以去除具体的最大以及最小值2.不取 * 减去起始地址就能知道索引的位置
+#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+int main()
+{
+int n[]={1,4,5,7,22,3,8,5};
+int len=sizeof(n)/sizeof(int);
+//返回索引
+cout&lt;&lt;max_element(n,n+len)-n&lt;&lt;endl;
+//返回值
+cout&lt;&lt;*max_element(n,n+len)&lt;&lt;endl;
+return 0;
+}
+
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-13&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/c++%E5%B8%B8%E7%94%A8%E5%BA%93">c++常用库</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/13/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0/">
+        <p class="h4 index-header">类型转换函数(atoi系列&amp;&amp;stringstream)</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">(atoi，atol，atof)&amp;&amp;c_str()atoi:  char* → intatol: char* → longatof: char* → double注意要用c_str将string转化成c语言中的char*类型
+stringstream具体来说就是C++标准库中的提供了比ANSI C的&lt;stdio.h&gt;更高级的一些功能，即单纯性、类型安全和可扩展性。在本文中，我将展示怎样使用这些库来实现安全和自动的类型转换。还有是如果你打算在多次转换中使用同一个stringstream对象，记住再每次转换前要使用clear()方法。下面就是我的一个小实验。
+#include &quot;stdafx.h&quot;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+
+/************************************************************************/
+/* 使用stringstream对象简化类型转</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-13&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/c++%E5%B8%B8%E7%94%A8%E5%BA%93">c++常用库</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
+        <p class="h4 index-header">标准c++中string类函数介绍</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">注意不是CString之所以抛弃char*的字符串而选用C++标准程序库中的string类，是因为他和前者比较起来，不必 担心内存是否足够、字符串长度等等，而且作为一个类出现，他集成的操作函数足以完成我们大多数情况下(甚至是100%)的需要。我们可以用 = 进行赋值操作，== 进行比较，+ 做串联（是不是很简单?）。我们尽可以把它看成是C++的基本数据类型。
+好了，进入正题………首先，为了在我们的程序中使用string类型，我们必须包含头文件 。
+如下：#include  //注意这里不是string.h string.h是C字符串头文件#include using namespace std;
+1．声明一个C++字符串声明一个字符串变量很简单：string Str;这样我们就声明了一个字符串变量，但既然是一个类，就有构造函数和析构函数。上面的声明没有传入参数，所以就直接使用了string的默认的构造函数，这个函数所作的就是把Str初始化为一个空字符串。String类的构造函数和析构函数如下：a)      string s;    //生成一个空字符串sb)      string </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/c++">c++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/c++%E5%B8%B8%E7%94%A8%E5%BA%93">c++常用库</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/15/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/">
         <p class="h4 index-header">最小邮票数</p>
         
@@ -453,206 +638,11 @@ const int MAXN=</div>
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%AD%90%E7%9F%A9%E9%98%B5/">
-        <p class="h4 index-header">最大子矩阵</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述已知矩阵的大小定义为矩阵中所有元素的和。给定一个矩阵，你的任务是找到最大的非空(大小至少是1 * 1)子矩阵。 比如，如下4 * 4的矩阵 0 -2 -7 0 9 2 -6 2 -4 1 -4 1 -1 8 0 -2 的最大子矩阵是 9 2 -4 1 -1 8 这个子矩阵的大小是15。输入描述:输入是一个N * N的矩阵。输入的第一行给出N (0 &lt; N &lt;= 100)。再后面的若干行中，依次（首先从左到右给出第一行的N个整数，再从左到右给出第二行的N个整数……）给出矩阵中的N2个整数，整数之间由空白字符分隔（空格或者空行）。已知矩阵中整数的范围都在[-127, 127]。输出描述:测试数据可能有多组，对于每组测试数据，输出最大子矩阵的大小。示例1输入
-
-40 -2 -7 09 2 -6 2-4 1 -4  1-1 8  0 -2
-
-输出
-
-15
-
-#include &lt;iostream&gt;
-#include &lt;cstdio&gt;
-
-using namespace std;
-
-const int MAXN=100;
-
-int dp[MAXN];
-in</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/">
-        <p class="h4 index-header">最大连续子序列</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述    给定K个整数的序列{ N1, N2, …, NK }，其任意连续子序列可表示为{ Ni, Ni+1, …, Nj }，其中 1 &lt;= i &lt;= j &lt;= K。最大连续子序列是所有连续子序列中元素和最大的一个，例如给定序列{ -2, 11, -4, 13, -5, -2 }，其最大连续子序列为{ 11, -4, 13 }，最大和为20。现在增加一个要求，即还需要输出该子序列的第一个和最后一个元素。输入描述:    测试输入包含若干测试用例，每个测试用例占2行，第1行给出正整数K( K&lt; 10000 )，第2行给出K个整数，中间用空格分隔。当K为0时，输入结束，该用例不被处理。输出描述:    对每个测试用例，在1行里输出最大和、最大连续子序列的第一个和最后一个元素，中间用空格分隔。如果最大连续子序列不唯一，则输出序号i和j最小的那个（如输入样例的第2、3组）。若所有K个元素都是负数，则定义其最大和为0，输出整个序列的首尾元素。输入
-
-6-2 11 -4 13 -5 -2 10-101 2 3 4 -5 -23 3 7 -2165 -8 3 2 5 </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">
-        <p class="h4 index-header">最大序列和</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述给出一个整数序列S，其中有N个数，定义其中一个非空连续子序列T中所有数的和为T的“序列和”。 对于S的所有非空连续子序列T，求最大的序列和。 变量条件：N为正整数，N≤1000000，结果序列和在范围（-2^63,2^63-1）以内。输入描述:第一行为一个正整数N，第二行为N个整数，表示序列中的数。输出描述:输入可能包括多组数据，对于每一组输入数据，仅输出一个数，表示最大序列和。输入
-
-51 5 -3 2 461 -2 3 4 -10 64-3 -1 -2 -5
-
-输出
-
-97-1
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-using namespace std;
-
-const int MAXN=1000000;
-int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
-int a[MAXN];
-int maxSub(int n){
-    int Max=0;
-    for(int i=0;i&lt;n;i++){
-        if(i==0) dp[i]=a[i]</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-12&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/11/%E8%AE%BA%E6%96%87/">
-        <p class="h4 index-header">论文</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述小H为了完成一篇论文，一共要完成n个实验。其中第i个实验需要ai的时间去完成。小H可以同时进行若干实验，但存在一些实验，只有当它的若干前置实验完成时，才能开始进行该实验。同时我们认为小H在一个实验的前置实验都完成时，就能马上开始该实验。为了让小H尽快完成论文，需要知道在最优的情况下，最后一个完成的实验什么时候完成？小H还想知道，在保证最后一个实验尽快完成的情况下（即保证上一问的答案不变），他想知道每个实验最晚可以什么时候开始。设第i个实验最早可能的开始时间为fi，不影响最后一个实验完成时间的最晚开始时间为gi，请你证明除以10^9+7所得的余数。题目保证有解。
-输入描述:从标准输入读入数据。第一行输入一个整数n，m。第二行输入n个正整数，a1,a2,…..an,描述每个实验完成所需要的时间。接下来读入m行，每行读入两个整数u,v，表示编号为u的实验是编号为v的实验的前置实验。对于所有的输入数据，都满足1&lt;=n&lt;=10^5,1&lt;=m&lt;=510^5,1&lt;=ai&lt;=10^6。*输出描述:**输出到标准输出。第一行输出一个整数表示最晚完成的实验的时间</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-11&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%85%B3%E9%94%AE%E8%B7%AF%E5%BE%84">关键路径</a>&nbsp;
-          
-            <a href="/tags/%E5%9B%BE%E8%AE%BA">图论</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-double-right"></i></a>
+      <a class="extend prev" rel="prev" href="/page/2/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

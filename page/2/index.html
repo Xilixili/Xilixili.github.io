@@ -155,6 +155,69 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_10/">
+        <p class="h4 index-header">USTC机试_10</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.input.txt文件里面有一段文章，由字符串和一些特殊字符构成。先把  input文件中的内容读入缓冲区，在从缓冲区中取字符，进行如下操作：
+
+如果是字符，空格，输出
+如果是’!’，删除前面一个字符
+如果是’*’，删除前面 1行字符串
+如果是’&gt;’，讲前面一个单词的首字符，进行大小写转化
+如果是数字，则不作任何操作
+
+#include&lt;iostream&gt;
+#include&lt;fstream&gt;
+#include&lt;vector&gt;
+#include&lt;sstream&gt;
+using namespace std;
+
+vector&lt;string&gt; v;
+
+int main(){
+    ifstream infile(&quot;in.txt&quot;);
+    string s;
+    while(getline(infile,s)){
+        v.push_back(s);
+    }
+    for(int i=0;i&lt;v.size();i++){
+        s=v[i];
+        if(s</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-25&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/24/USTC%E6%9C%BA%E8%AF%95_09/">
         <p class="h4 index-header">USTC机试_09</p>
         
@@ -733,49 +796,11 @@ dp[i]表示以A[i]作</div>
     </div>
   </div>
 
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
-        <p class="h4 index-header">标准c++中string类函数介绍</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">注意不是CString之所以抛弃char*的字符串而选用C++标准程序库中的string类，是因为他和前者比较起来，不必 担心内存是否足够、字符串长度等等，而且作为一个类出现，他集成的操作函数足以完成我们大多数情况下(甚至是100%)的需要。我们可以用 = 进行赋值操作，== 进行比较，+ 做串联（是不是很简单?）。我们尽可以把它看成是C++的基本数据类型。
-好了，进入正题………首先，为了在我们的程序中使用string类型，我们必须包含头文件 。
-如下：#include  //注意这里不是string.h string.h是C字符串头文件#include using namespace std;
-1．声明一个C++字符串声明一个字符串变量很简单：string Str;这样我们就声明了一个字符串变量，但既然是一个类，就有构造函数和析构函数。上面的声明没有传入参数，所以就直接使用了string的默认的构造函数，这个函数所作的就是把Str初始化为一个空字符串。String类的构造函数和析构函数如下：a)      string s;    //生成一个空字符串sb)      string </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/c++">c++</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
 
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

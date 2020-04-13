@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+ <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
+ daovoice('init', {
+  app_id: "246e9537"
+});
+daovoice('update');
+ </script>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+
+  <meta name="author" content="xixilili">
+  <meta name="keywords" content="">
+  
+  <title>dfs技巧与优化 ~ xixilili</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.8.9/css/mdb.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xixilili</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('https://capsule-1254369940.cos.ap-chengdu.myqcloud.com/xilixiliBg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Saturday, March 21st 2020, 7:22 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.8k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      7 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="一-DFS的实现"><a href="#一-DFS的实现" class="headerlink" title="一. DFS的实现"></a>一. DFS的实现</h1><pre><code class="cpp">int dfs(int t)
+{
+    if(满足输出条件) //dfs出口
+    {
+        输出解;
+    }
+    else
+    {
+        for(int i=1;i&lt;=尝试方法数;i++)
+            if(满足进一步搜索条件)
+            {
+                为进一步搜索所需要的状态打上标记; //记忆化
+                dfs(t+1);
+                恢复到打标记前的状态; //也就是说：回溯一步
+            }
+    }
+}</code></pre>
+<p><strong>【需要注意的地方】</strong><br>1.第一个if是符合输出解的条件，第二个if是符合进一步搜索的条件。</p>
+<p>2.下一步搜索时，不是使用return search(t+1)，直接search(t+1)。</p>
+<p>3.for循环之后的if可以是多个。</p>
+<p>4.for循环边界，例如：</p>
+<p>方向是四个，那么边界肯定就是4；（注意，数组一般从0开始）<br>素数环需要尝试1至20，那么边界就是20。</p>
+<h1 id="二-剪枝技巧的实现"><a href="#二-剪枝技巧的实现" class="headerlink" title="二. 剪枝技巧的实现"></a>二. 剪枝技巧的实现</h1><h2 id="1-可行性剪枝。"><a href="#1-可行性剪枝。" class="headerlink" title="1.可行性剪枝。"></a>1.可行性剪枝。</h2><p>如果当前条件不合法就不再继续搜索，直接return。又称“上下界剪枝”，一般的搜索都会加上。</p>
+<pre><code class="cpp">dfs(int x){
+    if(x&gt;n)return;
+    if(!check1(x))return;
+    ....
+    return;
+}</code></pre>
+<h2 id="2-最优性剪枝。"><a href="#2-最优性剪枝。" class="headerlink" title="2.最优性剪枝。"></a>2.最优性剪枝。</h2><p> 如果当前条件所花费的代价已经超过了当前搜到的最优解，那么剩下的搜索就可以剪掉。</p>
+<p>我们利用某个函数估计出此时条件下答案的当前最值，继续下一步判断。</p>
+<pre><code class="cpp">long long ans=987474477434487ll;
+... Dfs(int x,...){
+    if(x... &amp;&amp; ...){ ans=....; return ...;}
+    if(check2(x)&gt;=ans) return ...;    //最优性剪枝 
+    for(int i=1;...;++i){
+        vis[...]=1; 
+        dfs(...);
+        vis[...]=0;
+    }
+}</code></pre>
+<p>一般实现：在搜索取和最大值时，如果后面的全部取最大仍然不比当前答案大就可以返回。</p>
+<p>在搜和最小时同理，可以预处理后缀最大/最小和进行快速查询。</p>
+<h2 id="3-记忆化搜索。"><a href="#3-记忆化搜索。" class="headerlink" title="3.记忆化搜索。"></a>3.记忆化搜索。</h2><p>如果对于相同情况下必定答案相同，就可以把这个情况的答案值存储下来，以后再次搜到可以直接调用。</p>
+<p>注意不能搜出环来，不同情况间不能互相依赖。或者是排除等效冗余的情况。</p>
+<pre><code class="cpp">long long ans=987474477434487ll;
+... Dfs(int x,...){
+        if(x... &amp;&amp; ...){ ans=....; return ...;}
+        if(vis[x]!=0) return f[x]; vis[x]=1; //记忆化剪枝
+        for(int i=1;...;++i){
+            vis[...]=1; 
+            dfs(...);
+            vis[...]=0;
+            f[x]=...;
+        }
+}</code></pre>
+<h2 id="4-搜索顺序剪枝"><a href="#4-搜索顺序剪枝" class="headerlink" title="4.搜索顺序剪枝"></a>4.搜索顺序剪枝</h2><p>在一些迷宫题，网格题，或者其他搜索中可以贪心的题，搜索顺序显得十分重要。</p>
+<p>在迷宫、网格类的题目中，以左上-&gt;右下为例，右下左上就明显比左上右下优秀。</p>
+<p>在一些推断搜索题中，从已知信息最多的地方开始搜索显然更加优秀。</p>
+<p>在一些题中，先搜某个值大的，再搜某个值小的(比如树的度数，产生答案的预计(A*))，速度明显更快。</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h2 id="codevs1288-埃及分数"><a href="#codevs1288-埃及分数" class="headerlink" title="codevs1288 埃及分数"></a>codevs1288 埃及分数</h2><p>在古埃及，人们使用单位分数的和(形如1/a的, a是自然数)表示一切有理数。</p>
+<p>如：2/3=1/2+1/6,但不允许2/3=1/3+1/3,因为加数中有相同的。</p>
+<p>对于一个分数a/b,表示方法有很多种，但是哪种最好呢？</p>
+<p>首先，加数少的比加数多的好，其次，加数个数相同的，最小的分数越大越 好。</p>
+<p>如：19/45=1/3 + 1/12 + 1/180 19/45=1/3 + 1/15 + 1/45 19/45=1/3 + 1/18 + 1/30,</p>
+<p>19/45=1/4 + 1/6 + 1/180 19/45=1/5 + 1/6 + 1/18. 最好的是最后一种，因为1/18最大。</p>
+<p>给出a,b(0&lt;a&lt;b&lt;1000),编程计算最好的表达方式。</p>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstdlib&gt;
+#include&lt;algorithm&gt;
+#define LL long long int
+using namespace std;
+LL a,b,depth,FLAG=1,zZ[101010],Ans[101010],Maxx=10101000;
+LL gcd(LL a,LL b){return b&gt;0?gcd(b,a%b):a;} //辗转相除法求最大公约数 
+void dfs(LL now,LL a,LL b,LL last,LL depth){
+    if(now==depth-1){
+        if(a!=1)return;
+        if(b&lt;Maxx &amp;&amp; b&gt;last){
+                zZ[now+1]=b;FLAG=0;Maxx=b;
+                for(LL i=1;i&lt;=now+1;++i){Ans[i]=zZ[i];}
+        }
+        return;
+    }
+    if(a*(last+1)&gt;=b*(depth-now) || last&gt;Maxx || a==0)return; //第一个是可行性剪枝，是个十字相乘式，建议移项看
+    for(LL i=last+1,K=(depth-now)*b/a;i&lt;K;++i)
+    {
+        LL newa=a*i-b,newb=b*i,G=gcd(newb,newa);
+        newa/=G,newb/=G;zZ[now+1]=i;
+        dfs(now+1,newa,newb,i,depth);zZ[now+1]=0;
+    }
+}
+int main() {
+    scanf(&quot;%lld %lld&quot;,&amp;a,&amp;b);
+    if(a==1){printf(&quot;%lld&quot;,b);return 0;}
+    for(int i=2;FLAG;++i)dfs(0,a,b,(b/a),i);                        //迭代搜索，i为深度 
+    for(int i=1;Ans[i]!=0;++i)printf(&quot;%lld &quot;,Ans[i]);
+    return 0;
+}</code></pre>
+<p>这道题可行性和最优性剪枝都要加，最后一个是因为要除a，是零就得剪掉。搜索顺序是按分母从小到大枚举的。</p>
+<h2 id="poj1011-Sticks"><a href="#poj1011-Sticks" class="headerlink" title="poj1011 Sticks"></a>poj1011 Sticks</h2><pre><code class="cpp">#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef unsigned long long ll;
+
+/*【Sticks】
+题意：给出n根小棒的长度stick[i]，已知这n根小棒原本由若干根长度相同的长木棒（原棒）分解而来。求出原棒的最小可能长度。
+思路：dfs+剪枝。蛮经典的题目，重点在于dfs剪枝的设计。先说先具体的实现：求出总长度sum和小棒最长的长度max，
+则原棒可能的长度必在max~sum之间，然后从小到大枚举max~sum之间能被sum整除的长度len，
+用dfs求出所有的小棒能否拼凑成这个长度，如果可以，第一个len就是答案。
+下面就是关键的了，就是这道题dfs的实现和剪枝的设计：
+1.以一个小棒为开头，用dfs看看能否把这个小棒拼凑成len长，用vis[i]记录下用过的小棒，然后继续以另外一个小棒为开头，以此类推。
+2.小棒的长度从大到小排序。3.如果当前最长的小棒不能拼成len长，那么就返回前一步,不用再继续搜索这一种情况。
+4.最重要的，就是比如说17,9,9,9,9,8,8,5,2……17与第一个9组合之后dfs发现不能拼成len，那么17就不和后面9组合了，而直接和8开始组合。  */
+
+const int Max = 65;
+int n, len, stick[Max];
+bool flag, vis[Max];
+
+bool cmp(int a,int b) { return a&gt;b; }
+
+void dfs(int dep, int now_len, int u){   // dep为当前已被用过的小棒数，u为当前要处理的小棒。
+    if(flag) return;
+    if(now_len == 0){   //  当前长度为0，寻找下一个当前最长小棒。
+        int k = 0;
+        while(vis[k]) k ++;  //  寻找第一个当前最长小棒。
+        vis[k] = true;
+        dfs(dep + 1, stick[k], k + 1);
+        vis[k] = false;
+        return;
+    }
+    if(now_len == len){  //  当前长度为len，即又拼凑成了一根原棒。
+        if(dep == n) flag = true;   //  完成的标志：所有的n根小棒都有拼到了。
+        else dfs(dep, 0, 0);
+        return;
+    }
+    for(int i = u; i &lt; n; i ++)
+        if(!vis[i] &amp;&amp; now_len + stick[i] &lt;= len){
+            if(!vis[i-1] &amp;&amp; stick[i] == stick[i-1]) continue;  //  不重复搜索：最重要的剪枝。
+            vis[i] = true;
+            dfs(dep + 1, now_len + stick[i], i + 1);
+            vis[i] = false;
+        }
+}
+
+int main(){
+    while(scanf(&quot;%d&quot;, &amp;n) &amp;&amp; n != 0){
+        int sum = 0;
+        flag = false;
+        for(int i = 0; i &lt; n; i ++){
+            scanf(&quot;%d&quot;, &amp;stick[i]);
+            sum += stick[i];
+        }
+        sort(stick,stick+n,cmp); //从大到小排序。
+        for(len = stick[0]; len &lt; sum; len ++)
+            if(sum % len == 0){  //  枚举能被sum整除的长度。
+                memset(vis, 0, sizeof(vis));
+                dfs(0, 0, 0);
+                if(flag) break;
+            }
+        printf(&quot;%d\n&quot;, len);
+    }
+    return 0;
+}
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E7%AE%97%E6%B3%95">算法</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                
+                  <a class="hover-with-bg" href="/tags/c++">c++</a>
+                
+                  <a class="hover-with-bg" href="/tags/dfs%E4%BC%98%E5%8C%96">dfs优化</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <!--PC和WAP自适应版-->
+  <div id="SOHUCS" sid='http://yoursite.com/2020/03/21/%E6%B7%B1%E6%90%9C%E6%8A%80%E5%B7%A7%E4%B8%8E%E4%BC%98%E5%8C%96/'></div>
+  <script type="text/javascript">
+    (function () {
+      var appid = 'cyuGAy6Y7';
+      var conf = '';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+        var head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.id = 'changyan_mobile_js';
+        script.src = 'https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+        head.appendChild(script);
+      } else {
+        var loadJs = function (d, a) {
+          var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+          var b = document.createElement('script');
+          b.setAttribute('type', 'text/javascript');
+          b.setAttribute('charset', 'UTF-8');
+          b.setAttribute('src', d);
+          if (typeof a === 'function') {
+            if (window.attachEvent) {
+              b.onreadystatechange = function () {
+                var e = b.readyState;
+                if (e === 'loaded' || e === 'complete') {
+                  b.onreadystatechange = null;
+                  a();
+                }
+              };
+            } else {
+              b.onload = a;
+            }
+          }
+          c.appendChild(b);
+        };
+        loadJs('https://changyan.sohu.com/upload/changyan.js', function () {
+          window.changyan.api.config({ appid: appid, conf: conf });
+        });
+      }
+    })(); </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js" ></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.8.9/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+    <!-- Baidu Analytics -->
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6a61255581242c8c58471dfbffd3bd66# 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/r298/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.10/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "dfs技巧与优化&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.0/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+  <script>(function (i, s, o, g, r, a, m) {
+      i['DaoVoiceObject'] = r;
+      i[r] = i[r] ||
+        function () {
+          (i[r].q = i[r].q || []).push(arguments);
+        };
+      i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      a.charset = 'utf-8';
+      m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', ('https:' === document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/246e9537.js", 'daovoice');
+    daovoice('init', {
+      app_id: "246e9537",
+    });
+    daovoice('update');
+  </script>
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
