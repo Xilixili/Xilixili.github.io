@@ -132,7 +132,7 @@ daovoice('update');
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, March 3rd 2020, 11:48 am
+                  Tuesday, April 14th 2020, 6:29 pm
                 </p>
               
 
@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.1k 字
+                    5.4k 字
                   </span>&nbsp;
                 
 
@@ -149,7 +149,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      21 分钟
+                      23 分钟
                   </span>&nbsp;
                 
 
@@ -428,6 +428,30 @@ int main(){
     cout&lt;&lt;dp[m/2]/2&lt;&lt;endl;//因为求的是划分数而不是和为m/2的集合数
 }
 </code></pre>
+<h2 id="8-一和零"><a href="#8-一和零" class="headerlink" title="8.一和零"></a>8.一和零</h2><p><img src="https://img-blog.csdnimg.cn/20200414182723147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>注:这里的weight是二维的(对于每一个串都有自己0,1的weight)</p>
+<pre><code class="cpp">    int findMaxForm(vector&lt;string&gt;&amp; strs, int m, int n) {
+        //dp[i][j]表示i个0，j个1能够拼出的数组中的最大的字符串数量
+        vector&lt;vector&lt;int&gt;&gt; dp(m+1,vector&lt;int&gt;(n+1));
+        vector&lt;vector&lt;int&gt;&gt; weight(strs.size(),vector&lt;int&gt;(2,0));
+        //cout&lt;&lt;dp[1][1]&lt;&lt;endl;
+        for(int i=0;i&lt;strs.size();i++){
+            for(int j=0;j&lt;strs[i].size();j++){
+                if(strs[i][j]==&#39;0&#39;) weight[i][0]++;
+                else weight[i][1]++;
+            }
+            //cout&lt;&lt;weight[i][0]&lt;&lt;&quot; &quot;&lt;&lt;weight[i][1]&lt;&lt;endl;
+        }
+        for(int k=0;k&lt;strs.size();k++){//从上到下每个物品选与不选
+            //cout&lt;&lt;weight[k][0]&lt;&lt;&quot; &quot;&lt;&lt;weight[k][1]&lt;&lt;endl;
+            for(int i=m;i&gt;=weight[k][0];i--){//遍历0的背包容量
+                for(int j=n;j&gt;=weight[k][1];j--){//遍历1的背包容量
+                    dp[i][j]=max(dp[i][j],dp[i-weight[k][0]][j-weight[k][1]]+1);
+                    //cout&lt;&lt;dp[i][j]&lt;&lt;endl;
+                }
+            }
+        }
+        return dp[m][n];
+    }</code></pre>
 <h1 id="完全背包"><a href="#完全背包" class="headerlink" title="完全背包"></a>完全背包</h1><h2 id="1-疯狂的采药"><a href="#1-疯狂的采药" class="headerlink" title="1.疯狂的采药"></a>1.疯狂的采药</h2><p><strong>题目描述</strong><br>LiYuxiang是个天资聪颖的孩子，他的梦想是成为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到一个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同种类的草药，采每一种都需要一些时间，每一种也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”</p>
 <p>如果你是LiYuxiang，你能完成这个任务吗？<br>此题和原题的不同点：<br>1.每种草药可以无限制地疯狂采摘。<br>2.药的种类眼花缭乱，采药时间好长好长啊！师傅等得菊花都谢了！</p>
 <p><strong>输入格式</strong><br>输入第一行有两个整数T（1 &lt;= T &lt;= 100000）和M（1 &lt;= M &lt;= 10000），用一个空格隔开，T代表总共能够用来采药的时间，M代表山洞里的草药的数目。接下来的M行每行包括两个在1到10000之间（包括1和10000）的整数，分别表示采摘某种草药的时间和这种草药的价值。</p>
@@ -640,7 +664,7 @@ int main(){
                 
                   <a class="hover-with-bg" href="/tags/c++">c++</a>
                 
-                  <a class="hover-with-bg" href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">背包问题最终总结</a>
+                  <a class="hover-with-bg" href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>
                 
               </span>
             
@@ -674,7 +698,7 @@ int main(){
       
       
   <!--PC和WAP自适应版-->
-  <div id="SOHUCS" sid='http://yoursite.com/2020/03/03/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'></div>
+  <div id="SOHUCS" sid='http://yoursite.com/2020/04/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'></div>
   <script type="text/javascript">
     (function () {
       var appid = 'cyuGAy6Y7';

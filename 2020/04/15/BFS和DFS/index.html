@@ -132,7 +132,7 @@ daovoice('update');
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Thursday, March 5th 2020, 12:20 pm
+                  Wednesday, April 15th 2020, 11:53 am
                 </p>
               
 
@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.3k 字
+                    3.5k 字
                   </span>&nbsp;
                 
 
@@ -149,7 +149,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      15 分钟
+                      17 分钟
                   </span>&nbsp;
                 
 
@@ -185,7 +185,7 @@ daovoice('update');
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h1 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h1><h2 id="填涂颜色"><a href="#填涂颜色" class="headerlink" title="填涂颜色"></a>填涂颜色</h2><p><strong>题目描述</strong><br>由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：<br><img src="https://img-blog.csdnimg.cn/20200305115131657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>输入格式</strong><br>每组测试数据第一行一个整数n(1≤n≤30)<br>接下来n行，由0和1组成的n×n的方阵。<br>方阵内只有一个闭合圈，圈内至少有一个0。</p>
+            <h1 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h1><h2 id="填涂颜色"><a href="#填涂颜色" class="headerlink" title="填涂颜色"></a>填涂颜色</h2><p><strong>题目描述</strong><br>由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：<br><img src="https://img-blog.csdnimg.cn/20200305115131657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>输入格式</strong><br>每组测试数据第一行一个整数n(1≤n≤30)<br>接下来n行，由0和1组成的n×n的方阵。<br>方阵内只有一个闭合圈，圈内至少有一个0。</p>
 <p><strong>输出格式</strong><br>已经填好数字22的完整方阵。</p>
 <p><strong>输入</strong></p>
 <blockquote>
@@ -432,7 +432,45 @@ int main(){
 
 }
 </code></pre>
-<h1 id="DFS-1"><a href="#DFS-1" class="headerlink" title="DFS"></a>DFS</h1><h2 id="八皇后问题"><a href="#八皇后问题" class="headerlink" title="八皇后问题"></a>八皇后问题</h2><p><strong>题目描述</strong><br>一个如下的6×6 的跳棋棋盘，有六个棋子被放置在棋盘上，使得每行、每列有且只有一个，每条对角线（包括两条主对角线的所有平行线）上至多有一个棋子。<br><img src="https://img-blog.csdnimg.cn/20200305121201768.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>上面的布局可以用序列2 4 6 1 3 5 来描述，第 i 个数字表示在第 i 行的相应位置有一个棋子，如下：<br>行号 1 2 3 4 5 6<br>列号 2 4 6 1 3 5<br>这只是棋子放置的一个解。请编一个程序找出所有棋子放置的解。<br>并把它们以上面的序列方法输出，解按字典顺序排列。<br>请输出前 3 个解。最后一行是解的总个数。</p>
+<h2 id="墙与门"><a href="#墙与门" class="headerlink" title="墙与门"></a>墙与门</h2><p><img src="https://img-blog.csdnimg.cn/20200415115105402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>注:这是一道多源bfs的题，将终点看做第0层，然后逐层遍历</p>
+<pre><code class="cpp">int way[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+    void wallsAndGates(vector&lt;vector&lt;int&gt;&gt;&amp; rooms) {
+
+        int m=rooms.size();
+        if(m==0) return;
+        int n=rooms[0].size();
+        vector&lt;vector&lt;int&gt;&gt; vis(m,vector&lt;int&gt;(n,0));
+        queue&lt;pair&lt;int,int&gt;&gt; q;
+        //将第0层的所有结点push进队列
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;n;j++){
+                if(rooms[i][j]==0){
+                    vis[i][j]=1;
+                    q.push({i,j});
+                }
+            }
+        }
+        //q一直保存当前层以及下一层的结点(除了在最开始只保存第0层的结点)
+        int step=0;
+        while(!q.empty()){
+            int k=q.size();
+            step++;
+            while(k--){
+
+                for(int i=0;i&lt;4;i++){
+                    int xd=q.front().first+way[i][0];
+                    int yd=q.front().second+way[i][1];
+                    if(xd&gt;=0&amp;&amp;xd&lt;m&amp;&amp;yd&gt;=0&amp;&amp;yd&lt;n&amp;&amp;vis[xd][yd]==0&amp;&amp;rooms[xd][yd]!=-1){
+                        vis[xd][yd]=1;
+                        rooms[xd][yd]=step;
+                        q.push({xd,yd});
+                    }
+                }
+                q.pop();
+            }
+        }
+    }</code></pre>
+<h1 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h1><h2 id="八皇后问题"><a href="#八皇后问题" class="headerlink" title="八皇后问题"></a>八皇后问题</h2><p><strong>题目描述</strong><br>一个如下的6×6 的跳棋棋盘，有六个棋子被放置在棋盘上，使得每行、每列有且只有一个，每条对角线（包括两条主对角线的所有平行线）上至多有一个棋子。<br><img src="https://img-blog.csdnimg.cn/20200305121201768.png" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>上面的布局可以用序列2 4 6 1 3 5 来描述，第 i 个数字表示在第 i 行的相应位置有一个棋子，如下：<br>行号 1 2 3 4 5 6<br>列号 2 4 6 1 3 5<br>这只是棋子放置的一个解。请编一个程序找出所有棋子放置的解。<br>并把它们以上面的序列方法输出，解按字典顺序排列。<br>请输出前 3 个解。最后一行是解的总个数。</p>
 <p><strong>输入格式</strong><br>一行一个正整数 nn，表示棋盘是 n \times nn×n 大小的。</p>
 <p><strong>输出格式</strong><br>前三行为前三个解，每个解的两个数字之间用一个空格隔开。第四行只有一个数字，表示解的总数。</p>
 <p><strong>输入</strong></p>
@@ -653,7 +691,7 @@ int main(){
       
       
   <!--PC和WAP自适应版-->
-  <div id="SOHUCS" sid='http://yoursite.com/2020/03/05/BFS%E5%92%8CDFS/'></div>
+  <div id="SOHUCS" sid='http://yoursite.com/2020/04/15/BFS%E5%92%8CDFS/'></div>
   <script type="text/javascript">
     (function () {
       var appid = 'cyuGAy6Y7';

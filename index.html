@@ -155,7 +155,56 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/04/12/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/">
+      <a href="/2020/04/16/%E4%B9%B0%E5%8D%96%E8%82%A1%E7%A5%A8%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
+        <p class="h4 index-header">买卖股票问题总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">注意:这里面dp[①][②][③]的理解①第几天②还剩几次交易机会③1：当前持股；   0：当前不持股1.dp的含义是当前这个状态下能达到的最大的收益
+2.因为是状态转移，所以已经满足了不会连续买入
+3.也因为是状态转移，所以情况多了后，初始化为0位造成影响，比如dp[i][0][0]这个时候是没有持股，并且没有再买入的机会，这个时候若直接用max(dp[i-1][0][0],dp[i-1][0][1]+prices[i]);会是0+prices[i]就会造成误判，所以要初始化为int_min
+4.只买一次max(dp[i-1][1],-prices[i]); &nbsp;&nbsp;&nbsp;无穷次max(dp[i-1][1],dp[i-1][0]-prices[i]);
+1.买卖股票的最佳时机
+class Solution {
+public:
+    int maxProfit(vector&lt;int&gt;&amp; prices) {
+        int dp[1000010][2];
+        int max_profit=0;
+        for(int</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/16/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/">
         <p class="h4 index-header">高精度计算</p>
         
         
@@ -189,7 +238,7 @@ int compare(string s1,string s2){
 
       <div>
         
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-12&nbsp;&nbsp;
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-16&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>
@@ -205,6 +254,117 @@ int compare(string s1,string s2){
             <a href="/tags/c++">c++</a>&nbsp;
           
             <a href="/tags/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97">高精度计算</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/15/BFS%E5%92%8CDFS/">
+        <p class="h4 index-header">BFS和DFS</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">BFS填涂颜色题目描述由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：输入格式每组测试数据第一行一个整数n(1≤n≤30)接下来n行，由0和1组成的n×n的方阵。方阵内只有一个闭合圈，圈内至少有一个0。
+输出格式已经填好数字22的完整方阵。
+输入
+
+60 0 0 0 0 00 0 1 1 1 10 1 1 0 0 11 1 0 0 0 11 0 0 0 0 11 1 1 1 1 1
+
+输出
+
+0 0 0 0 0 00 0 1 1 1 10 1 1 2 2 11 1 2 2 2 11 2 2 2 2 11 1 1 1 1 1
+
+#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+const int MAXN=100;
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];//访问标记，为0表示没被访问
+//能</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-15&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/BFS%E5%92%8CDFS%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">BFS和DFS最终总结</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
+        <p class="h4 index-header">背包问题最终总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">0-1背包1.采药问题题目描述辰辰是个天资聪颖的孩子，他的梦想是成为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到一个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同的草药，采每一株都需要一些时间，每一株也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”
+如果你是辰辰，你能完成这个任务吗？
+输入格式第一行有2个整数T(1≤T≤1000)和M(1≤M≤100)，用一个空格隔开，T代表总共能够用来采药的时间，M代表山洞里的草药的数目。接下来的M行每行包括两个在1到100之间（包括1和100）的整数，分别表示采摘某株草药的时间和这株草药的价值。
+输出格式1个整数，表示在规定的时间内可以采到的草药的最大总价值。
+输入输出样例输入
+
+70 371 10069 11 2
+
+输出 
+
+3
+
+分析普通的0-1背包，求最大的收益
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+
+using namespac</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-14&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
           
         
       </div>
@@ -519,117 +679,6 @@ int main(){
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/03/05/BFS%E5%92%8CDFS/">
-        <p class="h4 index-header">BFS和DFS</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">DFS填涂颜色题目描述由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：输入格式每组测试数据第一行一个整数n(1≤n≤30)接下来n行，由0和1组成的n×n的方阵。方阵内只有一个闭合圈，圈内至少有一个0。
-输出格式已经填好数字22的完整方阵。
-输入
-
-60 0 0 0 0 00 0 1 1 1 10 1 1 0 0 11 1 0 0 0 11 0 0 0 0 11 1 1 1 1 1
-
-输出
-
-0 0 0 0 0 00 0 1 1 1 10 1 1 2 2 11 1 2 2 2 11 2 2 2 2 11 1 1 1 1 1
-
-#include&lt;iostream&gt;
-#include&lt;queue&gt;
-
-using namespace std;
-const int MAXN=100;
-int Map[MAXN][MAXN];
-int vis[MAXN][MAXN];//访问标记，为0表示没被访问
-//能</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-05&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/BFS%E5%92%8CDFS%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">BFS和DFS最终总结</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/03/03/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
-        <p class="h4 index-header">背包问题最终总结</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">0-1背包1.采药问题题目描述辰辰是个天资聪颖的孩子，他的梦想是成为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到一个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同的草药，采每一株都需要一些时间，每一株也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”
-如果你是辰辰，你能完成这个任务吗？
-输入格式第一行有2个整数T(1≤T≤1000)和M(1≤M≤100)，用一个空格隔开，T代表总共能够用来采药的时间，M代表山洞里的草药的数目。接下来的M行每行包括两个在1到100之间（包括1和100）的整数，分别表示采摘某株草药的时间和这株草药的价值。
-输出格式1个整数，表示在规定的时间内可以采到的草药的最大总价值。
-输入输出样例输入
-
-70 371 10069 11 2
-
-输出 
-
-3
-
-分析普通的0-1背包，求最大的收益
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-
-using namespac</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-03&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">背包问题最终总结</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/">
         <p class="h4 index-header">USTC机试_12</p>
         
@@ -660,71 +709,6 @@ int main(){
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/25/USTC%E6%9C%BA%E8%AF%95_11/">
-        <p class="h4 index-header">USTC机试_11</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">1.给两个十进制数，先异或，然后输出其二进制形式
-#include&lt;iostream&gt;
-#include&lt;vector&gt;
-using namespace std;
-vector&lt;int&gt; v;
-int main(){
-    int x,y;
-    cin&gt;&gt;x&gt;&gt;y;
-    int n=x^y;
-    while(n!=0){
-        v.push_back(n%2);
-        n/=2;
-    }
-    for(int i=v.size()-1;i&gt;=0;i--) cout&lt;&lt;v[i];
-}
-
-2.一共有十二个球，其颜色有红、黄、黑三种，红黄黑分别有想  x，y，k个，现在从其中取出八个球，共有多少种取法，输出到文件中？（x，y，k是从键盘输入，痛颜色的球不区分）
-#include&lt;iostream&gt;
-
-using namespace std;
-const int MAXN=1000;
-
-struct E{
-    int x,y,k;
-}E[MAXN];
-
-int </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-25&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>
