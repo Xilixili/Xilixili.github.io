@@ -132,7 +132,7 @@ daovoice('update');
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Tuesday, April 14th 2020, 6:29 pm
+                  Sunday, April 19th 2020, 5:57 pm
                 </p>
               
 
@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    5.4k 字
+                    5.1k 字
                   </span>&nbsp;
                 
 
@@ -149,7 +149,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      23 分钟
+                      22 分钟
                   </span>&nbsp;
                 
 
@@ -185,7 +185,9 @@ daovoice('update');
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
-            <h1 id="0-1背包"><a href="#0-1背包" class="headerlink" title="0-1背包"></a>0-1背包</h1><h2 id="1-采药问题"><a href="#1-采药问题" class="headerlink" title="1.采药问题"></a>1.采药问题</h2><p><strong>题目描述</strong><br>辰辰是个天资聪颖的孩子，他的梦想是成为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到一个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同的草药，采每一株都需要一些时间，每一株也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”</p>
+            <h1 id="导语"><a href="#导语" class="headerlink" title="导语"></a>导语</h1><p>常见的背包问题有<br>1、组合问题：   dp[i] += dp[i-num]<br>2、True、False问题：dp[i] = dp[i] or dp[i-num]<br>3、最大最小问题：dp[i] = min(dp[i], dp[i-num]+1)<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;dp[i] = max(dp[i], dp[i-num]+1)</p>
+<p><font color=red><strong>注意dp的初始化!!!</strong></font></p>
+<h1 id="0-1背包"><a href="#0-1背包" class="headerlink" title="0-1背包"></a>0-1背包</h1><h2 id="1-采药问题"><a href="#1-采药问题" class="headerlink" title="1.采药问题"></a>1.采药问题</h2><p><strong>题目描述</strong><br>辰辰是个天资聪颖的孩子，他的梦想是成为世界上最伟大的医师。为此，他想拜附近最有威望的医师为师。医师为了判断他的资质，给他出了一个难题。医师把他带到一个到处都是草药的山洞里对他说：“孩子，这个山洞里有一些不同的草药，采每一株都需要一些时间，每一株也有它自身的价值。我会给你一段时间，在这段时间里，你可以采到一些草药。如果你是一个聪明的孩子，你应该可以让采到的草药的总价值最大。”</p>
 <p>如果你是辰辰，你能完成这个任务吗？</p>
 <p><strong>输入格式</strong><br>第一行有2个整数T(1≤T≤1000)和M(1≤M≤100)，用一个空格隔开，T代表总共能够用来采药的时间，M代表山洞里的草药的数目。<br>接下来的M行每行包括两个在1到100之间（包括1和100）的整数，分别表示采摘某株草药的时间和这株草药的价值。</p>
 <p><strong>输出格式</strong><br>1个整数，表示在规定的时间内可以采到的草药的最大总价值。</p>
@@ -219,41 +221,7 @@ int main(){
     cout&lt;&lt;dp[n]&lt;&lt;endl;
 }
 </code></pre>
-<h2 id="2-开心的金明"><a href="#2-开心的金明" class="headerlink" title="2.开心的金明"></a>2.开心的金明</h2><p><strong>题目描述</strong><br>金明今天很开心，家里购置的新房就要领钥匙了，新房里有一间他自己专用的很宽敞的房间。更让他高兴的是，妈妈昨天对他说：“你的房间需要购买哪些物品，怎么布置，你说了算，只要不超过N元钱就行”。今天一早金明就开始做预算，但是他想买的东西太多了，肯定会超过妈妈限定的N元。于是，他把每件物品规定了一个重要度，分为5等：用整数1-5表示，第5等最重要。他还从因特网上查到了每件物品的价格（都是整数元）。他希望在不超过N元（可以等于N元）的前提下，使每件物品的价格与重要度的乘积的总和最大，请你帮助金明设计一个满足要求的购物单。</p>
-<p><strong>输入格式</strong><br>第1行，为2个正整数，用一个空格隔开：n m（其中N(&lt;30000)表示总钱数，m(&lt;25)为希望购买物品的个数。）<br>从第2行到第m+1行，第j行给出了编号为j−1的物品的基本数据，每行有22个非负整数 v p（其中v表示该物品的价格(v≤10000)，p表示该物品的重要度(1−5)</p>
-<p><strong>输出格式</strong><br>1个正整数，为不超过总钱数的物品的价格与重要度乘积的总和的最大值(&lt;100000000)。</p>
-<p>输入输出样例<br><strong>输入</strong></p>
-<blockquote>
-<p>1000 5<br>800 2<br>400 5<br>300 5<br>400 3<br>200 2</p>
-</blockquote>
-<p><strong>输出</strong> </p>
-<blockquote>
-<p>3900</p>
-</blockquote>
-<p><strong>分析</strong><br>普通的0-1背包，但要注意w，v数组和dp数组开的大小与那些因素有关</p>
-<pre><code class="clike">#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-using namespace std;
-const int MAXN=30;
-int v[MAXN],w[MAXN];//v为价格,w为重要度，开的大小与物品数目有关
-int dp[30005];//dp开的大小与背包容量有关
-int main(){
-    int n,m;//n为背包容量,m为物品数
-    cin&gt;&gt;n&gt;&gt;m;
-    for(int i=1;i&lt;=m;i++){
-        cin&gt;&gt;w[i]&gt;&gt;v[i];
-        v[i]=v[i]*w[i];
-    }
-    for(int i=1;i&lt;=m;i++){
-        for(int j=n;j&gt;=w[i];j--){
-            dp[j]=max(dp[j],dp[j-w[i]]+v[i]);//这里的变化为横向，即背包容量
-            //cout&lt;&lt;dp[j]&lt;&lt;endl;
-        }
-    }
-    cout&lt;&lt;dp[n]&lt;&lt;endl;
-}
-</code></pre>
-<h2 id="3-装箱问题"><a href="#3-装箱问题" class="headerlink" title="3.装箱问题"></a>3.装箱问题</h2><p><strong>题目描述</strong><br>有一个箱子容量为V（200000≤V≤20000），同时有n个物品（300&lt;n≤30），每个物品有一个体积（正整数）。<br>要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</p>
+<h2 id="2-装箱问题"><a href="#2-装箱问题" class="headerlink" title="2.装箱问题"></a>2.装箱问题</h2><p><strong>题目描述</strong><br>有一个箱子容量为V（200000≤V≤20000），同时有n个物品（300&lt;n≤30），每个物品有一个体积（正整数）。<br>要求n个物品中，任取若干个装入箱内，使箱子的剩余空间为最小。</p>
 <p><strong>输入格式</strong><br>1个整数，表示箱子容量<br>1个整数，表示有n个物品<br>接下来n行，分别表示这n个物品的各自体积</p>
 <p><strong>输出格式</strong><br>1个整数，表示箱子剩余空间。</p>
 <p><strong>输入</strong></p>
@@ -286,34 +254,7 @@ int main(){
     cout&lt;&lt;n-dp[n]&lt;&lt;endl;
 }
 </code></pre>
-<h2 id="4-小A点菜"><a href="#4-小A点菜" class="headerlink" title="4.小A点菜"></a>4.小A点菜</h2><p><strong>题目描述</strong><br>不过uim由于买了一些书，口袋里只剩M元(M≤10000)。餐馆虽低端，但是菜品种类不少，有N种（N≤100)，第i种卖ai元(ai ≤1000)。由于是很低端的餐馆，所以每种菜只有一份。小A奉行“不把钱吃光不罢休”，所以他点单一定刚好吧uim身上所有钱花完。他想知道有多少种点菜方法。由于小A肚子太饿，所以最多只能等待1秒。<br><strong>输入格式</strong><br>第一行是两个数字，表示N和M。第二行起N个正数ai（可以有相同的数字，每个数字均在1000以内）。<br><strong>输出格式</strong><br>一个正整数，表示点菜方案数，保证答案的范围在intint之内。<br><strong>输入</strong></p>
-<blockquote>
-<p>4 4<br>1 1 2 2</p>
-</blockquote>
-<p><strong>输出</strong></p>
-<blockquote>
-<p>3</p>
-</blockquote>
-<p><strong>分析</strong><br>这道题属于0-1背包中算方法种类的题，和普通的0-1背包没什么大的区别，注意dp的初始化以及递推公式就可以</p>
-<pre><code class="clike">#include&lt;iostream&gt;
-
-using namespace std;
-const int MAXN=101;
-int w[MAXN];
-int dp[10001]={1};//求方法种类的题初始化为1
-int main(){
-    int n,m;
-    cin&gt;&gt;m&gt;&gt;n;
-    for(int i=1;i&lt;=m;i++){
-        cin&gt;&gt;w[i];
-        for(int j=n;j&gt;=w[i];j--){
-            dp[j]=dp[j]+dp[j-w[i]];//选与不选两种方案数的和
-        }
-    }
-    cout&lt;&lt;dp[n]&lt;&lt;endl;
-}
-</code></pre>
-<h2 id="5-最大约数和"><a href="#5-最大约数和" class="headerlink" title="5.最大约数和"></a>5.最大约数和</h2><p><strong>题目描述</strong><br>选取和不超过S的若干个不同的正整数，使得所有数的约数（不含它本身）之和最大。</p>
+<h2 id="3-最大约数和"><a href="#3-最大约数和" class="headerlink" title="3.最大约数和"></a>3.最大约数和</h2><p><strong>题目描述</strong><br>选取和不超过S的若干个不同的正整数，使得所有数的约数（不含它本身）之和最大。</p>
 <p><strong>输入格式</strong><br>输入一个正整数S。</p>
 <p><strong>输出格式</strong><br>输出最大的约数之和。</p>
 <p>输入</p>
@@ -348,7 +289,7 @@ int main(){
     }
     cout&lt;&lt;dp[n]&lt;&lt;endl;
 }</code></pre>
-<h2 id="6-精卫填海"><a href="#6-精卫填海" class="headerlink" title="6.精卫填海"></a>6.精卫填海</h2><p><strong>题目描述</strong><br>发鸠之山，其上多柘木。有鸟焉，其状如乌，文首，白喙，赤足，名曰精卫，其名自詨。是炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫。常衔西山之木石，以堙于东海。——《山海经》<br>精卫终于快把东海填平了！只剩下了最后的一小片区域了。同时，西山上的木石也已经不多了。精卫能把东海填平吗？<br>事实上，东海未填平的区域还需要至少体积为v的木石才可以填平，而西山上的木石还剩下n块，每块的体积和把它衔到东海需要的体力分别为k和m。精卫已经填海填了这么长时间了，她也很累了，她还剩下的体力为c。</p>
+<h2 id="4-精卫填海"><a href="#4-精卫填海" class="headerlink" title="4.精卫填海"></a>4.精卫填海</h2><p><strong>题目描述</strong><br>发鸠之山，其上多柘木。有鸟焉，其状如乌，文首，白喙，赤足，名曰精卫，其名自詨。是炎帝之少女，名曰女娃。女娃游于东海，溺而不返，故为精卫。常衔西山之木石，以堙于东海。——《山海经》<br>精卫终于快把东海填平了！只剩下了最后的一小片区域了。同时，西山上的木石也已经不多了。精卫能把东海填平吗？<br>事实上，东海未填平的区域还需要至少体积为v的木石才可以填平，而西山上的木石还剩下n块，每块的体积和把它衔到东海需要的体力分别为k和m。精卫已经填海填了这么长时间了，她也很累了，她还剩下的体力为c。</p>
 <p><strong>输入格式</strong><br>输入文件的第一行是三个整数：v、n、c。<br>从第二行到第n+1行分别为每块木石的体积和把它衔到东海需要的体力。</p>
 <p><strong>输出格式</strong><br>输出文件只有一行，如果精卫能把东海填平，则输出她把东海填平后剩下的最大的体力，否则输出’Impossible’（不带引号）。</p>
 <p><strong>输入</strong></p>
@@ -393,7 +334,7 @@ int main(){
     return 0;
 }
 </code></pre>
-<h2 id="7-集合-Subset-Sums"><a href="#7-集合-Subset-Sums" class="headerlink" title="7.集合 Subset Sums"></a>7.集合 Subset Sums</h2><p><strong>题目描述</strong><br>对于从 1∼n 的连续整数集合，能划分成两个子集合，且保证每个集合的数字和是相等的。举个例子，如果 n=3，对于{1,2,3} 能划分成两个子集合，每个子集合的所有数字和是相等的：{3} 和 {1,2} 是唯一一种分法（交换集合位置被认为是同一种划分方案，因此不会增加划分方案总数）如果n=7，有四种方法能划分集合 {1,2,3,4,5,6,7}，每一种分法的子集合各数字和是相等的:</p>
+<h2 id="5-集合-Subset-Sums-组合数"><a href="#5-集合-Subset-Sums-组合数" class="headerlink" title="5.集合 Subset Sums(组合数)"></a>5.集合 Subset Sums(组合数)</h2><p><strong>题目描述</strong><br>对于从 1∼n 的连续整数集合，能划分成两个子集合，且保证每个集合的数字和是相等的。举个例子，如果 n=3，对于{1,2,3} 能划分成两个子集合，每个子集合的所有数字和是相等的：{3} 和 {1,2} 是唯一一种分法（交换集合位置被认为是同一种划分方案，因此不会增加划分方案总数）如果n=7，有四种方法能划分集合 {1,2,3,4,5,6,7}，每一种分法的子集合各数字和是相等的:</p>
 <p>{1,6,7} 和 {2,3,4,5}<br>{2,5,7} 和 {1,3,4,6}<br>{3,4,7} 和 {1,2,5,6}<br>{1,2,4,7} 和 {3,5,6}</p>
 <p>给出 n，你的程序应该输出划分方案总数。</p>
 <p><strong>输入格式</strong><br>输入文件只有一行，且只有一个整数 n</p>
@@ -428,7 +369,59 @@ int main(){
     cout&lt;&lt;dp[m/2]/2&lt;&lt;endl;//因为求的是划分数而不是和为m/2的集合数
 }
 </code></pre>
-<h2 id="8-一和零"><a href="#8-一和零" class="headerlink" title="8.一和零"></a>8.一和零</h2><p><img src="https://img-blog.csdnimg.cn/20200414182723147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>注:这里的weight是二维的(对于每一个串都有自己0,1的weight)</p>
+<h2 id="6-目标和"><a href="#6-目标和" class="headerlink" title="6.目标和"></a>6.目标和</h2><p><img src="https://img-blog.csdnimg.cn/20200419174249875.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>设P为正数集的和,N为负数集合的和,S为所有元素和,T为目标和<br>∵P+N=S<br>&ensp;&ensp;P-N=T<br>∴2P=S+T<br>所以只要找到在序列找到和为(S+T)/2的所有方案就行,此时转化成了0-1背包的组合数问题</p>
+<pre><code class="cpp">class Solution {
+public:
+    int findTargetSumWays(vector&lt;int&gt;&amp; nums, int S) {
+        int n=nums.size();
+        int sum=0;
+        for(int i=0;i&lt;n;i++){
+            sum+=nums[i];
+        }
+        long long temp=(long long)sum+(long long)S;
+        if(temp%2==1||S-sum&gt;0) return 0;
+        int target=(sum+S)/2;
+        //初始化
+        vector&lt;int&gt; dp(10010,0);
+        dp[0]=1;;
+        //cout&lt;&lt;dp[S]&lt;&lt;endl;
+        for(int i=0;i&lt;n;i++){
+            for(int j=target;j&gt;=nums[i];j--){
+                //cout&lt;&lt;j&lt;&lt;&quot; &quot;&lt;&lt;j-nums[i]&lt;&lt;endl;
+                dp[j]=dp[j]+dp[j-nums[i]];
+                //cout&lt;&lt;dp[j]&lt;&lt;endl;
+            }
+        }
+        return dp[target];
+    }
+};</code></pre>
+<h2 id="7-分割等和子集-true-amp-false"><a href="#7-分割等和子集-true-amp-false" class="headerlink" title="7.分割等和子集(true&amp;false)"></a>7.分割等和子集(true&amp;false)</h2><p><img src="https://img-blog.csdnimg.cn/20200419170458826.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+
+    long long dp[10010];
+
+    bool canPartition(vector&lt;int&gt;&amp; nums) {
+        int sum=0;
+        for(int i=0;i&lt;nums.size();i++){
+            sum+=nums[i];
+        }
+        if(sum%2==1) return false;
+        int target=sum/2;
+        //初始化,注意初始化的方法
+        vector&lt;bool&gt; dp(target,false);
+        dp[0]=true;
+        cout&lt;&lt;dp[0]&lt;&lt;endl;
+        for(int i=0;i&lt;nums.size();i++){
+            for(int j=target;j&gt;=nums[i];j--){
+                dp[j]=dp[j]||dp[j-nums[i]];
+                //cout&lt;&lt;dp[j]&lt;&lt;endl;
+            }
+        }
+        return dp[target];
+    }
+};</code></pre>
+<h2 id="8-一和零-双weight"><a href="#8-一和零-双weight" class="headerlink" title="8.一和零(双weight)"></a>8.一和零(双weight)</h2><p><img src="https://img-blog.csdnimg.cn/20200414182723147.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>注:这里的weight是二维的(对于每一个串都有自己0,1的weight)</p>
 <pre><code class="cpp">    int findMaxForm(vector&lt;string&gt;&amp; strs, int m, int n) {
         //dp[i][j]表示i个0，j个1能够拼出的数组中的最大的字符串数量
         vector&lt;vector&lt;int&gt;&gt; dp(m+1,vector&lt;int&gt;(n+1));
@@ -524,6 +517,45 @@ int main(){
     }
     cout&lt;&lt;dp[n]&lt;&lt;endl;
 }
+</code></pre>
+<h2 id="3-零钱兑换-II-组合数"><a href="#3-零钱兑换-II-组合数" class="headerlink" title="3.零钱兑换 II(组合数)"></a>3.零钱兑换 II(组合数)</h2><p><img src="https://img-blog.csdnimg.cn/20200419161911317.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>是求组合数，因为{1,2},{2,1}是同一个<br>求组合数模板是<strong>先遍历物品，再遍历背包</strong></p>
+<pre><code class="cpp">class Solution {
+public:
+    int dp[10010];
+    int change(int amount, vector&lt;int&gt;&amp; coins) {
+        memset(dp,0,sizeof(dp));
+        dp[0]=1;
+        for(int i=0;i&lt;coins.size();i++){
+            for(int j=coins[i];j&lt;=amount;j++){
+                dp[j]=dp[j]+dp[j-coins[i]];
+            }
+        }
+        return dp[amount];
+    }
+};</code></pre>
+<h2 id="4-组合总和-Ⅳ-排列数-反向嵌套"><a href="#4-组合总和-Ⅳ-排列数-反向嵌套" class="headerlink" title="4.组合总和 Ⅳ(排列数,反向嵌套)"></a>4.组合总和 Ⅳ(排列数,反向嵌套)</h2><p><img src="https://img-blog.csdnimg.cn/20200419154823970.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>是求排列数，因为{1,2},{2,1}不是同一个<br>求组合数模板是<strong>先遍历背包，再遍历物品</strong></p>
+<pre><code class="cpp">class Solution {
+public:
+    int combinationSum4(vector&lt;int&gt;&amp; nums, int target) 
+    {
+        if(nums.size() == 0)
+            return 0;
+
+        vector&lt;unsigned int&gt; dp(target + 1, 0);
+        dp[0] = 1;//组成0的方案只能是全部都不选择，所以方案数为1.
+
+        for(int i = 0; i &lt;= target; i++)
+        {
+            for(int j = 0; j &lt; nums.size(); j++)
+            {
+                if(i - nums[j] &gt;= 0)
+                    dp[i] += dp[i - nums[j]];
+            }
+        }
+
+        return dp[target];
+    }
+};
 </code></pre>
 <h1 id="分组背包"><a href="#分组背包" class="headerlink" title="分组背包"></a>分组背包</h1><h2 id="1-通天之分组背包"><a href="#1-通天之分组背包" class="headerlink" title="1.通天之分组背包"></a>1.通天之分组背包</h2><p><strong>题目描述</strong><br>自01背包问世之后，小A对此深感兴趣。一天，小A去远游，却发现他的背包不同于01背包，他的物品大致可分为k组，每组中的物品相互冲突，现在，他想知道最大的利用价值是多少。</p>
 <p><strong>输入格式</strong><br>两个数m,n，表示一共有n件物品，总重量为m<br>接下来n行，每行3个数ai,bi,ci，表示物品的重量，利用价值，所属组数</p>
@@ -698,7 +730,7 @@ int main(){
       
       
   <!--PC和WAP自适应版-->
-  <div id="SOHUCS" sid='http://yoursite.com/2020/04/14/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'></div>
+  <div id="SOHUCS" sid='http://yoursite.com/2020/04/19/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/'></div>
   <script type="text/javascript">
     (function () {
       var appid = 'cyuGAy6Y7';
