@@ -155,6 +155,71 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/04/26/Tarjan%E7%AE%97%E6%B3%95/">
+        <p class="h4 index-header">Tarjan算法</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">强连通分量
+#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+const int MAXN=10010;
+int dfn[MAXN],low[MAXN],Stack[MAXN];
+vector&lt;int&gt; graph[MAXN];
+//遍历深度以及栈顶指针(指向最后一个元素)
+int deep=0,top=-1;
+//标记元素是否在栈中
+int tag[MAXN];
+//强连通分量个数
+int cnt=0;
+//为不同的强连通分量上色区分
+int color[MAXN];
+
+void tarjan(int u,int fa){
+    dfn[u]=low[u]=++deep;
+    Stack[++top]=u;
+    tag[u]=1;
+    for(int i=0;i&lt;graph[u].size();i++){
+        int v=graph[u][i];
+        if(v==fa) continue;
+
+        if(dfn[v]==0){
+
+            tarjan</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-26&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/Tarjan">Tarjan</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/04/19/%E8%83%8C%E5%8C%85%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
         <p class="h4 index-header">背包问题最终总结</p>
         
@@ -657,61 +722,6 @@ int main(){
             <a href="/tags/c++">c++</a>&nbsp;
           
             <a href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">快速幂最终总结</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/">
-        <p class="h4 index-header">USTC机试_12</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">1.字符串处理：从   string.in文件里读入两个字符串，字符串除了数字还可能包括    ‘—‘、’E’、’e’、’．’，相加之后输出到文件 string.out中，如果是浮点型，要求用科学计数法表示（最多包含 10个有效数字）。
-#include&lt;iostream&gt;
-#include&lt;string&gt;
-#include&lt;cstdio&gt;
-#include&lt;fstream&gt;
-#include&lt;cstdlib&gt;
-#include&lt;math.h&gt;
-using namespace std;
-
-int main(){
-    ifstream infile(&quot;in.txt&quot;);
-    string s1,s2;
-    double x,y;
-    getline(infile,s1);
-    getline(infile,s2);
-    if(s1.find(&#39;e&#39;)!=string::npos||s1.find(&#39;E&#39;)!=string::npos){
-  </div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
           
         
       </div>
