@@ -155,6 +155,78 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/09/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%80%BB%E7%BB%93/">
+        <p class="h4 index-header">快速幂最终总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">原理（两种理解）))
+
+例题题目描述给你三个整数 b,p,k,求 $b^p$mod k 。
+输入格式一行三个整数 b,p,kb,p,k
+输出格式输出 $b^p$ mod k=ss 为运算结果
+输入
+
+2 10 9
+
+输出
+
+2^10 mod 9=7
+
+#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+
+long long QuickPower(long long base,long long n,long long k){
+    long long ans=1;
+    while(n!=0){
+        if(n&amp;1){
+            ans*=base;
+            ans%=k;
+        }
+        base*=base;
+        base%=k;
+        n&gt;&gt;=1;
+    }
+    return ans;
+}
+
+int main(){
+    long long base,n,k;
+    cin&gt;&gt;base&gt;&gt;n</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-09&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93">快速幂最终总结</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/27/USTC%E6%9C%BA%E8%AF%95_12/">
         <p class="h4 index-header">USTC机试_12</p>
         
@@ -709,67 +781,6 @@ int main(){
             <a href="/tags/c++">c++</a>&nbsp;
           
             <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/21/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/">
-        <p class="h4 index-header">图算法中的常用代码</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">并查集模板主要用于解决关于连通的一些问题
-void Initial(){
-    for(int i=0;i&lt;MAXN;i++){
-        father[i]=i;//根结点指向自己
-        height[i]=0;
-        //inDegree[i]=0;
-        //visit[i]=false;
-    }
-}
-
-int Find(int x){
-    if(father[x]!=x) father[x]=Find(father[x]);//注意写法，路径压缩
-    return father[x];
-}
-
-void Union(int x,int y){
-    x=Find(x);
-    y=Find(y);
-    if(x!=y){
-        if(height[x]&lt;height[y]) father[x]=y;
-        else if(height[x]&gt;height[y]) father[y]=x;//前面两种情况树高并没有变
-        else{
-            father[y]</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-21&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%9B%BE%E8%AE%BA">图论</a>&nbsp;
           
         
       </div>

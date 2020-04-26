@@ -132,7 +132,7 @@ daovoice('update');
               
                 <p class="mt-3">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  Sunday, April 26th 2020, 5:25 pm
+                  Sunday, April 26th 2020, 5:36 pm
                 </p>
               
 
@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    773 字
+                    783 字
                   </span>&nbsp;
                 
 
@@ -201,17 +201,18 @@ int cnt=0;
 //为不同的强连通分量上色区分
 int color[MAXN];
 
-void tarjan(int u,int fa){
+void tarjan(int u){
     dfn[u]=low[u]=++deep;
     Stack[++top]=u;
     tag[u]=1;
     for(int i=0;i&lt;graph[u].size();i++){
         int v=graph[u][i];
-        if(v==fa) continue;
+
+        //if(v==fa) continue;统计强连通分量个数不需要这个
 
         if(dfn[v]==0){
 
-            tarjan(v,u);
+            tarjan(v);
             low[u]=min(low[u],low[v]);
         }
         //在栈中才进行更新
@@ -245,7 +246,7 @@ int main(){
         cin&gt;&gt;from&gt;&gt;to;
         graph[from].push_back(to);
     }
-    tarjan(1,0);
+    tarjan(1);
     cout&lt;&lt;cnt&lt;&lt;endl;
     for(int i=1;i&lt;=n;i++){
         cout&lt;&lt;i&lt;&lt;&quot; color &quot;&lt;&lt;color[i]&lt;&lt;endl;
@@ -262,6 +263,10 @@ int main(){
 4 1
 4 6
 5 6
+*/
+
+
+
 */
 
 
