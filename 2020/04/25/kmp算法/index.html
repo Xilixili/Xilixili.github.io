@@ -141,7 +141,7 @@ daovoice('update');
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    218 字
+                    271 字
                   </span>&nbsp;
                 
 
@@ -186,9 +186,7 @@ daovoice('update');
         <div class="post-content mx-auto" id="post">
           <div class="markdown-body">
             <pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
-
 using namespace std;
-
 int nextval[1000];
 //这里面所有的i和j都是序号
 void get_nextval(string T){
@@ -198,16 +196,16 @@ void get_nextval(string T){
     while(i&lt;T.size()){
         if(j==0||T[i]==T[j]){
             i++; j++;
-            if(T[i]!=T[j]) nextval[i]=j;//j==0
-            else nextval[i]=nextval[j];//T[i]!=T[j]
+            //两个字符相同则跳过,这里进行了改进
+            //优化点，防止T串为aaaab这种类型，需要一个一个往前翻，利用下面两行，可以直接找到最初等价位置
+            if(T[i]==T[j]) nextval[i]=nextval[j];
+            else nextval[i]=j;//T[i]!=T[j]
         }
         else{
             j=nextval[j];
         }
     }
 }
-
-
 int Index_KMP(string S,string T){
     //i是指向主串的指针，j是模式串的指针
     int i=1,j=1;
@@ -223,15 +221,11 @@ int Index_KMP(string S,string T){
     if(j&gt;T.size()) return i-T.size();
     else return 0;
 }
-
-
-
 int main(){
     string S,T;
     cin&gt;&gt;S&gt;&gt;T;
     get_nextval(T);
     cout&lt;&lt;Index_KMP(S,T)&lt;&lt;endl;
-
 }
 </code></pre>
 

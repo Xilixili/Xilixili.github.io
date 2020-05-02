@@ -229,9 +229,7 @@ void tarjan(int u){
         
         <div class="index-excerpt" >
           <div class="index-text mb-1">#include&lt;bits/stdc++.h&gt;
-
 using namespace std;
-
 int nextval[1000];
 //这里面所有的i和j都是序号
 void get_nextval(string T){
@@ -241,20 +239,15 @@ void get_nextval(string T){
     while(i&lt;T.size()){
         if(j==0||T[i]==T[j]){
             i++; j++;
-            if(T[i]!=T[j]) nextval[i]=j;//j==0
-            else nextval[i]=nextval[j];//T[i]!=T[j]
+            //两个字符相同则跳过,这里进行了改进
+            //优化点，防止T串为aaaab这种类型，需要一个一个往前翻，利用下面两行，可以直接找到最初等价位置
+            if(T[i]==T[j]) nextval[i]=nextval[j];
+            else nextval[i]=j;//T[i]!=T[j]
         }
         else{
             j=nextval[j];
         }
-    }
-}
-
-
-int Index_KMP(string S,string T){
-    //i是指向主串的指针，j是模式串的指针
-    int i=1,j=1;
-  </div>
+ </div>
         </div>
       </a>
 
@@ -726,7 +719,7 @@ TreeNode* CreatTree(int s1,int t1,int s2,int t2){
 
   <nav aria-label="index posts navigation">
     <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
     </span>
   </nav>
   

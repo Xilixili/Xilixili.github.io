@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+
+
+
+
+
+<head>
+ <script>(function(i,s,o,g,r,a,m){i["DaoVoiceObject"]=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;a.charset="utf-8";m.parentNode.insertBefore(a,m)})(window,document,"script",('https:' == document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/0eeeae6f.js","daovoice")
+ daovoice('init', {
+  app_id: "246e9537"
+});
+daovoice('update');
+ </script>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/img/favicon.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+
+  <meta name="author" content="xixilili">
+  <meta name="keywords" content="">
+  
+  <title>动态规划总结 ~ xixilili.blog</title>
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.10.2/css/all.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/mdbootstrap/4.8.9/css/mdb.min.css"  >
+<link rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>xixilili.blog</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('https://capsule-1254369940.cos.ap-chengdu.myqcloud.com/xilixiliBg.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  Wednesday, April 29th 2020, 5:28 pm
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      10 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="简单dp"><a href="#简单dp" class="headerlink" title="简单dp"></a>简单dp</h1><h2 id="最大连续子序列"><a href="#最大连续子序列" class="headerlink" title="最大连续子序列"></a>最大连续子序列</h2><h3 id="三角形最小路径和"><a href="#三角形最小路径和" class="headerlink" title="三角形最小路径和"></a>三角形最小路径和</h3><p><img src="https://img-blog.csdnimg.cn/20200429165006825.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+
+
+    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; triangle) {
+        int m=triangle.size();
+        vector&lt;vector&lt;int&gt;&gt; dp(m,vector&lt;int&gt; (m,INT_MAX));
+        int ans=INT_MAX;
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;=i;j++){
+                if(i==0&amp;&amp;j==0){
+                    dp[i][j]=triangle[i][j];
+                    continue;
+                }
+                //上和左上的值，即上一步的位置
+                int up=INT_MAX,left_up=INT_MAX;
+                if(i&gt;=j){//此时上方存在元素
+                    up=dp[i-1][j];
+                }
+                if(j-1&gt;=0){////此时左上方存在元素
+                    left_up=dp[i-1][j-1];
+                }
+                dp[i][j]=min(up,left_up)+triangle[i][j];
+                //cout&lt;&lt;i&lt;&lt;&quot; &quot;&lt;&lt;j&lt;&lt;&quot;:&quot;&lt;&lt;dp[i][j]&lt;&lt;endl;
+            }
+        }
+        //遍历最后一行，找到总路径和最小的出口
+        for(int j=0;j&lt;triangle[m-1].size();j++){
+            if(dp[m-1][j]&lt;ans) ans=dp[m-1][j];
+        }
+        return ans;
+    }
+};</code></pre>
+<h2 id="最长递增子序列"><a href="#最长递增子序列" class="headerlink" title="最长递增子序列"></a>最长递增子序列</h2><h3 id="摆动序列"><a href="#摆动序列" class="headerlink" title="摆动序列"></a>摆动序列</h3><p><img src="https://img-blog.csdnimg.cn/20200419151336146.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    //up[i] 存的是目前为止最长的以第 i 个元素结尾的上升摆动序列的长度。
+
+    //down[i] 记录的是目前为止最长的以第 i 个元素结尾的下降摆动序列的长度。
+
+    int wiggleMaxLength(vector&lt;int&gt;&amp; nums) {
+        int n=nums.size();
+        if(n==0) return 0;
+        vector&lt;int&gt; up(n,1);
+        vector&lt;int&gt; down(n,1);
+        for(int i=0;i&lt;n;i++){
+            for(int j=0;j&lt;i;j++){
+                if(nums[i]&gt;nums[j]){
+                    up[i]=max(up[i],down[j]+1);
+                }
+                else if(nums[i]&lt;nums[j]){
+                    down[i]=max(down[i],up[j]+1);
+                }
+                //cout&lt;&lt;nums[i]&lt;&lt;endl;
+                //cout&lt;&lt;up[i]&lt;&lt;&quot; &quot;&lt;&lt;down[i]&lt;&lt;endl;
+            }
+        }
+        return max(up[n-1],down[n-1]);
+    }
+};</code></pre>
+<h2 id="最长公共子序列"><a href="#最长公共子序列" class="headerlink" title="最长公共子序列"></a>最长公共子序列</h2><h2 id="背包问题"><a href="#背包问题" class="headerlink" title="背包问题"></a>背包问题</h2><h1 id="区间dp"><a href="#区间dp" class="headerlink" title="区间dp"></a>区间dp</h1><h2 id="戳气球"><a href="#戳气球" class="headerlink" title="戳气球"></a>戳气球</h2><h1 id="树型dp"><a href="#树型dp" class="headerlink" title="树型dp"></a>树型dp</h1><h2 id="打家劫舍-III"><a href="#打家劫舍-III" class="headerlink" title="打家劫舍 III"></a>打家劫舍 III</h2><p><img src="https://img-blog.csdnimg.cn/20200417171403325.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    int rob(TreeNode* root) {
+        auto ans=dfs(root);
+        return max(ans.first,ans.second);
+    }
+
+    //返回的pair-&gt;first:选择当前结点的最大收益;pair-&gt;second:不选当前结点的最大收益
+    pair&lt;int,int&gt; dfs(TreeNode* root){
+        if(root==NULL) return {0,0};
+        auto left_pair=dfs(root-&gt;left);
+        auto right_pair=dfs(root-&gt;right);
+        //选root|不选root
+        return {root-&gt;val+left_pair.second+right_pair.second,
+                //max(选左边，不选左边)+max(选右边，不选右边)
+                max(left_pair.first,left_pair.second)+max(right_pair.first,right_pair.second)};
+    }
+};</code></pre>
+<h2 id="二叉树中的最大路径和"><a href="#二叉树中的最大路径和" class="headerlink" title="二叉树中的最大路径和"></a>二叉树中的最大路径和</h2><p><img src="https://img-blog.csdnimg.cn/20200417171623377.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    int maxh;
+    //因为有全部是负数的树存在(因为对NULL的处理是返回{0,0})，所以对这个情况单独拿出来
+    bool all_negetive=true;
+    int max_negetive=INT_MIN;
+    int max_path=INT_MIN;
+    int maxPathSum(TreeNode* root) {
+        auto ans=dfs(root);
+        //if(root-&gt;left==NULL&amp;&amp;root-&gt;right==NULL) return root-&gt;val;
+        if(all_negetive){
+            return max_negetive;
+        }
+        else return max_path;
+    }
+    pair&lt;int,int&gt; dfs(TreeNode* root){
+        if(root==NULL){
+            return {0,0};
+        }
+        if(root-&gt;val&gt;=0) all_negetive=false;
+        max_negetive=max(max_negetive,root-&gt;val);
+        auto left_pair=dfs(root-&gt;left);
+        auto right_pair=dfs(root-&gt;right);
+        //cout&lt;&lt;root-&gt;val&lt;&lt;endl;
+        //cout&lt;&lt;left_pair.first&lt;&lt;&quot; &quot;&lt;&lt;left_pair.second&lt;&lt;endl;
+        //cout&lt;&lt;right_pair.first&lt;&lt;&quot; &quot;&lt;&lt;right_pair.second&lt;&lt;endl;
+        max_path=max(max_path,
+                    max(
+                        max(root-&gt;val+left_pair.first,
+                            root-&gt;val+right_pair.first),
+                        max(root-&gt;val,
+                            root-&gt;val+left_pair.first+right_pair.first)
+                    )
+                );
+        return {
+//选root,要注意路径里面的结点是连续的,比如如果左边儿子没有选，那么不选左边儿子的最大路径和与当前结点的最大路径和也没关系了
+//并且子节点不能左右都选，不然就不是路径,所以当要选儿子时，最多只会选择儿子一条边来与自己构成路径
+        max(max(root-&gt;val+left_pair.first,root-&gt;val),root-&gt;val+right_pair.first),
+            //不选root
+        max(max(left_pair.first,left_pair.second),max(right_pair.first,right_pair.second))
+        };
+    }
+
+};</code></pre>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="把数字翻译成字符串"><a href="#把数字翻译成字符串" class="headerlink" title="把数字翻译成字符串"></a>把数字翻译成字符串</h2><p><strong>题目描述</strong><br>给定一个数字，按照如下规则翻译成字符串：0 翻译成“a”，1 翻译成“b”… 25 翻译成“z”。一个数字有多种翻译可能，例如 12258 一共有 5 种，分别是 bccfi，bwfi，bczi，mcfi，mzi。实现一个函数，用来计算一个数字有多少种不同的翻译方法。</p>
+<pre><code class="cpp">public class Solution {
+    public int numDecodings(String s) {
+        if(s == null || s.length() == 0) {
+            return 0;
+        }
+        int n = s.length();
+        int[] dp = new int[n+1];
+        dp[0] = 1;
+        dp[1] = s.charAt(0) != &#39;0&#39; ? 1 : 0;
+        for(int i = 2; i &lt;= n; i++) {
+            int first = Integer.valueOf(s.substring(i-1, i));
+            int second = Integer.valueOf(s.substring(i-2, i));
+            if(first &gt;= 1 &amp;&amp; first &lt;= 9) {
+               dp[i] += dp[i-1];  
+            }
+            if(second &gt;= 10 &amp;&amp; second &lt;= 26) {
+                dp[i] += dp[i-2];
+            }
+        }
+        return dp[n];
+    }
+}</code></pre>
+<h2 id="最长回文子串"><a href="#最长回文子串" class="headerlink" title="最长回文子串"></a>最长回文子串</h2><p><img src="https://img-blog.csdnimg.cn/20200429153120710.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    int Max=0;
+    string longestPalindrome(string s) {
+        int n=s.size();
+        vector&lt;vector&lt;bool&gt;&gt; dp(n,vector&lt;bool&gt;(n));
+        //dp[j][i]表示从j到i是否为回文子串
+        string ans;
+        if(s.size()==0) return &quot;&quot;;
+        else if(s.size()==1) return s;
+        for(int i=0;i&lt;s.size();i++){
+            for(int j=i;j&gt;=0;j--){
+                if(s[i]==s[j]&amp;&amp;(i-j&lt;=2||dp[j+1][i-1])){
+                    dp[j][i]=true;
+                    if(i-j+1&gt;Max){
+                        ans=s.substr(j,i-j+1);
+                        Max=i-j+1;
+                    }
+                }
+            }
+        }
+        return ans;
+    }
+};</code></pre>
+<h2 id="正则表达式匹配"><a href="#正则表达式匹配" class="headerlink" title="正则表达式匹配"></a>正则表达式匹配</h2><p><img src="https://img-blog.csdnimg.cn/20200429161114506.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    bool isMatch(string s, string p) {
+        s=&quot; &quot;+s;//防止该案例：&quot;&quot;\n&quot;c*&quot;
+        p=&quot; &quot;+p;
+        int m=s.size(),n=p.size();
+        bool dp[m+1][n+1];
+        memset(dp,false,(m+1)*(n+1));
+        dp[0][0]=true;
+        for(int i=1;i&lt;=m;i++){
+            for(int j=1;j&lt;=n;j++){
+                if(s[i-1]==p[j-1] || p[j-1]==&#39;.&#39;){
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else if(p[j-1]==&#39;*&#39;){
+                    if(s[i-1]!=p[j-2] &amp;&amp; p[j-2]!=&#39;.&#39;)
+                        dp[i][j]=dp[i][j-2];
+                    else{
+                        dp[i][j]=dp[i][j-1] || dp[i][j-2] || dp[i-1][j];
+
+                    }
+                }
+            }
+        }
+        return dp[m][n];
+    }
+};</code></pre>
+<h2 id="最长有效括号"><a href="#最长有效括号" class="headerlink" title="最长有效括号"></a>最长有效括号</h2><p><img src="https://img-blog.csdnimg.cn/20200429161843401.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>注意：进行括号匹配的时候分三段:<br>1.前一个字符结尾能匹配的最长的串<br>2.能和当前这个字符匹配的 (<br>3.再往前一个能匹配的最长串</p>
+<pre><code class="cpp">class Solution {
+public:
+    int longestValidParentheses(string s) {
+        if(s.size()==0) return 0;
+        int n=s.size();
+        int max_len=0;
+        vector&lt;int&gt;  dp(n);//dp[i]表示以s[i]结尾的最长有效括号长度
+        dp[0]=0;
+        for(int i=0;i&lt;s.size();i++){
+            if(s[i]==&#39;(&#39;) dp[i]=0;
+            else{
+                if(i&gt;=1&amp;&amp;s[i-1]==&#39;(&#39;){//      ()的情况
+                    if(i==1) dp[i]=2;
+                    else{
+                        dp[i]=dp[i-2]+2;
+                    }
+                }
+                else if(i&gt;=1&amp;&amp;s[i-1]==&#39;)&#39;){//  ))的情况
+                    //cout&lt;&lt;i&lt;&lt;&quot; &quot;&lt;&lt;dp[i-1]&lt;&lt;endl;
+                    if(i-dp[i-1]-1&lt;0||s[i-dp[i-1]-1]!=&#39;(&#39;) dp[i]=0;
+                    else if(s[i-dp[i-1]-1]==&#39;(&#39;){
+
+                        if(i-dp[i-1]-2&lt;0){
+                            dp[i]=0+dp[i-1]+2;
+                        }
+                        else{
+                            dp[i]=dp[i-dp[i-1]-2]+dp[i-1]+2;
+                        }
+                    }
+                }
+            }
+            cout&lt;&lt;dp[i]&lt;&lt;endl;
+            max_len=max(max_len,dp[i]);
+        }
+        return max_len;
+    }
+};</code></pre>
+<h2 id="编辑距离"><a href="#编辑距离" class="headerlink" title="编辑距离"></a>编辑距离</h2><p><img src="https://img-blog.csdnimg.cn/20200429164556944.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+    int dp[666][666];
+    int minDistance(string word1, string word2) {
+        int m=word1.size();
+        int n=word2.size();
+        //cout&lt;&lt;m&lt;&lt;endl;
+        word1=&quot; &quot;+word1;
+        word2=&quot; &quot;+word2;
+        //只进行删除的状态
+        for(int i=0;i&lt;word1.size();i++){
+            dp[i][0]=i;
+        }
+        //只进行插入的状态
+        for(int j=0;j&lt;word2.size();j++){
+            dp[0][j]=j;
+        }
+        //自顶向下
+        for(int i=1;i&lt;=word1.size();i++){
+            for(int j=1;j&lt;=word2.size();j++){
+                //相同则不做操作
+                if(word1[i]==word2[j]){
+                    dp[i][j]=dp[i-1][j-1];
+                }
+                else{
+                    dp[i][j]=Min(
+                        dp[i][j-1]+1,//插入
+                        dp[i-1][j]+1,//删除
+                        dp[i-1][j-1]+1//替换
+                    );
+                }
+                //cout&lt;&lt;i&lt;&lt;&quot;,&quot;&lt;&lt;j&lt;&lt;&quot;:&quot;&lt;&lt;dp[i][j]&lt;&lt;endl;
+            }
+        }
+        return dp[m][n];
+    }
+
+
+    int Min(int x,int y,int z){
+        return min(x,min(y,z));
+    }
+};</code></pre>
+<h2 id="最大正方形"><a href="#最大正方形" class="headerlink" title="最大正方形"></a>最大正方形</h2><p><img src="https://img-blog.csdnimg.cn/20200429170041313.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">class Solution {
+public:
+
+    struct node{
+        int rows,cols;
+        //方便初始化
+        node():rows(0),cols(0){}
+    };
+    int max_Area=0;
+    int maximalSquare(vector&lt;vector&lt;char&gt;&gt;&amp; matrix) {
+        int m=matrix.size();
+        if(m==0) return 0;
+        int n=matrix[0].size();
+        vector&lt;vector&lt;node&gt;&gt; dp(m+1,vector&lt;node&gt;(n+1,node()));
+        if(matrix[0][0]==&#39;1&#39;){
+            dp[0][0].rows=1;
+            dp[0][0].cols=1;
+        }
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;n;j++){
+                if(i==0||j==0){
+                    dp[i][j].rows=matrix[i][j]-&#39;0&#39;;
+                    dp[i][j].cols=matrix[i][j]-&#39;0&#39;;                    
+                }
+                else if(matrix[i][j]==&#39;1&#39;){
+                    dp[i][j].rows=min(dp[i-1][j-1].rows,dp[i][j-1].rows)+1;
+                    dp[i][j].cols=min(dp[i-1][j-1].cols,dp[i-1][j].cols)+1;
+                }
+                //cout&lt;&lt;i&lt;&lt;&quot;,&quot;&lt;&lt;j&lt;&lt;&quot;   &quot;&lt;&lt;dp[i][j].rows&lt;&lt;&quot; &quot;&lt;&lt;dp[i][j].cols&lt;&lt;endl;
+            }
+        }
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;n;j++){
+                int edge=min(dp[i][j].rows,dp[i][j].cols);
+                max_Area=max(max_Area,edge*edge);
+            }
+        }
+        return max_Area;
+    }
+};</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;TOC</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <!--PC和WAP自适应版-->
+  <div id="SOHUCS" sid='http://yoursite.com/2020/04/29/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%80%BB%E7%BB%93/'></div>
+  <script type="text/javascript">
+    (function () {
+      var appid = 'cyuGAy6Y7';
+      var conf = '';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+        var head = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.charset = 'utf-8';
+        script.id = 'changyan_mobile_js';
+        script.src = 'https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf;
+        head.appendChild(script);
+      } else {
+        var loadJs = function (d, a) {
+          var c = document.getElementsByTagName('head')[0] || document.head || document.documentElement;
+          var b = document.createElement('script');
+          b.setAttribute('type', 'text/javascript');
+          b.setAttribute('charset', 'UTF-8');
+          b.setAttribute('src', d);
+          if (typeof a === 'function') {
+            if (window.attachEvent) {
+              b.onreadystatechange = function () {
+                var e = b.readyState;
+                if (e === 'loaded' || e === 'complete') {
+                  b.onreadystatechange = null;
+                  a();
+                }
+              };
+            } else {
+              b.onload = a;
+            }
+          }
+          c.appendChild(b);
+        };
+        loadJs('https://changyan.sohu.com/upload/changyan.js', function () {
+          window.changyan.api.config({ appid: appid, conf: conf });
+        });
+      }
+    })(); </script>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv">总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次</span>&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv">总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人</span>&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js" ></script>
+<script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+<script src="https://cdn.staticfile.org/mdbootstrap/4.8.9/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="https://cdn.staticfile.org/tocbot/4.8.0/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="https://cdn.staticfile.org/smoothscroll/1.4.10/smooth-scroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+    <!-- Baidu Analytics -->
+    <script>
+      var _hmt = _hmt || [];
+      (function () {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?6a61255581242c8c58471dfbffd3bd66# 百度统计的Key，参见 https://tongji.baidu.com/sc-web/10000033910/home/site/getjs?siteId=13751376 代码获取中 hm.js? 后边的字符串";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="https://cdn.staticfile.org/prettify/r298/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/typed.js/2.0.10/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "动态规划总结&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/anchor-js/4.2.0/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+  
+  
+    <script type="text/javascript">
+      //定义获取词语下标
+      var a_idx = 0;
+      jQuery(document).ready(function ($) {
+        //点击body时触发事件
+        $("body").click(function (e) {
+          //需要显示的词语
+          var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正", "法治", "爱国", "敬业", "诚信", "友善");
+          //设置词语给span标签
+          var $i = $("<span/>").text(a[a_idx]);
+          //下标等于原来下标+1  余 词语总数
+          a_idx = (a_idx + 1) % a.length;
+          //获取鼠标指针的位置，分别相对于文档的左和右边缘。
+          //获取x和y的指针坐标
+          var x = e.pageX, y = e.pageY;
+          //在鼠标的指针的位置给$i定义的span标签添加css样式
+          $i.css({
+            "z-index": 999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": rand_color()
+          });
+          // 随机颜色
+          function rand_color() {
+            return "rgb(" + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + "," + ~~(255 * Math.random()) + ")"
+          }
+          //在body添加这个标签
+          $("body").append($i);
+          //animate() 方法执行 CSS 属性集的自定义动画。
+          //该方法通过CSS样式将元素从一个状态改变为另一个状态。CSS属性值是逐渐改变的，这样就可以创建动画效果。
+          //详情请看http://www.w3school.com.cn/jquery/effect_animate.asp
+          $i.animate({
+            //将原来的位置向上移动180
+            "top": y - 180,
+            "opacity": 0
+            //1500动画的速度
+          }, 1500, function () {
+            //时间到了自动删除
+            $i.remove();
+          });
+        });
+      })
+      ;
+    </script>
+  
+
+
+
+  <script>(function (i, s, o, g, r, a, m) {
+      i['DaoVoiceObject'] = r;
+      i[r] = i[r] ||
+        function () {
+          (i[r].q = i[r].q || []).push(arguments);
+        };
+      i[r].l = 1 * new Date();
+      a = s.createElement(o);
+      m = s.getElementsByTagName(o)[0];
+      a.async = 1;
+      a.src = g;
+      a.charset = 'utf-8';
+      m.parentNode.insertBefore(a, m);
+    })(window, document, 'script', ('https:' === document.location.protocol ? 'https:' : 'http:') + "//widget.daovoice.io/widget/246e9537.js", 'daovoice');
+    daovoice('init', {
+      app_id: "246e9537",
+    });
+    daovoice('update');
+  </script>
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginModelPath":"assets/","model":{"jsonPath":"/live2dw/assets/wanko.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
