@@ -155,6 +155,61 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/05/04/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%80%BB%E7%BB%93/">
+        <p class="h4 index-header">动态规划总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">简单dp最大连续子序列三角形最小路径和
+class Solution {
+public:
+
+
+    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; triangle) {
+        int m=triangle.size();
+        vector&lt;vector&lt;int&gt;&gt; dp(m,vector&lt;int&gt; (m,INT_MAX));
+        int ans=INT_MAX;
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;=i;j++){
+                if(i==0&amp;&amp;j==0){
+                    dp[i][j]=triangle[i][j];
+                    continue;
+                }
+                //上和左上的值，即上一步的位置
+             </div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-04&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/04/26/Tarjan%E7%AE%97%E6%B3%95/">
         <p class="h4 index-header">Tarjan算法</p>
         
@@ -643,72 +698,6 @@ double Calculate(double a,double b,char op){
             <a href="/tags/c++">c++</a>&nbsp;
           
             <a href="/tags/%E4%B8%AD%E7%BC%80%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F">中缀后缀表达式</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/03/11/%E6%A0%91%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93/">
-        <p class="h4 index-header">树形数据结构总结</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">前序,中序,后序知二推一求先序序列题目描述给出一棵二叉树的中序与后序排列,求出它的先序排列，(约定树结点用不同的大写字母表示,长度≤8)。
-输入格式2行，均为大写字母组成的字符串，表示一棵二叉树的中序与后序排列。
-输出格式1行，表示一棵二叉树的先序。
-输入
-
-BADCBDCA
-
-输出
-
-ABCD
-
-#include&lt;iostream&gt;
-#include&lt;string&gt;
-using namespace std;
-
-string in;
-string post;
-
-struct TreeNode{
-    char data;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(char data):data(data),left(NULL),right(NULL){}
-};
-
-TreeNode* Tree[10000];
-
-TreeNode* CreatTree(int s1,int t1,int s2,int t2){
-    char c=post[t1];//后序的最后一个
-    if(s1==t1)</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-11&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E6%A0%91">树</a>&nbsp;
           
         
       </div>

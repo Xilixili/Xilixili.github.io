@@ -155,38 +155,193 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/04/29/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E6%80%BB%E7%BB%93/">
-        <p class="h4 index-header">动态规划总结</p>
+      <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(4)--%E7%BA%BF%E6%80%A7%E6%A8%A1%E5%9E%8B/">
+        <p class="h4 index-header">周志华《Machine Learning》学习笔记(4)--线性模型</p>
         
         
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">简单dp最大连续子序列三角形最小路径和
-class Solution {
-public:
+          <div class="index-text mb-1">笔记的前一部分主要是对机器学习预备知识的概括，包括机器学习的定义/术语、学习器性能的评估/度量以及比较，本篇之后将主要对具体的学习算法进行理解总结，本篇则主要是第3章的内容–线性模型。
+#3、线性模型
+谈及线性模型，其实我们很早就已经与它打过交道，还记得高中数学必修3课本中那个顽皮的“最小二乘法”吗？这就是线性模型的经典算法之一：根据给定的（x，y）点对，求出一条与这些点拟合效果最好的直线y=ax+b，之前我们利用下面的公式便可以计算出拟合直线的系数a,b（3.1中给出了具体的计算过程），从而对于一个新的x，可以预测它所对应的y值。前面我们提到：在机器学习的术语中，当预测值为连续值时，称为“回归问题”，离散值时为“分类问题”。本篇先从线性回归任务开始，接着讨论分类和多分类问题。
 
-
-    int minimumTotal(vector&lt;vector&lt;int&gt;&gt;&amp; triangle) {
-        int m=triangle.size();
-        vector&lt;vector&lt;int&gt;&gt; dp(m,vector&lt;int&gt; (m,INT_MAX));
-        int ans=INT_MAX;
-        for(int i=0;i&lt;m;i++){
-            for(int j=0;j&lt;=i;j++){
-                if(i==0&amp;&amp;j==0){
-                    dp[i][j]=triangle[i][j];
-                    continue;
-                }
-                //上和左上的值，即上一步的位置
-             </div>
+##3.1 线性回归
+线性回归问题就是试图学到一个线性模型尽可能准确地预测新样本的输出值，例如：通过历年的人口数据预测2017年人口数量。在这类问题中，往往我们会先得到一系列的有标记数据，例如：2000–&gt;13亿…2016–&gt;15亿，这时输入的属性只有一个，即年份；也有输入多属性的情形，假设我们预</div>
         </div>
       </a>
 
       <div>
         
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-29&nbsp;&nbsp;
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-02&nbsp;&nbsp;
         
         
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/Machine%20learning">Machine learning</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Machine%20learning">Machine learning</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(3)--%E5%81%87%E8%AE%BE%E6%A3%80%E9%AA%8C&%E6%96%B9%E5%B7%AE&%E5%81%8F%E5%B7%AE/">
+        <p class="h4 index-header">周志华《Machine Learning》学习笔记(3)--假设检验&amp;方差&amp;偏差</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">在上两篇中，我们介绍了多种常见的评估方法和性能度量标准，这样我们就可以根据数据集以及模型任务的特征，选择出最合适的评估和性能度量方法来计算出学习器的“测试误差“。但由于“测试误差”受到很多因素的影响，例如：算法随机性(例如常见的K-Means)或测试集本身的选择，使得同一模型每次得到的结果不尽相同，同时测试误差是作为泛化误差的近似，并不能代表学习器真实的泛化性能，那如何对单个或多个学习器在不同或相同测试集上的性能度量结果做比较呢？这就是比较检验。最后偏差与方差是解释学习器泛化性能的一种重要工具。本篇延续上一篇的内容，主要讨论了比较检验、方差与偏差。
+##2.6 比较检验
+在比较学习器泛化性能的过程中，统计假设检验（hypothesis test）为学习器性能比较提供了重要依据，即若A在某测试集上的性能优于B，那A学习器比B好的把握有多大。 为方便论述，本篇中都是以“错误率”作为性能度量的标准。
+###2.6.1 假设检验
+“假设”指的是对样本总体的分布或已知分布中某个参数值的一种猜想，例如：假设总体服从泊松分布，或假设正态总体的期望u=u0。回到本篇中，我们可以通过测试获得测试错误率，</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/Machine%20learning">Machine learning</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Machine%20learning">Machine learning</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(2)--%E6%80%A7%E8%83%BD%E5%BA%A6%E9%87%8F/">
+        <p class="h4 index-header">周志华《Machine Learning》学习笔记(2)--性能度量</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本篇主要是对第二章剩余知识的理解，包括：性能度量、比较检验和偏差与方差。在上一篇中，我们解决了评估学习器泛化性能的方法，即用测试集的“测试误差”作为“泛化误差”的近似，当我们划分好训练/测试集后，那如何计算“测试误差”呢？这就是性能度量，例如：均方差，错误率等，即“测试误差”的一个评价标准。有了评估方法和性能度量，就可以计算出学习器的“测试误差”，但由于“测试误差”受到很多因素的影响，例如：算法随机性或测试集本身的选择，那如何对两个或多个学习器的性能度量结果做比较呢？这就是比较检验。最后偏差与方差是解释学习器泛化性能的一种重要工具。写到后面发现冗长之后读起来十分没有快感，故本篇主要知识点为性能度量。
+2.5 性能度量
+性能度量（performance measure）是衡量模型泛化能力的评价标准，在对比不同模型的能力时，使用不同的性能度量往往会导致不同的评判结果。本节除2.5.1外，其它主要介绍分类模型的性能度量。
+2.5.1 最常见的性能度量
+在回归任务中，即预测连续值的问题，最常用的性能度量是“均方误差”（mean squared error）,很多的经典算法都是采用了MSE作为评</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/Machine%20learning">Machine learning</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Machine%20learning">Machine learning</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(1)--%E7%BB%AA%E8%AE%BA/">
+        <p class="h4 index-header">周志华《Machine Learning》学习笔记(1)--绪论</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">机器学习是目前信息技术中最激动人心的方向之一，其应用已经深入到生活的各个层面且与普通人的日常生活密切相关。本文为清华大学最新出版的《机器学习》教材的Learning Notes，书作者是南京大学周志华教授，多个大陆首位彰显其学术奢华。本篇主要介绍了该教材前两个章节的知识点以及自己一点浅陋的理解。
+1  绪论
+傍晚小街路面上沁出微雨后的湿润，和熙的细风吹来，抬头看看天边的晚霞，嗯，明天又是一个好天气。走到水果摊旁，挑了个根蒂蜷缩、敲起来声音浊响的青绿西瓜，一边满心期待着皮薄肉厚瓢甜的爽落感，一边愉快地想着，这学期狠下了工夫，基础概念弄得清清楚楚，算法作业也是信手拈来，这门课成绩一定差不了！哈哈，也希望自己这学期的machine learning课程取得一个好成绩！
+1.1 机器学习的定义
+正如我们根据过去的经验来判断明天的天气，吃货们希望从购买经验中挑选一个好瓜，那能不能让计算机帮助人类来实现这个呢？机器学习正是这样的一门学科，人的“经验”对应计算机中的“数据”，让计算机来学习这些经验数据，生成一个算法模型，在面对新的情况中，计算机便能作出有效的判断，这便是机器学习。
+另一本经典教材的作</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/Machine%20learning">Machine learning</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Machine%20learning">Machine learning</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(17)--%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/">
+        <p class="h4 index-header">周志华《Machine Learning》学习笔记(17)--强化学习</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">上篇主要介绍了概率图模型，首先从生成式模型与判别式模型的定义出发，引出了概率图模型的基本概念，即利用图结构来表达变量之间的依赖关系；接着分别介绍了隐马尔可夫模型、马尔可夫随机场、条件随机场、精确推断方法以及LDA话题模型：HMM主要围绕着评估/解码/学习这三个实际问题展开论述；MRF基于团和势函数的概念来定义联合概率分布；CRF引入两种特征函数对状态序列进行评价打分；变量消去与信念传播在给定联合概率分布后计算特定变量的边际分布；LDA话题模型则试图去推断给定文档所蕴含的话题分布。本篇将介绍最后一种学习算法–强化学习。
+#16、强化学习
+强化学习（Reinforcement Learning，简称RL）是机器学习的一个重要分支，前段时间人机大战的主角AlphaGo正是以强化学习为核心技术。在强化学习中，包含两种基本的元素：状态与动作，在某个状态下执行某种动作，这便是一种策略，学习器要做的就是通过不断地探索学习，从而获得一个好的策略。例如：在围棋中，一种落棋的局面就是一种状态，若能知道每种局面下的最优落子动作，那就攻无不克/百战不殆了~
+若将状态看作为属性，动作看作为标记，易知：监督学习和</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/Machine%20learning">Machine learning</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Machine%20learning">Machine learning</a>&nbsp;
+          
         
       </div>
     </div>
@@ -342,7 +497,7 @@ stringstream具体来说就是C++标准库中的提供了比ANSI C的&lt;stdio.h
     
     <div class="col-12 col-md-8 m-auto">
       <a href="/2020/02/22/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">
-        <p class="h4 index-header">标准c++中string类函数介绍</p>
+        <p class="h4 index-header">vector的总结</p>
         
         
           
@@ -414,195 +569,6 @@ stringstream具体来说就是C++标准库中的提供了比ANSI C的&lt;stdio.h
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-15&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/15/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/">
-        <p class="h4 index-header">点菜问题</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述    北大网络实验室经常有活动需要叫外卖，但是每次叫外卖的报销经费的总额最大为C元，有N种菜可以点，经过长时间的点菜，网络实验室对于每种菜i都有一个量化的评价分数（表示这个菜可口程度），为Vi，每种菜的价格为Pi, 问如何选择各种菜，使得在报销额度范围内能使点到的菜的总评价分数最大。     注意：由于需要营养多样化，每种菜只能点一次。
-输入描述:    输入的第一行有两个整数C（1 &lt;= C &lt;= 1000）和N（1 &lt;= N &lt;= 100），C代表总共能够报销的额度，N&gt;代表能点菜的数目。接下来的N行每行包括两个在1到100之间（包括1和100）的的整数，分别表示菜的&gt;价格和菜的评价分数。
-输出描述:    输出只包括一行，这一行只包含一个整数，表示在报销额度范围内，所点的菜得到的最大评价分数。
-输入
-
-90 420 2530 2040 5010 1840 225 3010 8
-
-输出
-
-95 38
-
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-//背包问题
-using namespa</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-15&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/14/Common%20Subsequence/">
-        <p class="h4 index-header">合唱队列</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">DescriptionA subsequence of a given sequence is the given sequence with some elements (possible none) left out. Given a sequence X = &lt; x1, x2, …, xm &gt; another sequence Z = &lt; z1, z2, …, zk &gt; is a subsequence of X if there exists a strictly increasing sequence &lt; i1, i2, …, ik &gt; of indices of X such that for all j = 1,2,…,k, xij = zj. For example, Z = &lt; a, b, f, c &gt; is a subsequence of X = &lt; a, b, c, f, b, c &gt; with index sequence &lt; 1, 2, 4, 6 &gt;. Given two sequenc</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-14&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/13/%E5%90%88%E5%94%B1%E9%98%9F%E5%88%97/">
-        <p class="h4 index-header">合唱队列</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述N位同学站成一排，音乐老师要请其中的(N-K)位同学出列，使得剩下的K位同学不交换位置就能排成合唱队形。 合唱队形是指这样的一种队形：设K位同学从左到右依次编号为1, 2, …, K，他们的身高分别为T1, T2, …, TK， 则他们的身高满足T1 &lt; T2 &lt; … &lt; Ti , Ti &gt; Ti+1 &gt; … &gt; TK (1 &lt;= i &lt;= K)。 你的任务是，已知所有N位同学的身高，计算最少需要几位同学出列，可以使得剩下的同学排成合唱队形。
-输入描述:输入的第一行是一个整数N（2 &lt;= N &lt;= 100），表示同学的总数。第一行有n个整数，用空格分隔，第i个整数Ti（130 &lt;= Ti &lt;= 230）是第i位同学的身高（厘米）。
-输出描述:可能包括多组测试数据，对于每组数据，输出包括一行，这一行只包含一个整数，就是最少需要几位同学出列。
-输入
-
-8186 186 150 200 160 130 197 220
-
-输出
-
-4
-
-#include &lt;bits/stdc++.h&gt;
-using nam</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-13&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/13/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C/">
-        <p class="h4 index-header">最大上升子序列和</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">题目描述一个数的序列bi，当b1 &lt; b2 &lt; … &lt; bS的时候，我们称这个序列是上升的。对于给定的一个序列(a1, a2, …,aN)，我们可以得到一些上升的子序列(ai1, ai2, …, aiK)，这里1 &lt;= i1 &lt; i2 &lt; … &lt; iK &lt;= N。比如，对于序列(1, 7, 3, 5, 9, 4, 8)，有它的一些上升子序列，如(1, 7), (3, 4, 8)等等。这些子序列中序列和最大为18，为子序列(1, 3, 5, 9)的和. 你的任务，就是对于给定的序列，求出最大上升子序列和。注意，最长的上升子序列的和不一定是最大的，比如序列(100, 1, 2, 3)的最大上升子序列和为100，而最长上升子序列为(1, 2, 3)。
-输入描述:输入包含多组测试数据。每组测试数据由两行组成。第一行是序列的长度N (1 &lt;= N &lt;= 1000)。第二行给出序列中的N个整数，这些整数的取值范围都在0到10000（可能重复）。
-输出描述:对于每组测试数据，输出其最大上升子序列和。
-输入
-
-71 7 3 5 9 4 8
-
-</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-13&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>

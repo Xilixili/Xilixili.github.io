@@ -155,6 +155,72 @@ daovoice('update');
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/03/11/%E6%A0%91%E5%9E%8B%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E6%80%BB%E7%BB%93/">
+        <p class="h4 index-header">树形数据结构总结</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">前序,中序,后序知二推一求先序序列题目描述给出一棵二叉树的中序与后序排列,求出它的先序排列，(约定树结点用不同的大写字母表示,长度≤8)。
+输入格式2行，均为大写字母组成的字符串，表示一棵二叉树的中序与后序排列。
+输出格式1行，表示一棵二叉树的先序。
+输入
+
+BADCBDCA
+
+输出
+
+ABCD
+
+#include&lt;iostream&gt;
+#include&lt;string&gt;
+using namespace std;
+
+string in;
+string post;
+
+struct TreeNode{
+    char data;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(char data):data(data),left(NULL),right(NULL){}
+};
+
+TreeNode* Tree[10000];
+
+TreeNode* CreatTree(int s1,int t1,int s2,int t2){
+    char c=post[t1];//后序的最后一个
+    if(s1==t1)</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-03-11&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/c++">c++</a>&nbsp;
+          
+            <a href="/tags/%E6%A0%91">树</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/03/09/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%80%BB%E7%BB%93/">
         <p class="h4 index-header">快速幂最终总结</p>
         
@@ -709,63 +775,6 @@ int main(){
       <div>
         
           <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-22&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>&nbsp;
-          
-            <a href="/tags/c++">c++</a>&nbsp;
-          
-            <a href="/tags/%E5%A4%8D%E8%AF%95%E7%9C%9F%E9%A2%98">复试真题</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/02/21/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8B/">
-        <p class="h4 index-header">USTC机试_06下</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">1.统计一个字符串当中有多少字母、数字、空格和其它字符；
-#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-
-using namespace std;
-
-int count_zimu=0,count_shuzi=0,count_space=0,count_others=0;
-
-void Count(char c){
-    if(c&gt;=&#39;0&#39;&amp;&amp;c&lt;=&#39;9&#39;) count_shuzi++;
-    else if((c&gt;=&#39;a&#39;&amp;&amp;c&lt;=&#39;z&#39;)||(c&gt;=&#39;A&#39;&amp;&amp;c&lt;=&#39;Z&#39;)) count_zimu++;
-    else if(c==&#39; &#39;) count_space++;
-    else count_others++;
-}
-
-int main(){
-    string s;3r
-    getline(cin,s);
-    for(i</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-02-21&nbsp;&nbsp;
         
         
           <i class="iconfont icon-inbox"></i>
