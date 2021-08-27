@@ -14,7 +14,7 @@
 <meta property="og:url" content="https://xilixili.github.io/2021/01/13/BERT%E9%95%BF%E6%96%87%E6%9C%AC%E5%A4%84%E7%90%86-COGLTX/index.html">
 <meta property="og:site_name" content="xixilili.blog">
 <meta property="og:description" content="BERT长文本处理-COGLTX这是今年清华大学及阿里巴巴发表在NIPS 2020上的一篇论文《CogLTX: Applying BERT to Long Texts》，介绍了如何优雅地使用bert处理长文本。作者同时开源了不同NLP任务下使用COGLTX的代码：论文地址：&gt; NIPS20-Ding-et-al-CogLTX.pdf代码开源：&gt; Sleepychord&#x2F;CogLTXbe">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469427-d1c6142a-a518-444c-89ef-3a8b46f46898.jpeg#align=left&display=inline&height=615&margin=%5Bobject%20Object%5D&originHeight=507&originWidth=720&size=0&status=done&style=none&width=873">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469428-46c1fde2-bf0f-4432-96b6-55a543c73d80.jpeg#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=225&originWidth=720&size=0&status=done&style=none&width=1666">
 <meta property="og:image" content="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469377-87349408-6858-4e58-aba7-7e438831f4ca.jpeg#align=left&display=inline&height=1082&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=720&size=0&status=done&style=none&width=2382">
@@ -188,9 +188,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="BERT长文本处理-COGLTX"><a href="#BERT长文本处理-COGLTX" class="headerlink" title="BERT长文本处理-COGLTX"></a>BERT长文本处理-COGLTX</h1><p>这是今年清华大学及阿里巴巴发表在NIPS 2020上的一篇论文《CogLTX: Applying BERT to Long Texts》，介绍了如何优雅地使用bert处理长文本。作者同时开源了不同NLP任务下使用COGLTX的代码：<br>论文地址：&gt; <a href="https://link.zhihu.com/?target=http%3A//keg.cs.tsinghua.edu.cn/jietang/publications/NIPS20-Ding-et-al-CogLTX.pdf">NIPS20-Ding-et-al-CogLTX.pdf</a>代码开源：&gt; <a href="https://link.zhihu.com/?target=https%3A//github.com/Sleepychord/CogLTX">Sleepychord/CogLTX</a><br>bert在长文本处理一般分为三种方法<a href="https://zhuanlan.zhihu.com/p/304764328#ref_1" target="_blank" rel="noopener">[1]</a>：<br><strong>·</strong>截断法；<br><strong>·</strong>Pooling法；<br><strong>·</strong>压缩法。<br>该论文就是压缩法的一种，是三种方法中最好的。我们在科研和工作中都会遇到该问题，例如我最近关注的一个文本分类比赛：<br><a href="https://link.zhihu.com/?target=https%3A//www.datafountain.cn/competitions/471">面向数据安全治理的数据内容智能发现与分级分类 竞赛 - DataFountain</a>.<br>其文本数据长度就都在3000左右，无法将其完整输入bert，使用COGLTX就可以很好地处理该问题，那么就一起来看看该论文具体是怎么做的吧。</p>
-<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a><strong>1.背景</strong></h2><p>基于以下情形：<br><strong>·</strong>bert作为目前最优秀的PLM，不用是不可能的；<br><strong>·</strong>长文本数据普遍存在，且文本中包含的信息非常分散，难以使用滑动窗口<a href="https://zhuanlan.zhihu.com/p/304764328#ref_2" target="_blank" rel="noopener">[2]</a>截断。<br>而由于bert消耗计算资源和时间随着token的长度是平方级别增长的，所以其无法处理太长的token，目前最长只支持512个token，token过长也很容易会内存溢出，所以在使用bert处理长文本时需要设计巧妙的方法来解决这个问题。<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469427-d1c6142a-a518-444c-89ef-3a8b46f46898.jpeg#align=left&display=inline&height=615&margin=%5Bobject%20Object%5D&originHeight=507&originWidth=720&size=0&status=done&style=none&width=873" srcset="/img/loading.gif" alt=""></p>
-<h2 id="2-提出模型"><a href="#2-提出模型" class="headerlink" title="2.提出模型"></a><strong>2.提出模型</strong></h2><p>COGLTX模型在三类NLP任务中的结构如下：<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469428-46c1fde2-bf0f-4432-96b6-55a543c73d80.jpeg#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=225&originWidth=720&size=0&status=done&style=none&width=1666" srcset="/img/loading.gif" alt="">)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469377-87349408-6858-4e58-aba7-7e438831f4ca.jpeg#align=left&display=inline&height=1082&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=720&size=0&status=done&style=none&width=2382" srcset="/img/loading.gif" alt=""><br>首先假设：存在短文本 $$z^+$$可以完全表达原长文本 $$x^+$$的语义：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469414-bbc32d15-fb84-4759-9f1e-4d4e76b78ac9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>那么令 $$z^+$$ 代替 $$x^+$$ 输入原来的模型即可，那么怎么找到这个 $$z^+$$ 呢<br>1、使用动态规划算法将长文本 $$x^+$$ 划分为文本块集合 <img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469429-027c48f3-9528-47f7-a23d-90aed7211278.svg#align=left&display=inline&height=26&margin=%5Bobject%20Object%5D&originHeight=26&originWidth=104&size=0&status=done&style=none&width=104" srcset="/img/loading.gif" alt=""> ；<br>2、使用<strong>MemRecall</strong>对原长句中的子句进行打分，MemRecall结构如图，而表现如下式：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469473-73710ae1-476c-45a5-a768-b19a90953850.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469457-e6943b24-8436-40b5-8341-4396fabbc648.svg#align=left&display=inline&height=51&margin=%5Bobject%20Object%5D&originHeight=51&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>从而选择出分数最高的子句组成 $$z^+$$ 再进行训练，这样一来的话，COGLTX相当于使用了了两个bert，MemRecall中bert就是负责打分，另一个bert执行原本的NLP任务。<br>可以发现刚才找到 $$z^+$$ 例子将问题Q放在了初始化 $$z^+$$ 的开头，但是并不是每个NLP任务都可以这么做，分类的时候就没有类似Q的监督，这时候COGLTX采用的策略是将每个子句从原句中移除判断其是否是必不可少的(t是一个阈值)：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469475-c773dbd5-9592-443b-86ae-b293d37ad9a9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469470-a5913852-6b33-4a74-acd3-f88f3f003ecd.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>作者通过设计不同任务下的MemRecall实现了在长文本中使用bert并通过实验证明了方法的有效性。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/2583318/1610106486981-1910295a-e395-4b23-aba9-cd9200f983a6.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&originHeight=381&originWidth=560&size=0&status=done&style=none&width=560" srcset="/img/loading.gif" alt=""></p>
-<h2 id="3-实验"><a href="#3-实验" class="headerlink" title="3.实验"></a><strong>3.实验</strong></h2><p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469433-8711ec6b-754f-4bad-bf1b-c60ba3870913.jpeg#align=left&display=inline&height=696&margin=%5Bobject%20Object%5D&originHeight=445&originWidth=720&size=0&status=done&style=none&width=1126" srcset="/img/loading.gif" alt="">)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469463-d7699741-df79-4716-9225-35e411bc3081.jpeg#align=left&display=inline&height=454&margin=%5Bobject%20Object%5D&originHeight=312&originWidth=720&size=0&status=done&style=none&width=1047" srcset="/img/loading.gif" alt=""><br>通过多维度地对比，证明了本文提出算法的有效性。</p>
+<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a><strong>1.背景</strong></h2><p>基于以下情形：<br><strong>·</strong>bert作为目前最优秀的PLM，不用是不可能的；<br><strong>·</strong>长文本数据普遍存在，且文本中包含的信息非常分散，难以使用滑动窗口<a href="https://zhuanlan.zhihu.com/p/304764328#ref_2" target="_blank" rel="noopener">[2]</a>截断。<br>而由于bert消耗计算资源和时间随着token的长度是平方级别增长的，所以其无法处理太长的token，目前最长只支持512个token，token过长也很容易会内存溢出，所以在使用bert处理长文本时需要设计巧妙的方法来解决这个问题。<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469427-d1c6142a-a518-444c-89ef-3a8b46f46898.jpeg#align=left&display=inline&height=615&margin=%5Bobject%20Object%5D&originHeight=507&originWidth=720&size=0&status=done&style=none&width=873" alt></p>
+<h2 id="2-提出模型"><a href="#2-提出模型" class="headerlink" title="2.提出模型"></a><strong>2.提出模型</strong></h2><p>COGLTX模型在三类NLP任务中的结构如下：<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469428-46c1fde2-bf0f-4432-96b6-55a543c73d80.jpeg#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=225&originWidth=720&size=0&status=done&style=none&width=1666" alt>)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469377-87349408-6858-4e58-aba7-7e438831f4ca.jpeg#align=left&display=inline&height=1082&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=720&size=0&status=done&style=none&width=2382" alt><br>首先假设：存在短文本 $$z^+$$可以完全表达原长文本 $$x^+$$的语义：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469414-bbc32d15-fb84-4759-9f1e-4d4e76b78ac9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br>那么令 $$z^+$$ 代替 $$x^+$$ 输入原来的模型即可，那么怎么找到这个 $$z^+$$ 呢<br>1、使用动态规划算法将长文本 $$x^+$$ 划分为文本块集合 <img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469429-027c48f3-9528-47f7-a23d-90aed7211278.svg#align=left&display=inline&height=26&margin=%5Bobject%20Object%5D&originHeight=26&originWidth=104&size=0&status=done&style=none&width=104" alt> ；<br>2、使用<strong>MemRecall</strong>对原长句中的子句进行打分，MemRecall结构如图，而表现如下式：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469473-73710ae1-476c-45a5-a768-b19a90953850.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469457-e6943b24-8436-40b5-8341-4396fabbc648.svg#align=left&display=inline&height=51&margin=%5Bobject%20Object%5D&originHeight=51&originWidth=675&size=0&status=done&style=none&width=675" alt><br>从而选择出分数最高的子句组成 $$z^+$$ 再进行训练，这样一来的话，COGLTX相当于使用了了两个bert，MemRecall中bert就是负责打分，另一个bert执行原本的NLP任务。<br>可以发现刚才找到 $$z^+$$ 例子将问题Q放在了初始化 $$z^+$$ 的开头，但是并不是每个NLP任务都可以这么做，分类的时候就没有类似Q的监督，这时候COGLTX采用的策略是将每个子句从原句中移除判断其是否是必不可少的(t是一个阈值)：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469475-c773dbd5-9592-443b-86ae-b293d37ad9a9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469470-a5913852-6b33-4a74-acd3-f88f3f003ecd.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br>作者通过设计不同任务下的MemRecall实现了在长文本中使用bert并通过实验证明了方法的有效性。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/2583318/1610106486981-1910295a-e395-4b23-aba9-cd9200f983a6.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&originHeight=381&originWidth=560&size=0&status=done&style=none&width=560" alt></p>
+<h2 id="3-实验"><a href="#3-实验" class="headerlink" title="3.实验"></a><strong>3.实验</strong></h2><p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469433-8711ec6b-754f-4bad-bf1b-c60ba3870913.jpeg#align=left&display=inline&height=696&margin=%5Bobject%20Object%5D&originHeight=445&originWidth=720&size=0&status=done&style=none&width=1126" alt>)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469463-d7699741-df79-4716-9225-35e411bc3081.jpeg#align=left&display=inline&height=454&margin=%5Bobject%20Object%5D&originHeight=312&originWidth=720&size=0&status=done&style=none&width=1047" alt><br>通过多维度地对比，证明了本文提出算法的有效性。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a href="https://zhuanlan.zhihu.com/p/304764328#ref_1_0" target="_blank" rel="noopener">^</a><a href="https://zhuanlan.zhihu.com/p/88944564" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/88944564</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/304764328#ref_2_0" target="_blank" rel="noopener">^</a>Z. Wang, P. Ng, X. Ma, R. Nallapati, and B. Xiang. Multi-passage bert: A globally normalized bert model for open-domain question answering. arXiv preprint arXiv:1908.08167, 2019.</li>
@@ -289,8 +289,8 @@
 <nav id="article-nav">
   
   
-    <a href="/2021/01/12/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">排序算法</div>
+    <a href="/2021/01/12/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">高精度计算</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -416,75 +416,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">队列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">图论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -492,7 +424,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">树</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">图论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -504,7 +456,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">kmp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">树</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -512,11 +476,47 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
               </li>
             
             <div class="clearfix"></div>

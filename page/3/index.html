@@ -12,7 +12,7 @@
 <meta property="og:title" content="xixilili.blog">
 <meta property="og:url" content="https://xilixili.github.io/page/3/index.html">
 <meta property="og:site_name" content="xixilili.blog">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="xixilili">
 <meta name="twitter:card" content="summary">
   
@@ -152,867 +152,6 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-USTC机试_07上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/22/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8A/">USTC机试_07上</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/22/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8A/" class="archive-article-date">
-  	<time datetime="2020-02-22T05:19:34.811Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-22</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.编写程序，判断回文数</p>
-<pre><code class="c">#include&lt;iostream&gt;
-
-
-using namespace std;
-
-int Reverse(int x){
-    int result=0;
-    while(x!=0){
-        result=result*10+x%10;
-        x/=10;
-    }
-    return result;
-}
-
-int main(){
-    int n;
-    while(cin&gt;&gt;n){
-        if(Reverse(n)==n) cout&lt;&lt;&quot;Y&quot;&lt;&lt;endl;
-        else cout&lt;&lt;&quot;N&quot;&lt;&lt;endl;
-    }
-}
-
-</code></pre>
-<p>2.队列的循环报数问题</p>
-<pre><code class="c">#include&lt;iostream&gt;
-#include&lt;queue&gt;
-
-using namespace std;
-
-int main(){
-    int n;
-    cin&gt;&gt;n;
-    queue&lt;int&gt; q;o
-    for(int i=1;i&lt;=n;i++) q.push(i);
-    while(!q.empty()){
-        cout&lt;&lt;q.front()&lt;&lt;&quot; &quot;;//报号1
-        q.pop();
-        if(!q.empty()){
-            q.push(q.front());//报号2
-            q.pop();
-        }
-    }
-}
-</code></pre>
-<p>3.图的最小生成树</p>
-<pre><code class="c">#include&lt;iostream&gt;
-#include&lt;vector&gt;
-#include&lt;algorithm&gt;
-using namespace std;
-const int MAXN=1001;
-struct Edge{
-    int from;
-    int to;
-    int length;
-    bool operator&lt; (const Edge&amp; e) const{
-        return length&lt;e.length;
-    }
-};
-
-Edge edge[MAXN*MAXN];
-int father[MAXN];
-int height[MAXN];
-void Initial(int n){
-    for(int i=0;i&lt;n;i++){
-        father[i]=i;
-        height[i]=0;
-    }
-}
-
-int Find(int x){
-    if(x!=father[x]) father[x]=Find(father[x]);
-    return father[x];
-}
-
-void Union(int x,int y){
-    x=Find(x);
-    y=Find(y);
-    if(x!=y){
-        if(height[x]&lt;height[y]) father[x]=y;
-        else if(height[y]&lt;height[x]) father[y]=x;
-        else{
-            father[y]=x;
-            height[x]++;
-        }
-    }
-    return ;
-}
-
-int kruskal(int n,int edgeNumber){
-    Initial(n);
-    sort(edge,edge+edgeNumber);
-    int sum=0;
-    for(int i=0;i&lt;edgeNumber;i++){
-        Edge current=edge[i];
-        //即from与to上溯的根结点不一样
-        //也即加上edge[i]不会形成环
-        if(Find(current.from)!=Find(current.to)){
-            Union(current.from,current.to);
-            sum+=current.length;
-        }
-    }
-    return sum;
-}
-
-int main(){
-    int n;
-    while(cin&gt;&gt;n){
-        if(n==0) break;
-        //用于给了两两之间的距离修路的问题
-        int edgeNumber=n*(n-1)/2;
-        for(int i=0;i&lt;edgeNumber;i++){
-            cin&gt;&gt;edge[i].from&gt;&gt;edge[i].to&gt;&gt;edge[i].length;
-        }
-        int answer=kruskal(n,edgeNumber);
-        cout&lt;&lt;answer&lt;&lt;endl;
-    }
-}
-</code></pre>
-<p>4.后序中序得先序</p>
-<pre><code class="c">#include&lt;iostream&gt;
-#include&lt;cstring&gt;
-using namespace std;
-
-struct TreeNode{
-    char data;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(char data):data(data){}
-};
-
-string in;
-string post;
-
-TreeNode* postin(int l1,int h1,int l2,int h2){
-    char data=post[h1];
-    cout&lt;&lt;data&lt;&lt;endl;
-    TreeNode* T=new TreeNode(data);
-    int i;
-    for(i=l2;data!=in[i];i++);//这里i的开头是l2
-    int llen=i-l2;
-    int rlen=h2-i;
-    if(llen) T-&gt;left=postin(l1,l1+llen-1,l2,l2+llen-1);
-    else T-&gt;left=NULL;
-    if(rlen) T-&gt;right=postin(h1-rlen,h1-1,h2-rlen+1,h2);
-    else T-&gt;right=NULL;
-    return T;
-}
-
-void PreOrder(TreeNode* T){
-    if(T==NULL) return;
-    cout&lt;&lt;T-&gt;data;
-    PreOrder(T-&gt;left);
-    PreOrder(T-&gt;right);
-}
-
-int main(){
-    cin&gt;&gt;post&gt;&gt;in;
-    TreeNode* root=postin(0,post.size()-1,0,in.size()-1);
-    PreOrder(root);
-}
-</code></pre>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">复试真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/22/USTC%E6%9C%BA%E8%AF%95_07%E4%B8%8A/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-USTC机试_06下" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/21/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8B/">USTC机试_06下</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/21/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8B/" class="archive-article-date">
-  	<time datetime="2020-02-21T06:50:18.072Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>1.统计一个字符串当中有多少字母、数字、空格和其它字符；</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-
-using namespace std;
-
-int count_zimu=0,count_shuzi=0,count_space=0,count_others=0;
-
-void Count(char c){
-    if(c&gt;=&#39;0&#39;&amp;&amp;c&lt;=&#39;9&#39;) count_shuzi++;
-    else if((c&gt;=&#39;a&#39;&amp;&amp;c&lt;=&#39;z&#39;)||(c&gt;=&#39;A&#39;&amp;&amp;c&lt;=&#39;Z&#39;)) count_zimu++;
-    else if(c==&#39; &#39;) count_space++;
-    else count_others++;
-}
-
-int main(){
-    string s;3r
-    getline(cin,s);
-    for(int i=0;i&lt;s.size();i++){
-        Count(s[i]);
-    }
-    cout&lt;&lt;count_zimu&lt;&lt;&quot; &quot;&lt;&lt;count_shuzi&lt;&lt;&quot; &quot;&lt;&lt;count_space&lt;&lt;&quot; &quot;&lt;&lt;count_others&lt;&lt;endl;
-}</code></pre>
-<p>2.给你一个 10进制数，要你输出  8进制数；</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;stack&gt;
-using namespace std;
-
-int main(){
-    int n;
-    stack&lt;int&gt; result;
-    cin&gt;&gt;n;
-    while(n!=0){
-        result.push(n%8);
-        n/=8;
-    }
-    while(!result.empty()){
-        cout&lt;&lt;result.top();
-        result.pop();
-    }
-}
-</code></pre>
-<p>3.给你一个数，要求你求出这个数与其反序数的和相加多少次才可以得到回<br>文字</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-
-using namespace std;
-
-int Reverse(int x){//求逆序
-    int result=0;
-    while(x!=0){
-        result=result*10+x%10;
-        x/=10;
-    }
-    return result;
-}
-
-bool ishuiwen(int x){//判断回文
-    if(Reverse(x)==x) return true;
-    else return false;
-}
-
-int main(){
-    int time=0;
-    int n;
-    cin&gt;&gt;n;
-    while(!ishuiwen(n)){
-        n=n+Reverse(n);
-        time++;
-    }
-    cout&lt;&lt;time&lt;&lt;endl;
-}
-</code></pre>
-<p>4.给你一个数列，求出最大子序列之和</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;cstdio&gt;
-using namespace std;
-
-const int MAXN=100;
-int a[MAXN];
-int dp[MAXN];
-int main(){
-    int n;
-    cin&gt;&gt;n;
-    int Max=0;
-    for(int i=0;i&lt;n;i++){
-        cin&gt;&gt;a[i];
-    }
-    for(int i=0;i&lt;n;i++){
-        if(i==0) dp[i]=a[i];
-        else dp[i]=max(a[i],dp[i-1]+a[i]);
-        if(dp[i]&gt;Max) Max=dp[i];
-    }
-    cout&lt;&lt;Max&lt;&lt;endl;
-}
-</code></pre>
-<p>5.给你几个整数，求出最大的组合数</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;algorithm&gt;
-#include&lt;vector&gt;
-#include&lt;cstring&gt;
-using namespace std;
-
-const int MAXN=100;
-vector&lt;string&gt; v;
-
-//使用字典序可以快速解决这道题
-bool compare(string x,string y){
-    return x&gt;y;
-}
-
-int main(){
-    int n;
-    cin&gt;&gt;n;
-    for(int i=0;i&lt;n;i++){
-        string num;
-        cin&gt;&gt;num;
-        v.push_back(num);
-    }
-    sort(v.begin(),v.end(),compare);
-    for(int i=0;i&lt;n;i++){
-        cout&lt;&lt;v[i];
-    }
-}
-</code></pre>
-<p>6.关于图的最大连通分量</p>
-<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
-#define maxn 10001
-using namespace std;
-vector&lt;int&gt;G[maxn];
-stack&lt;int&gt;s;
-int n,m;
-int dfn[maxn],used[maxn],vis[maxn],low[maxn],color[maxn],num[maxn],colornum=0,cnt=0,ans=0;
-void paint(int x){
-    s.pop();
-    color[x]=colornum;
-    num[colornum]++;
-
-    vis[x]=false;
-}
-void tarjan(int x){
-    dfn[x]=low[x]=++cnt;//依次深搜并且对dfn和low初始化
-    s.push(x);
-    vis[x]=used[x]=true;//置访问标记
-    for(int i=0;i&lt;G[x].size();i++){//遍历当前节点的所有边
-        int q=G[x][i];
-        if (!dfn[q]){//如果边没有被访问过，即没有被dfn初始化
-            tarjan(q);
-            low[x]=min(low[x],low[q]);
-        }
-        else if (vis[q]) low[x]=min(low[x],dfn[q]);//如果
-    }
-    if (low[x]==dfn[x]){//满足强连通分量的条件
-        colornum++;
-        while(s.top()!=x){
-            int t=s.top();
-            paint(t);
-        }
-        paint(x);
-    }
-}
-int main(){
-    cin&gt;&gt;n&gt;&gt;m;
-    for(int i=1;i&lt;=m;i++){
-        int u,v;
-        cin&gt;&gt;u&gt;&gt;v;
-        G[u].push_back(v);
-    }
-    for(int i=1;i&lt;=n;i++){
-        if (!used[i]) tarjan(i);
-    }
-    for(int i=1;i&lt;=colornum;i++){
-        if (num[i]&gt;0) ans++;
-    }
-    cout&lt;&lt;ans;
-    return 0;
-}
-</code></pre>
-<p>7.用二叉树，给你先序和中序遍历，输出后续遍历</p>
-<pre><code class="cpp">#include&lt;iostream&gt;
-#include&lt;cstring&gt;
-using namespace std;
-
-string pre,post;
-
-struct TreeNode{
-    char c;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(char c):c(c){}
-};
-
-TreeNode* PreInCreat(int l1,int h1,int l2,int h2){
-    TreeNode* T=new TreeNode(pre[l1]);//根结点
-    int i;
-    for(i=l2;post[i]!=T-&gt;c;i++) ;//根结点在中序序列中的划分
-    int llen=i-l2;//左子树长度
-    int rlen=h2-i;//右子树长度
-    //这里的上下限画个图就清楚了
-    if(llen) T-&gt;left=PreInCreat(l1+1,l1+llen,l2,l2+llen-1);
-    else T-&gt;left=NULL;
-    if(rlen) T-&gt;right=PreInCreat(h1-rlen+1,h1,h2-rlen+1,h2);
-    else T-&gt;right=NULL;
-    return T;
-}
-
-void PostOrder(TreeNode* T){
-    if(T==NULL) return;
-    else{
-        PostOrder(T-&gt;left);
-        PostOrder(T-&gt;right);
-        cout&lt;&lt;T-&gt;c;
-    }
-}
-
-int main(){
-    cin&gt;&gt;pre&gt;&gt;post;
-    TreeNode* root=PreInCreat(0,pre.size()-1,0,post.size()-1);
-    PostOrder(root);
-}
-</code></pre>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">复试真题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/21/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8B/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-图算法中的常用代码" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/21/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/">图算法中的常用代码</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/21/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/" class="archive-article-date">
-  	<time datetime="2020-02-21T03:23:45.786Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><strong>并查集模板</strong><br>主要用于解决关于连通的一些问题</p>
-<pre><code class="cpp">void Initial(){
-    for(int i=0;i&lt;MAXN;i++){
-        father[i]=i;//根结点指向自己
-        height[i]=0;
-        //inDegree[i]=0;
-        //visit[i]=false;
-    }
-}
-
-int Find(int x){
-    if(father[x]!=x) father[x]=Find(father[x]);//注意写法，路径压缩
-    return father[x];
-}
-
-void Union(int x,int y){
-    x=Find(x);
-    y=Find(y);
-    if(x!=y){
-        if(height[x]&lt;height[y]) father[x]=y;
-        else if(height[x]&gt;height[y]) father[y]=x;//前面两种情况树高并没有变
-        else{
-            father[y]=x;
-            height[x]++;
-        }
-    }
-    return ;
-}</code></pre>
-<p><strong>邻接表</strong></p>
-<pre><code class="cpp">struct Edge{
-    int to;
-    int length;
-    Edge(int t,int l):to{t},length(l){}
-};
-vector&lt;Edge&gt; graph[MAXN];</code></pre>
-<p><strong>广度优先搜索</strong></p>
-<pre><code class="cpp">struct Status{
-    int n,t;//t表示起点到n的时间
-    Status(int n,int t):n(n),t(t){}
-};
-
-bool visit[MAXN];
-
-int BFS(int n,int k){
-    queue&lt;Status&gt; myqueue;
-    myqueue.push(Status(n,0)); //初始状态
-    visit[n]=true;   //起始点已被访问
-    while(!myqueue.empty()){
-        Status current=myqueue.front();
-        myqueue.pop();
-        if(current.n==k) return current.t;  //查找成功
-        for(int i=0;i&lt;3;i++){       //转入三种不同的状态
-            Status next(current.n,current.t+1);
-            if(i==0) next.n+=1;
-            else if(i==1) next.n-=1;
-            else next.n*=2;
-            if(next.n&lt;0||next.n&gt;=MAXN||visit[next.n]) continue;//新状态不合法
-            myqueue.push(next);
-            visit[next.n]=true;//置访问标记
-        }
-    }
-}</code></pre>
-<p><strong>深度优先搜索</strong></p>
-<pre><code class="cpp">int side; //边长
-int m;  //树枝数目
-int sticks[MAXN];
-bool visit[MAXN];
-
-bool DFS(int sum,int number,int position){
-    if(number==3) return true;
-    int sample=0;       //剪枝(3)
-    for(int i=position;i&lt;m;i++){
-        if(visit[i]||sum+sticks[i]&gt;side||sticks[i]==sample) continue;
-        visit[i]=true;
-        if(sum+sticks[i]==side){    //能凑成一条边
-            if(DFS(0,number+1,0)) return true;
-            else sample=sticks[i];  //记录失败的棍子的长度
-        }
-        else{
-            if(DFS(sum+sticks[i],number,i+1)) return true;
-            else sample=sticks[i];  //记录失败的棍子的长度
-        }
-        visit[i]=false;
-    }
-    return false;
-}</code></pre>
-<p><strong>最小生成树</strong></p>
-<pre><code class="cpp">int Kruskal(int n,int edgeNumber){
-    Initial(n);
-    sort(edge,edge+edgeNumber);
-    int sum=0;
-    for(int i=0;i&lt;edgeNumber;i++){
-        Edge current=edge[i];
-        //cout&lt;&lt;current.from&lt;&lt;&quot;-&gt;&quot;&lt;&lt;current.to&lt;&lt;&quot; &quot;&lt;&lt;current.length&lt;&lt;endl;
-        if(Find(current.from)!=Find(current.to)){
-            Union(current.from,current.to);
-            sum+=current.length;
-        }
-    }
-    return sum;
-}</code></pre>
-<p><strong>最短路径</strong></p>
-<pre><code class="cpp">struct Point{//结点
-    int number;
-    int distance;
-    Point(int n,int d):number(n),distance(d){}
-    bool operator&lt; (const Point&amp; p) const{//重载小于
-        return distance&gt;p.distance;
-    }
-};
-int dis[MAXN];
-
-void Dijkstra(int s){
-    priority_queue&lt;Point&gt; pqueue;
-    dis[s]=0;
-    pqueue.push(Point(s,dis[s]));
-    while(!pqueue.empty()){
-        int u=pqueue.top().number;//离源点最近的点
-        pqueue.pop();
-        for(int i=0;i&lt;graph[u].size();i++){
-            int v=graph[u][i].to;//u为顶点的编号，i为边的序号
-            int d=graph[u][i].length;
-            if(dis[v]&gt;dis[u]+d){
-                dis[v]=dis[u]+d;
-                pqueue.push(Point(v,dis[v]));
-            }
-        }
-    }
-    return ;
-}</code></pre>
-<p><strong>拓扑排序</strong></p>
-<pre><code class="cpp">int inDegree[MAXN];
-vector&lt;int&gt; TopologicalSort(int n){
-    vector&lt;int&gt; topology;
-    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面
-    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号
-        if(inDegree[i]==0){//先把初始入度为零的全部放入队列
-            node.push(i);
-        }
-    }
-//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰
-    while(!node.empty()){
-        int u=node.top();
-        node.pop();
-        topology.push_back(u);
-        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧
-            int v=graph[u][i];
-            inDegree[v]--;
-            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列
-                node.push(v);
-            }
-        }
-    }
-    return topology;
-}</code></pre>
-<p><strong>关键路径</strong><br>基于拓扑顺序去遍历的</p>
-<pre><code class="cpp">void CriticalPath(int n){
-    vector&lt;int&gt; topology;//拓扑序列
-    queue&lt;int&gt; node;
-    for(int i=0;i&lt;n;i++){
-        if(inDegree[i]==0){
-            node.push(i);
-            earliest[i]=1;//初始化为1,题目中的要求：1ns
-        }
-    }
-    while(!node.empty()){
-        int u=node.front();
-        topology.push_back(u);
-        node.pop();
-        for(int i=0;i&lt;graph[u].size();i++){
-            int v=graph[u][i].to;
-            int l=graph[u][i].length;
-            earliest[v]=max(earliest[v],earliest[u]+l);//正向找最大，形成earliest
-            inDegree[v]--;
-            if(inDegree[v]==0) node.push(v);
-        }
-    }
-    for(int i=topology.size()-1;i&gt;=0;i--){
-        int u=topology[i];
-        if(graph[u].size()==0) latest[u]=earliest[u];//汇点的最晚开始时间初始化
-        else latest[u]=INF;//非汇点的最晚开始时间的初始化
-        for(int j=0;j&lt;graph[u].size();j++){
-            int v=graph[u][j].to;
-            int l=graph[u][j].length;
-            latest[u]=min(latest[u],latest[v]-l);//逆向找最小，形成latest
-        }
-    }
-}</code></pre>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-        <div class="article-pop-out tagcloud">
-          <i class="icon-tuding"></i>
-          <a class="article-tag-list-link color3">置顶</a>
-        </div>
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/21/%E5%9B%BE%E7%AE%97%E6%B3%95%E4%B8%AD%E7%9A%84%E5%B8%B8%E7%94%A8%E4%BB%A3%E7%A0%81/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
     <article id="post-USTC机试_06上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -1020,13 +159,13 @@ vector&lt;int&gt; TopologicalSort(int n){
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">USTC机试_06上</a>
+      <a class="article-title" href="/2021/01/12/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">USTC机试_06上</a>
     </h1>
   
 
         
-        <a href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/" class="archive-article-date">
-  	<time datetime="2020-02-18T10:56:31.575Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-18</time>
+        <a href="/2021/01/12/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.490Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
@@ -1290,11 +429,11 @@ int main(){
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
@@ -1319,7 +458,7 @@ int main(){
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/18/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/USTC%E6%9C%BA%E8%AF%95_06%E4%B8%8A/">展开全文 >></a>
         </p>
       
 
@@ -1349,150 +488,184 @@ int main(){
 
 
   
-    <article id="post-动态规划状态转移公式" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Tarjan算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/">动态规划状态转移公式</a>
+      <a class="article-title" href="/2021/01/12/Tarjan%E7%AE%97%E6%B3%95/">Tarjan算法</a>
     </h1>
   
 
         
-        <a href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/" class="archive-article-date">
-  	<time datetime="2020-02-16T06:40:53.978Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
+        <a href="/2021/01/12/Tarjan%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.486Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><strong>最大连续子序列和</strong></p>
-<table>
-<thead>
-<tr>
-<th align="left">题目</th>
-<th align="left">描述</th>
-<th align="left">dp描述</th>
-<th align="left">转移公式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">最大连续子序列和</td>
-<td align="left">在一个给定的序列中，找出一个连续的子序列，使得这个子序列的和最大</td>
-<td align="left">dp[i]表示以A[i]作为末尾的连续序列最大和&#124;dp[i]=max(A[i],dp[i-1]+A[i])</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<p>转移情况：<br>①最大和的连续序列只有一个元素，即A[i]本身，为A[i]<br>②最大和的连续序列有多个元素，即从A[j]开始到A[i]，为dp[i-1]+A[i]</p>
-<pre><code class="cpp">int maxSub(int n){
-    int Max=0;
-    for(int i=0;i&lt;n;i++){
-        if(i==0) dp[i]=a[i];//初始
-        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
-        if(dp[i]&gt;Max) Max=dp[i];
+        <h1 id="强连通分量"><a href="#强连通分量" class="headerlink" title="强连通分量"></a>强连通分量</h1><p><img src="https://img-blog.csdnimg.cn/20200426155322525.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+const int MAXN=10010;
+int dfn[MAXN],low[MAXN],Stack[MAXN];
+vector&lt;int&gt; graph[MAXN];
+//遍历深度以及栈顶指针(指向最后一个元素)
+int deep=0,top=-1;
+//标记元素是否在栈中
+int tag[MAXN];
+//强连通分量个数
+int cnt=0;
+//为不同的强连通分量上色区分
+int color[MAXN];
+
+void tarjan(int u){
+    dfn[u]=low[u]=++deep;
+    Stack[++top]=u;
+    tag[u]=1;
+    for(int i=0;i&lt;graph[u].size();i++){
+        int v=graph[u][i];
+
+        //if(v==fa) continue;统计强连通分量个数不需要这个
+
+        if(dfn[v]==0){
+
+            tarjan(v);
+            low[u]=min(low[u],low[v]);
+        }
+        //在栈中才进行更新
+        else if(tag[v]==1){
+            low[u]=min(low[u],dfn[v]);
+        }
+
     }
-    return Max;
-}</code></pre>
-<p><strong>最长递增子序列</strong></p>
-<table>
-<thead>
-<tr>
-<th align="left">题目</th>
-<th align="left">描述</th>
-<th align="left">dp描述</th>
-<th align="left">转移公式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">最长递增子序列</td>
-<td align="left">在一个给定的序列中，找出一个的最长的递增子序列（不必连续）</td>
-<td align="left">dp[i]表示以A[i]作为末尾的最长递增子序列长度</td>
-<td align="left">dp[i]=max(1,dp[j]+1 | j&lt;i&amp;&amp;A[j]&lt;A[i])</td>
-</tr>
-</tbody></table>
-<p>转移情况：<br>①A[i]之前的元素都比A[i]大，即最长递增子序列只有A[i]本身，为dp[i]=1<br>②A[i]之前的元素A[j]比A[i]小此时只需将A[i]添加到以A[j]为末尾的最长递增子序列,而求长度则是通过将i之前的元素逐一遍历，就可以获得dp[i]</p>
-<pre><code class="cpp">  int answer=0;
-  for(int i=0;i&lt;n;i++){
-      dp[i]=1;//初始化为1
-      for(int j=0;j&lt;i;j++){//得出以i为最后一个的最大的序列长度
-          if(height[i]&lt;=height[j]){
-              dp[i]=max(dp[i],dp[j]+1);
-          }
-      }
-      answer=max(answer,dp[i]);
-  }</code></pre>
-<p><strong>最长公共子序列</strong></p>
-<table>
-<thead>
-<tr>
-<th align="left">题目</th>
-<th align="left">描述</th>
-<th align="left">dp描述</th>
-<th align="left">转移公式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">最长公共子序列</td>
-<td align="left">给定字符串s1,s2求一个最长的公共子序列(不一定连续)</td>
-<td align="left">dp[i][j]表示以s1[i]作为末尾和以s2[j]为末尾的最长公共子序列的长度</td>
-<td align="left">dp[i][j]=dp[i-1][j-1]+1(s1[i]=s2[j])___   否则dp[i][j]==max(dp[i-1][j],dp[i][j-1])</td>
-</tr>
-</tbody></table>
-<p>转移情况：<br>①s1[i]=s2[j]，此时比存在一个最长公共子序列以s1[i]和s2[j]结尾，其他部分相当于s1的前i-1和s2的前j-1个字符的最长公共子序列，为dp[i-1][j-1]+1<br>②s1[i]!=s2[j],此时最长公共子序列的长度为<u>s1的前i-1个字符和s2的前j个字符的最长公共子序列</u>与<u>s1的前i个字符和s2中的前j-1个字符的最长公共子串</u>的较大者，为max(dp[i-1][j],dp[i][j-1])</p>
-<p>边界情况：<br>dp[i][0]=0;       dp[0][j]=0;</p>
-<pre><code class="cpp">while(scanf(&quot;%s%s&quot;,s1+1,s2+1)!=EOF){//从下标1开始输入
-    int n=strlen(s1+1);
-    int m=strlen(s2+1);
-    for(int i=0;i&lt;=n;i++){
-        for(int j=0;j&lt;=m;j++){
-            if(i==0||j==0){//边界条件初始化
-                dp[i][j]=0;
-                continue;
-            }
-            //状态转移方程
-            if(s1[i]==s2[j]) dp[i][j]=dp[i-1][j-1]+1;
-            else dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+    //cout&lt;&lt;u&lt;&lt;&quot;:&quot;&lt;&lt;dfn[u]&lt;&lt;&quot; &quot;&lt;&lt;low[u]&lt;&lt;endl;
+    //已经出现了一个强连通分量
+    if(dfn[u]==low[u]){
+        cnt++;
+        //将同一个连通分量中的结点全部出栈
+        while(tag[u]==1){
+            tag[Stack[top]]=0;//置标记
+            color[Stack[top]]=cnt;
+            top--;
         }
     }
-    cout&lt;&lt;dp[n][m]&lt;&lt;endl;
-}</code></pre>
-<p><strong>背包问题</strong></p>
-<ul>
-<li>0-1背包</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th align="left">题目</th>
-<th align="left">描述</th>
-<th align="left">dp描述</th>
-<th align="left">转移公式</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">0–1背包</td>
-<td align="left">n种物品(<u>一种只取一次</u>),重量分别为w[i],现有容量为m背包,要使装进背包物品价值最大</td>
-<td align="left">dp[i][j]表示前i个物品装进容量为j的背包能获得的最大价值</td>
-<td align="left">dp[j]=max(dp[j],dp[j-w[i]]+v[i])</td>
-</tr>
-</tbody></table>
-<p>转移情况：<br>①对于容量为j的背包，如果不放入第i件物品，问题就转化成了前i-1个物品放入容量为j的背包的问题，为dp[i-1][j]<br>②对于容量为j的背包，如果放入第i件物品，问题就转化成了将前面i-1个物品放入容量为j-w[i]的背包的问题，为dp[i-1][j-w[i]]+v[i]<br>最终转化成了dp[i][j]=max(dp[i-1][j],dp[i-1][j-w[i]]+v[i])<br>经观察dp[i][j]只与二维数组中本行的上一行有关，根据这个可以将二维数组优化为一维数组：<br>dp[j]=max(dp[j],dp[j-w[i]+v[i])</p>
-<p>边界情况：<br>dp[i][0]=0;       dp[0][j]=0;</p>
-<pre><code class="cpp">for(int i=0;i&lt;=m;i++){
-    dp[i]=0;//初始化
 }
-for(int i=0;i&lt;n;i++){
-    for(int j=m;j&gt;=w[i];j--){
-        dp[j]=max(dp[j],dp[j-w[i]]+v[i]);
+
+
+int main(){
+    int n,m;
+    cin&gt;&gt;n&gt;&gt;m;
+    memset(dfn,0,sizeof(dfn));
+    memset(tag,0,sizeof(tag));
+    fill(low,low+n+1,INT_MAX);
+    for(int i=0;i&lt;m;i++){
+        int from,to;
+        cin&gt;&gt;from&gt;&gt;to;
+        graph[from].push_back(to);
     }
-}</code></pre>
-<ul>
-<li><del>完全背包</del> ：暂时不是很理解(╯°Д°)╯︵┻━┻</li>
-<li><del>多重背包</del> ：暂时不是很理解ヽ(｀Д´)ﾉ︵ ┻━┻ ┻━┻ </li>
-</ul>
+    tarjan(1);
+    cout&lt;&lt;cnt&lt;&lt;endl;
+    for(int i=1;i&lt;=n;i++){
+        cout&lt;&lt;i&lt;&lt;&quot; color &quot;&lt;&lt;color[i]&lt;&lt;endl;
+    }
+}
+//测试用例
+/*
+6 8
+1 2
+1 3
+2 4
+3 4
+3 5
+4 1
+4 6
+5 6
+*/
+
+
+
+*/
+
+
+</code></pre>
+<h1 id="割点"><a href="#割点" class="headerlink" title="割点"></a>割点</h1><p><img src="https://img-blog.csdnimg.cn/20200425214222817.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<p>思路一：依次删除每个割点，然后DFS<br>思路二：Tarjan算法</p>
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+const int MAXN=10010;
+int deep=0,child=0,root=1,cnt=0;
+vector&lt;int&gt; graph[MAXN];
+int dfn[MAXN],low[MAXN],tag[MAXN];
+vector&lt;int&gt; ans;
+/*
+访问过
+  当前是根结点
+  当前不是根结点 且 通过儿子能访问到更早访问过的结点
+
+没访问过且此边不指向父亲节点
+*/
+
+//low找到更早的结点一定是不能违背dfs的遍历顺序的
+//比如你已经访问过的一条边肯定是不能逆向访问的
+
+//fa为当前结点的父节点
+void tarjan(int u,int fa){
+
+    dfn[u]=low[u]=++deep;
+    for(int i=0;i&lt;graph[u].size();i++){
+        int v=graph[u][i];
+        if(v==fa) continue;
+        if(dfn[v]==0){//没有遍历过
+            tarjan(v,u);
+            low[u]=min(low[u],low[v]);//转换1
+            //对于根结点是否为割点的判定，记录子树个数
+            if(u==root) child++;
+            //其他结点u若符合该条件，u就是割点
+            //这里改为low[v]&gt;dfn[u] ,则(u,v)是一条割边
+            else if(dfn[u]&lt;=low[v]){//理解:不能访问到比自己更先遍历的结点,等于则是刚好成环的那种情况
+                tag[u]=1;
+            }
+        }
+        else if{//遍历过且不是指向父亲
+            low[u]=min(low[u],dfn[v]);
+        }
+    }
+}
+
+int main(){
+    int n,m;
+    cin&gt;&gt;n&gt;&gt;m;
+    memset(dfn,0,sizeof(dfn));
+    fill(low,low+n,INT_MAX);
+    memset(tag,0,sizeof(tag));
+    for(int i=0;i&lt;m;i++){
+        int from,to;
+        cin&gt;&gt;from&gt;&gt;to;
+        graph[from].push_back(to);
+        graph[to].push_back(from);
+    }
+    tarjan(root,0);
+    if(child&gt;=2) tag[root]=1;
+
+    for(int i=0;i&lt;n;i++){
+        if(tag[i]){
+            cnt++; ans.push_back(i);
+        }
+    }
+    cout&lt;&lt;cnt&lt;&lt;endl;
+    for(int i=0;i&lt;ans.size();i++){
+        cout&lt;&lt;ans[i]&lt;&lt;&quot; &quot;;
+    }
+}
+
+</code></pre>
 
       
 
@@ -1511,15 +684,15 @@ for(int i=0;i&lt;n;i++){
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Tarjan</a>
         		</li>
       		
 		</ul>
@@ -1540,7 +713,855 @@ for(int i=0;i&lt;n;i++){
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/16/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%8A%B6%E6%80%81%E8%BD%AC%E7%A7%BB%E5%85%AC%E5%BC%8F/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/Tarjan%E7%AE%97%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-kmp算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/kmp%E7%AE%97%E6%B3%95/">kmp算法</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/kmp%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.461Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+using namespace std;
+int nextval[1000];
+//这里面所有的i和j都是序号
+void get_nextval(string T){
+    //j表示前缀的结尾，i表示后缀的结尾
+    int i=1,j=0;
+    nextval[1]=0;
+    while(i&lt;T.size()){
+        if(j==0||T[i]==T[j]){
+            i++; j++;
+            //两个字符相同则跳过,这里进行了改进
+            //优化点，防止T串为aaaab这种类型，需要一个一个往前翻，利用下面两行，可以直接找到最初等价位置
+            if(T[i]==T[j]) nextval[i]=nextval[j];
+            else nextval[i]=j;//T[i]!=T[j]
+        }
+        else{
+            j=nextval[j];
+        }
+    }
+}
+int Index_KMP(string S,string T){
+    //i是指向主串的指针，j是模式串的指针
+    int i=1,j=1;
+    while(i&lt;=S.size()&amp;&amp;j&lt;=T.size()){
+        if(j==0||S[i]==T[j]){//持续比较后继字符
+            i++; j++;
+        }
+        else{
+            j=nextval[j];//模式串向右移动
+        }
+    }
+    //如果j指针已经超出了模式串的末尾，则返回匹配成功的起始点
+    if(j&gt;T.size()) return i-T.size();
+    else return 0;
+}
+int main(){
+    string S,T;
+    cin&gt;&gt;S&gt;&gt;T;
+    get_nextval(T);
+    cout&lt;&lt;Index_KMP(S,T)&lt;&lt;endl;
+}
+</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">kmp</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/kmp%E7%AE%97%E6%B3%95/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-KMP模板" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/KMP%E6%A8%A1%E6%9D%BF/">KMP模板</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/KMP%E6%A8%A1%E6%9D%BF/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.446Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h2><p>KMP是一种字符串匹配算法，可以求出一个字符串在另一个字符串中出现的次数。时间复杂度为O(N+M)</p>
+<h2 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现"></a>算法实现</h2><p>算法分为预处理next数组和查询两步进行。</p>
+<h3 id="1-预处理"><a href="#1-预处理" class="headerlink" title="1.预处理"></a>1.预处理</h3><p>next数组表示从起始位置到当前位置最长的前缀和后缀的长度<br>那么，在处理时，我们就拿当前位置和原来匹配的最长前缀的后一位比较：</p>
+<p>如果相同，那么长度+1,next[j−1]+1</p>
+<p>如果不相同，那么根据此数组的性质，显而易见，你的相等的部分只能向前找也就是说，你的这个位置的next值会减小也就是去原来的最长相等前缀去找<br>所以，我们可以得到next数组的求解方法：每一次检查上一次最长前缀的后一个位置如果相等则next[j]=next[i]+1,否则令i=next[i−1]+1，继续循环匹配<br>其实这就是自己匹配自己的过程。这是最难理解的地方，多手算几遍就好了</p>
+<h3 id="2-查询"><a href="#2-查询" class="headerlink" title="2.查询"></a>2.查询</h3><p>本算法难在于next预处理，如果你已经懂了，就很简单了<br>我们设定两个指针i，j，指向两个字符串。<br>如果i==j那么i++，j++如果失配，就令i=next[i−1]+1</p>
+<h2 id="模板代码"><a href="#模板代码" class="headerlink" title="模板代码"></a>模板代码</h2><pre><code class="cpp">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+#include &lt;cstring&gt;
+#include &lt;vector&gt;
+using namespace std;
+
+char str1[1000005],str2[1000005];
+//str1是被匹配字符串，str2是匹配字符串
+int Next[1000005];
+vector &lt;int&gt; Ans;
+
+inline void init(char *str){ //计算next数组
+    int len,t;
+    len = strlen(str);
+    Next[0] = -1;
+    for(int i = 1;i &lt; len;i++){
+        t = Next[i-1];
+        while(str[t+1] != str[i] &amp;&amp; t &gt;= 0)
+            t = Next[t];
+        if(str[t+1] == str[i])
+            Next[i] = t+1;
+        else
+            Next[i] = -1;
+    }
+}
+
+void kmp(char *str1,char *str2){ //kmp查找
+    init(str2);
+    int len1 = strlen(str1);
+    int len2 = strlen(str2);
+    int i = 0,j = 0;
+    while(j &lt; len1){
+        if(str2[i] == str1[j]){  //相同
+            i++;j++;
+            if(i == len2){
+                Ans.push_back(j-len2+1);
+                i = Next[i-1]+1;
+            }
+        }
+        else{  //失配，根据next数组寻找下一个位置
+            if(i == 0)
+                j++;
+            else
+                i = Next[i-1] + 1;
+        }
+    }
+}
+
+int main(){
+    cin &gt;&gt; str1 &gt;&gt; str2;
+    int l = strlen(str2);
+    kmp(str1,str2);
+    for(int i = 0;i &lt; Ans.size();i++)
+        printf(&quot;%d%c&quot;,Ans[i],&#39;\n&#39;);
+    for(int i = 0;i &lt; l;i++){ //洛谷题目需要的输出next数组
+        printf(&quot;%d &quot;,Next[i] + 1);
+    }
+    return 0;
+}</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">KMP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/KMP//" class="article-tag-list-link color4">KMP</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/KMP%E6%A8%A1%E6%9D%BF/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-BFS和DFS" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/BFS%E5%92%8CDFS/">BFS和DFS</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/BFS%E5%92%8CDFS/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="BFS"><a href="#BFS" class="headerlink" title="BFS"></a>BFS</h1><h2 id="填涂颜色"><a href="#填涂颜色" class="headerlink" title="填涂颜色"></a>填涂颜色</h2><p><strong>题目描述</strong><br>由数字00组成的方阵中，有一任意形状闭合圈，闭合圈由数字11构成，围圈时只走上下左右44个方向。现要求把闭合圈内的所有空间都填写成22.例如：6 \times 66×6的方阵（n=6n=6），涂色前和涂色后的方阵如下：<br><img src="https://img-blog.csdnimg.cn/20200305115131657.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>输入格式</strong><br>每组测试数据第一行一个整数n(1≤n≤30)<br>接下来n行，由0和1组成的n×n的方阵。<br>方阵内只有一个闭合圈，圈内至少有一个0。</p>
+<p><strong>输出格式</strong><br>已经填好数字22的完整方阵。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>6<br>0 0 0 0 0 0<br>0 0 1 1 1 1<br>0 1 1 0 0 1<br>1 1 0 0 0 1<br>1 0 0 0 0 1<br>1 1 1 1 1 1</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>0 0 0 0 0 0<br>0 0 1 1 1 1<br>0 1 1 2 2 1<br>1 1 2 2 2 1<br>1 2 2 2 2 1<br>1 1 1 1 1 1</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+const int MAXN=100;
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];//访问标记，为0表示没被访问
+//能走的四个方向
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+struct position{
+    int x,y;
+    position(int x,int y):x(x),y(y){};
+};
+queue&lt;position&gt; q;
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    //最开始应该在外面再加一圈零(从1开始输入),因为(0,0)这个点若是1就完蛋
+    //所以要注意遍历初始点的选取
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            cin&gt;&gt;Map[i][j];
+        }
+    }
+    q.push(position(0,0));//初始点进队列
+    vis[0][0]=1;
+    while(!q.empty()){
+        position current=q.front();
+        for(int i=0;i&lt;4;i++){
+            //沿着每个方向变化后的横纵坐标
+            int x=current.x+way[i][0];
+            int y=current.y+way[i][1];
+            //cout&lt;&lt;x&lt;&lt;&quot; &quot;&lt;&lt;y&lt;&lt;endl;
+            //加了Map[x][y]==0的条件，将1围成的圈外部的0全部置已访问
+            if(x&gt;=0&amp;&amp;x&lt;=n+1&amp;&amp;y&gt;=0&amp;&amp;y&lt;=n+1&amp;&amp;Map[x][y]==0&amp;&amp;vis[x][y]==0){
+                q.push(position(x,y));
+                vis[x][y]=1;
+            }
+        }
+        q.pop();
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(Map[i][j]==0&amp;&amp;vis[i][j]==0){
+                cout&lt;&lt;2&lt;&lt;&quot; &quot;;
+            }
+            else  cout&lt;&lt;Map[i][j]&lt;&lt;&quot; &quot;;
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+<h2 id="马的遍历"><a href="#马的遍历" class="headerlink" title="马的遍历"></a>马的遍历</h2><p><strong>题目描述</strong><br>有一个n*m的棋盘(1&lt;n,m&lt;=400)，在某个点上有一个马,要求你计算出马到达棋盘上任意一个点最少要走几步</p>
+<p><strong>输入格式</strong><br>一行四个数据，棋盘的大小和马的坐标</p>
+<p><strong>输出格式</strong><br>一个n*m的矩阵，代表马到达某个点最少要走几步（左对齐，宽5格，不能到达则输出-1）</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>3 3 1 1</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>0    3    2<br>3    -1   1<br>2    1    4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+const int MAXN=500;
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];
+struct position{
+    int x,y;
+    int steps;
+    position(int x,int y,int steps):x(x),y(y),steps(steps){};
+};
+//马跳的8个方向
+int way[8][2]={{1,2},{1,-2},{-1,2},{-1,-2},{2,1},{2,-1},{-2,1},{-2,-1}};
+
+queue&lt;position&gt; q;
+int main(){
+    int n,m,x1,y1;
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;x1&gt;&gt;y1;
+    q.push(position(x1-1,y1-1,0));//初始点
+    vis[x1-1][y1-1]=1;//这一步别忘了
+    while(!q.empty()){
+        position current=q.front();
+        for(int i=0;i&lt;8;i++){
+            int x=current.x+way[i][0];
+            int y=current.y+way[i][1];
+            if(x&gt;=0&amp;&amp;x&lt;=n-1&amp;&amp;y&gt;=0&amp;&amp;y&lt;=n-1&amp;&amp;vis[x][y]==0){
+                q.push(position(x,y,current.steps+1));
+                Map[x][y]=current.steps+1;
+                vis[x][y]=1;
+            }
+        }
+        q.pop();
+    }
+    for(int i=0;i&lt;n;i++){
+        for(int j=0;j&lt;m;j++){
+            if(vis[i][j]!=0) printf(&quot;%-5d&quot;,Map[i][j]);
+            else printf(&quot;%-5d&quot;,-1);
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+<h2 id="奇怪的电梯"><a href="#奇怪的电梯" class="headerlink" title="奇怪的电梯"></a>奇怪的电梯</h2><p><strong>题目描述</strong><br>呵呵，有一天我做了一个梦，梦见了一种很奇怪的电梯。大楼的每一层楼都可以停电梯，而且第ii层楼(1≤i≤N)上有一个数字Ki(0≤Ki≤N)。电梯只有四个按钮：开，关，上，下。上下的层数等于当前楼层上的那个数字。当然，如果不能满足要求，相应的按钮就会失灵。例如：3, 3 ,1 ,2 ,5代表了Ki(K1=3,K2=3,…)，从1楼开始。在1楼，按“上”可以到4楼，按“下”是不起作用的，因为没有−2楼。那么，从A楼到B楼至少要按几次按钮呢？</p>
+<p><strong>输入格式</strong><br>共二行。<br>第一行为3个用空格隔开的正整数，表示N,A,B(1≤N≤200, 1≤A,B≤N)。<br>第二行为N个用空格隔开的非负整数，表示Ki</p>
+<p><strong>输出格式</strong><br>一行，即最少按键次数,若无法到达，则输出−1。</p>
+<p>输入</p>
+<blockquote>
+<p>5 1 5<br>3 3 1 2 5</p>
+</blockquote>
+<p>输出</p>
+<blockquote>
+<p>3</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+struct sta{
+    int f;
+    int steps;
+    sta(int f,int steps):f(f),steps(steps){};
+};
+const int MAXN=300;
+int way[MAXN];//记录可以移动的步数
+int vis[MAXN];
+queue&lt;sta&gt; q;
+int main(){
+    int n,a,b;//a为起点,b为终点
+    cin&gt;&gt;n&gt;&gt;a&gt;&gt;b;
+    for(int i=1;i&lt;=n;i++){
+        cin&gt;&gt;way[i];
+    }
+    q.push(sta(a,0));
+    vis[a]=1;
+    while(!q.empty()){
+        sta current=q.front();
+        //cout&lt;&lt;current.f&lt;&lt;endl;
+        if(current.f==b){//出口
+            cout&lt;&lt;current.steps&lt;&lt;endl;
+            return 0;
+        }
+        int down=current.f-way[current.f];//向下
+        if(down&gt;=1&amp;&amp;vis[down]==0){
+            q.push(sta(down,current.steps+1));
+            vis[down]=1;
+        }
+        int up=current.f+way[current.f];//向下
+        if(up&lt;=n&amp;&amp;vis[up]==0){
+            q.push(sta(up,current.steps+1));
+            vis[up]=1;
+        }
+        q.pop();
+    }
+    cout&lt;&lt;-1&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="01迷宫"><a href="#01迷宫" class="headerlink" title="01迷宫"></a>01迷宫</h2><p><strong>题目描述</strong><br>有一个仅由数字0与1组成的n×n格迷宫。若你位于一格0上，那么你可以移动到相邻4格中的某一格1上，同样若你位于一格1上，那么你可以移动到相邻4格中的某一格0上。<br>你的任务是：对于给定的迷宫，询问从某一格开始能移动到多少个格子（包含自身）。</p>
+<p><strong>输入格式</strong><br>第1行为两个正整数n,m。<br>下面n行，每行n个字符，字符只可能是0或者1，字符之间没有空格。<br>接下来m行，每行2个用空格分隔的正整数i,j，对应了迷宫中第i行第j列的一个格子，询问从这一格开始能移动到多少格。</p>
+<p><strong>输出格式</strong><br>m行，对于每个询问输出相应答案。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>2 2<br>01<br>10<br>1 1<br>2 2</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>4<br>4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;queue&gt;
+
+using namespace std;
+const int MAXN=2000;
+
+struct position{
+    int x,y;
+    position(int x,int y):x(x),y(y){};
+};
+int Map[MAXN][MAXN];
+int vis[MAXN][MAXN];
+int ans[10000000];//存的是各个颜色区域的结点数
+int color=0,n,m;
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+queue&lt;position&gt; q;
+void bfs(int x1,int y1){
+    int cnt=0;//用来对当前颜色的区域来计数
+    q.push(position(x1,y1));
+    vis[x1][y1]=color;
+    while(!q.empty()){
+        position current=q.front();
+        //cout&lt;&lt;current.x&lt;&lt;&quot; &quot;&lt;&lt;current.y&lt;&lt;endl;
+        for(int k=0;k&lt;4;k++){
+            int x=current.x+way[k][0];
+            int y=current.y+way[k][1];
+            if(x&gt;=1&amp;&amp;x&lt;=n&amp;&amp;y&gt;=1&amp;&amp;y&lt;=n&amp;&amp;vis[x][y]==0&amp;&amp;Map[x][y]!=Map[current.x][current.y]){
+                q.push(position(x,y));
+                vis[x][y]=color;
+            }
+        }
+        cnt++;
+        q.pop();
+    }
+    //cout&lt;&lt;color&lt;&lt;endl;
+    ans[color]=cnt;
+}
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m;
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            char c;
+            cin&gt;&gt;c;
+            Map[i][j]=c-&#39;0&#39;;
+            //cout&lt;&lt;Map[i][j]&lt;&lt;endl;
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(vis[i][j]==0){
+                color++;//每一个color来区分一块互相可以到达的区域
+                //cout&lt;&lt;color&lt;&lt;endl;
+                bfs(i,j);//注意函数中不能出现i,j
+            }
+        }
+    }
+    for(int i=1;i&lt;=m;i++){
+        int xx,yy;
+        cin&gt;&gt;xx&gt;&gt;yy;
+        cout&lt;&lt;ans[vis[xx][yy]]&lt;&lt;endl;
+    }
+
+
+}
+</code></pre>
+<h2 id="墙与门"><a href="#墙与门" class="headerlink" title="墙与门"></a>墙与门</h2><p><img src="https://img-blog.csdnimg.cn/20200415115105402.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>注:这是一道多源bfs的题，将终点看做第0层，然后逐层遍历</p>
+<pre><code class="cpp">int way[4][2]={{1,0},{0,1},{-1,0},{0,-1}};
+    void wallsAndGates(vector&lt;vector&lt;int&gt;&gt;&amp; rooms) {
+
+        int m=rooms.size();
+        if(m==0) return;
+        int n=rooms[0].size();
+        vector&lt;vector&lt;int&gt;&gt; vis(m,vector&lt;int&gt;(n,0));
+        queue&lt;pair&lt;int,int&gt;&gt; q;
+        //将第0层的所有结点push进队列
+        for(int i=0;i&lt;m;i++){
+            for(int j=0;j&lt;n;j++){
+                if(rooms[i][j]==0){
+                    vis[i][j]=1;
+                    q.push({i,j});
+                }
+            }
+        }
+        //q一直保存当前层以及下一层的结点(除了在最开始只保存第0层的结点)
+        int step=0;
+        while(!q.empty()){
+            int k=q.size();
+            step++;
+            while(k--){
+
+                for(int i=0;i&lt;4;i++){
+                    int xd=q.front().first+way[i][0];
+                    int yd=q.front().second+way[i][1];
+                    if(xd&gt;=0&amp;&amp;xd&lt;m&amp;&amp;yd&gt;=0&amp;&amp;yd&lt;n&amp;&amp;vis[xd][yd]==0&amp;&amp;rooms[xd][yd]!=-1){
+                        vis[xd][yd]=1;
+                        rooms[xd][yd]=step;
+                        q.push({xd,yd});
+                    }
+                }
+                q.pop();
+            }
+        }
+    }</code></pre>
+<h1 id="DFS"><a href="#DFS" class="headerlink" title="DFS"></a>DFS</h1><h2 id="八皇后问题"><a href="#八皇后问题" class="headerlink" title="八皇后问题"></a>八皇后问题</h2><p><strong>题目描述</strong><br>一个如下的6×6 的跳棋棋盘，有六个棋子被放置在棋盘上，使得每行、每列有且只有一个，每条对角线（包括两条主对角线的所有平行线）上至多有一个棋子。<br><img src="https://img-blog.csdnimg.cn/20200305121201768.png" alt="在这里插入图片描述"><br>上面的布局可以用序列2 4 6 1 3 5 来描述，第 i 个数字表示在第 i 行的相应位置有一个棋子，如下：<br>行号 1 2 3 4 5 6<br>列号 2 4 6 1 3 5<br>这只是棋子放置的一个解。请编一个程序找出所有棋子放置的解。<br>并把它们以上面的序列方法输出，解按字典顺序排列。<br>请输出前 3 个解。最后一行是解的总个数。</p>
+<p><strong>输入格式</strong><br>一行一个正整数 nn，表示棋盘是 n \times nn×n 大小的。</p>
+<p><strong>输出格式</strong><br>前三行为前三个解，每个解的两个数字之间用一个空格隔开。第四行只有一个数字，表示解的总数。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>6</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>2 4 6 1 3 5<br>3 6 2 5 1 4<br>4 1 5 2 6 3<br>4</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+#include&lt;cstdlib&gt;
+using namespace std;
+int ans[13];//作为每次深搜出来的序列的结果
+int vis[13];
+int u[40];//正对角线
+int v[40];//副对角线
+int n;
+int Count=0;
+void print(){
+    for(int i=1;i&lt;=n;i++){
+        cout&lt;&lt;ans[i]&lt;&lt;&quot; &quot;;
+    }
+    cout&lt;&lt;endl;
+}
+
+void dfs(int x){//dfs中的参数是行号
+    if(x&gt;n){
+        Count++;
+        if(Count&lt;=3) print();
+        return ;
+    }
+    for(int i=1;i&lt;=n;i++){//i表示尝试列号
+        if(!vis[i]&amp;&amp;!u[x-i+n]&amp;&amp;!v[x+i]){//vis能保证不在同一列,u表示不在同一主对角(+n为了不为负数),v表示不在同一副对角
+            //i-ans[j]为列差,x-j为行差
+            vis[i]=1;
+            u[x-i+n]=1;
+            v[x+i]=1;
+            ans[x]=i;
+            dfs(x+1);
+            //为了回溯
+            vis[i]=0;
+            u[x-i+n]=0;
+            v[x+i]=0;
+        }
+    }
+}
+
+int main(){
+    cin&gt;&gt;n;
+    dfs(1);
+    cout&lt;&lt;Count&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="迷宫"><a href="#迷宫" class="headerlink" title="迷宫"></a>迷宫</h2><p><strong>题目背景</strong><br>给定一个N*M方格的迷宫，迷宫里有T处障碍，障碍处不可通过。给定起点坐标和终点坐标，问: 每个方格最多经过1次，有多少种从起点坐标到终点坐标的方案。在迷宫中移动有上下左右四种方式，每次只能移动一个方格。数据保证起点上没有障碍。</p>
+<p><strong>题目描述</strong><br>无</p>
+<p><strong>输入格式</strong><br>第一行N、M和T，N为行，M为列，T为障碍总数。第二行起点坐标SX,SY，终点坐标FX,FY。接下来T行，每行为障碍点的坐标。</p>
+<p><strong>输出格式</strong><br>给定起点坐标和终点坐标，问每个方格最多经过1次，从起点坐标到终点坐标的方案总数。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>2 2 1<br>1 1 2 2<br>1 2</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>1</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+
+using namespace std;
+int n,m,t,sx,sy,fx,fy,Count=0;
+int Map[10][10];//相当于vis数组
+int way[4][2]={{0,1},{0,-1},{1,0},{-1,0}};
+void dfs(int x,int y){
+    if(x==fx&amp;&amp;y==fy){
+        Count++;
+        return;
+    }
+    for(int i=0;i&lt;4;i++){
+        int dx=x+way[i][0];
+        int dy=y+way[i][1];
+        if(dx&gt;=1&amp;&amp;dx&lt;=n&amp;&amp;dy&gt;=1&amp;&amp;dy&lt;=n&amp;&amp;!Map[dx][dy]){
+            Map[dx][dy]=1;
+            dfs(dx,dy);
+            Map[dx][dy]=0;
+        }
+    }
+}
+
+
+int main(){
+    cin&gt;&gt;n&gt;&gt;m&gt;&gt;t&gt;&gt;sx&gt;&gt;sy&gt;&gt;fx&gt;&gt;fy;
+    while(t--){
+        int x,y;
+        cin&gt;&gt;x&gt;&gt;y;
+        Map[x][y]=1;
+    }
+    Map[sx][sy]=1;
+    dfs(sx,sy);
+    cout&lt;&lt;Count&lt;&lt;endl;
+}
+</code></pre>
+<h2 id="单词方阵"><a href="#单词方阵" class="headerlink" title="单词方阵"></a>单词方阵</h2><p><strong>题目描述</strong><br>给一n×n的字母方阵，内可能蕴含多个“yizhong”单词。单词在方阵中是沿着同一方向连续摆放的。摆放可沿着 8 个方向的任一方向，同一单词摆放时不再改变方向，单词与单词之间可以交叉,因此有可能共用字母。输出时，将不是单词的字母用*代替，以突出显示单词。例如：<br><img src="https://img-blog.csdnimg.cn/20200305121648322.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br>输入格式<br>第一行输入一个数nn。(7 \le n \le 1007≤n≤100)。</p>
+<p>第二行开始输入n \times nn×n的字母矩阵。</p>
+<p>输出格式<br>突出显示单词的n \times nn×n矩阵。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>8<br>qyizhong<br>gydthkjy<br>nwidghji<br>orbzsfgz<br>hhgrhwth<br>zzzzzozo<br>iwdfrgng<br>yyyygggg</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p><em>yizhong<br>gy<strong>**</strong><br>n<em>i****</em><br>o<strong>z**</strong><br>h<strong><em>h</em></strong><br>z<strong>**o</strong><br>i*****n</em><br>y<strong>**</strong>g</p>
+</blockquote>
+<pre><code class="clike">#include&lt;iostream&gt;
+
+using namespace std;
+char Map[300][300];
+int vis[300][300];
+int way[8][2]={{0,1},{0,-1},{1,0},{-1,0},{1,1},{1,-1},{-1,1},{-1,-1}};
+string yz=&quot;yizhong&quot;;//是从i开始比较
+int n;
+void dfs(int x,int y){
+    for(int i=0;i&lt;8;i++){//8个方向
+        bool flag=true;
+        for(int j=1;j&lt;=6;j++){//需要比较的6，也相当于走的步数
+            int dx=x+j*way[i][0];
+            int dy=y+j*way[i][1];
+            if(!(dx&gt;=1&amp;&amp;dx&lt;=n&amp;&amp;dy&gt;=1&amp;&amp;dy&lt;=n)||yz[j]!=Map[dx][dy]){
+                flag=false;
+            }
+        }
+        if(flag){
+            for(int j=0;j&lt;7;j++){
+                int dx=x+j*way[i][0];
+                int dy=y+j*way[i][1];
+                vis[dx][dy]=1;
+            }
+        }
+    }
+}
+
+int main(){
+    cin&gt;&gt;n;
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            cin&gt;&gt;Map[i][j];
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(Map[i][j]==&#39;y&#39;){
+                dfs(i,j);
+            }
+        }
+    }
+    for(int i=1;i&lt;=n;i++){
+        for(int j=1;j&lt;=n;j++){
+            if(vis[i][j]==1) cout&lt;&lt;Map[i][j];
+            else cout&lt;&lt;&#39;*&#39;;
+        }
+        cout&lt;&lt;endl;
+    }
+}
+</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+        <div class="article-pop-out tagcloud">
+          <i class="icon-tuding"></i>
+          <a class="article-tag-list-link color3">置顶</a>
+        </div>
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">BFS和DFS最终总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/BFS%E5%92%8CDFS/">展开全文 >></a>
         </p>
       
 
@@ -1591,9 +1612,9 @@ for(int i=0;i&lt;n;i++){
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="BERT长文本处理-COGLTX"><a href="#BERT长文本处理-COGLTX" class="headerlink" title="BERT长文本处理-COGLTX"></a>BERT长文本处理-COGLTX</h1><p>这是今年清华大学及阿里巴巴发表在NIPS 2020上的一篇论文《CogLTX: Applying BERT to Long Texts》，介绍了如何优雅地使用bert处理长文本。作者同时开源了不同NLP任务下使用COGLTX的代码：<br>论文地址：&gt; <a href="https://link.zhihu.com/?target=http%3A//keg.cs.tsinghua.edu.cn/jietang/publications/NIPS20-Ding-et-al-CogLTX.pdf">NIPS20-Ding-et-al-CogLTX.pdf</a>代码开源：&gt; <a href="https://link.zhihu.com/?target=https%3A//github.com/Sleepychord/CogLTX">Sleepychord/CogLTX</a><br>bert在长文本处理一般分为三种方法<a href="https://zhuanlan.zhihu.com/p/304764328#ref_1" target="_blank" rel="noopener">[1]</a>：<br><strong>·</strong>截断法；<br><strong>·</strong>Pooling法；<br><strong>·</strong>压缩法。<br>该论文就是压缩法的一种，是三种方法中最好的。我们在科研和工作中都会遇到该问题，例如我最近关注的一个文本分类比赛：<br><a href="https://link.zhihu.com/?target=https%3A//www.datafountain.cn/competitions/471">面向数据安全治理的数据内容智能发现与分级分类 竞赛 - DataFountain</a>.<br>其文本数据长度就都在3000左右，无法将其完整输入bert，使用COGLTX就可以很好地处理该问题，那么就一起来看看该论文具体是怎么做的吧。</p>
-<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a><strong>1.背景</strong></h2><p>基于以下情形：<br><strong>·</strong>bert作为目前最优秀的PLM，不用是不可能的；<br><strong>·</strong>长文本数据普遍存在，且文本中包含的信息非常分散，难以使用滑动窗口<a href="https://zhuanlan.zhihu.com/p/304764328#ref_2" target="_blank" rel="noopener">[2]</a>截断。<br>而由于bert消耗计算资源和时间随着token的长度是平方级别增长的，所以其无法处理太长的token，目前最长只支持512个token，token过长也很容易会内存溢出，所以在使用bert处理长文本时需要设计巧妙的方法来解决这个问题。<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469427-d1c6142a-a518-444c-89ef-3a8b46f46898.jpeg#align=left&display=inline&height=615&margin=%5Bobject%20Object%5D&originHeight=507&originWidth=720&size=0&status=done&style=none&width=873" srcset="/img/loading.gif" alt=""></p>
-<h2 id="2-提出模型"><a href="#2-提出模型" class="headerlink" title="2.提出模型"></a><strong>2.提出模型</strong></h2><p>COGLTX模型在三类NLP任务中的结构如下：<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469428-46c1fde2-bf0f-4432-96b6-55a543c73d80.jpeg#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=225&originWidth=720&size=0&status=done&style=none&width=1666" srcset="/img/loading.gif" alt="">)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469377-87349408-6858-4e58-aba7-7e438831f4ca.jpeg#align=left&display=inline&height=1082&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=720&size=0&status=done&style=none&width=2382" srcset="/img/loading.gif" alt=""><br>首先假设：存在短文本 $$z^+$$可以完全表达原长文本 $$x^+$$的语义：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469414-bbc32d15-fb84-4759-9f1e-4d4e76b78ac9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>那么令 $$z^+$$ 代替 $$x^+$$ 输入原来的模型即可，那么怎么找到这个 $$z^+$$ 呢<br>1、使用动态规划算法将长文本 $$x^+$$ 划分为文本块集合 <img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469429-027c48f3-9528-47f7-a23d-90aed7211278.svg#align=left&display=inline&height=26&margin=%5Bobject%20Object%5D&originHeight=26&originWidth=104&size=0&status=done&style=none&width=104" srcset="/img/loading.gif" alt=""> ；<br>2、使用<strong>MemRecall</strong>对原长句中的子句进行打分，MemRecall结构如图，而表现如下式：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469473-73710ae1-476c-45a5-a768-b19a90953850.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469457-e6943b24-8436-40b5-8341-4396fabbc648.svg#align=left&display=inline&height=51&margin=%5Bobject%20Object%5D&originHeight=51&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>从而选择出分数最高的子句组成 $$z^+$$ 再进行训练，这样一来的话，COGLTX相当于使用了了两个bert，MemRecall中bert就是负责打分，另一个bert执行原本的NLP任务。<br>可以发现刚才找到 $$z^+$$ 例子将问题Q放在了初始化 $$z^+$$ 的开头，但是并不是每个NLP任务都可以这么做，分类的时候就没有类似Q的监督，这时候COGLTX采用的策略是将每个子句从原句中移除判断其是否是必不可少的(t是一个阈值)：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469475-c773dbd5-9592-443b-86ae-b293d37ad9a9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469470-a5913852-6b33-4a74-acd3-f88f3f003ecd.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" srcset="/img/loading.gif" alt=""><br>作者通过设计不同任务下的MemRecall实现了在长文本中使用bert并通过实验证明了方法的有效性。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/2583318/1610106486981-1910295a-e395-4b23-aba9-cd9200f983a6.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&originHeight=381&originWidth=560&size=0&status=done&style=none&width=560" srcset="/img/loading.gif" alt=""></p>
-<h2 id="3-实验"><a href="#3-实验" class="headerlink" title="3.实验"></a><strong>3.实验</strong></h2><p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469433-8711ec6b-754f-4bad-bf1b-c60ba3870913.jpeg#align=left&display=inline&height=696&margin=%5Bobject%20Object%5D&originHeight=445&originWidth=720&size=0&status=done&style=none&width=1126" srcset="/img/loading.gif" alt="">)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469463-d7699741-df79-4716-9225-35e411bc3081.jpeg#align=left&display=inline&height=454&margin=%5Bobject%20Object%5D&originHeight=312&originWidth=720&size=0&status=done&style=none&width=1047" srcset="/img/loading.gif" alt=""><br>通过多维度地对比，证明了本文提出算法的有效性。</p>
+<h2 id="1-背景"><a href="#1-背景" class="headerlink" title="1.背景"></a><strong>1.背景</strong></h2><p>基于以下情形：<br><strong>·</strong>bert作为目前最优秀的PLM，不用是不可能的；<br><strong>·</strong>长文本数据普遍存在，且文本中包含的信息非常分散，难以使用滑动窗口<a href="https://zhuanlan.zhihu.com/p/304764328#ref_2" target="_blank" rel="noopener">[2]</a>截断。<br>而由于bert消耗计算资源和时间随着token的长度是平方级别增长的，所以其无法处理太长的token，目前最长只支持512个token，token过长也很容易会内存溢出，所以在使用bert处理长文本时需要设计巧妙的方法来解决这个问题。<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469427-d1c6142a-a518-444c-89ef-3a8b46f46898.jpeg#align=left&display=inline&height=615&margin=%5Bobject%20Object%5D&originHeight=507&originWidth=720&size=0&status=done&style=none&width=873" alt></p>
+<h2 id="2-提出模型"><a href="#2-提出模型" class="headerlink" title="2.提出模型"></a><strong>2.提出模型</strong></h2><p>COGLTX模型在三类NLP任务中的结构如下：<br><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469428-46c1fde2-bf0f-4432-96b6-55a543c73d80.jpeg#align=left&display=inline&height=521&margin=%5Bobject%20Object%5D&originHeight=225&originWidth=720&size=0&status=done&style=none&width=1666" alt>)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469377-87349408-6858-4e58-aba7-7e438831f4ca.jpeg#align=left&display=inline&height=1082&margin=%5Bobject%20Object%5D&originHeight=327&originWidth=720&size=0&status=done&style=none&width=2382" alt><br>首先假设：存在短文本 $$z^+$$可以完全表达原长文本 $$x^+$$的语义：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469414-bbc32d15-fb84-4759-9f1e-4d4e76b78ac9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br>那么令 $$z^+$$ 代替 $$x^+$$ 输入原来的模型即可，那么怎么找到这个 $$z^+$$ 呢<br>1、使用动态规划算法将长文本 $$x^+$$ 划分为文本块集合 <img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469429-027c48f3-9528-47f7-a23d-90aed7211278.svg#align=left&display=inline&height=26&margin=%5Bobject%20Object%5D&originHeight=26&originWidth=104&size=0&status=done&style=none&width=104" alt> ；<br>2、使用<strong>MemRecall</strong>对原长句中的子句进行打分，MemRecall结构如图，而表现如下式：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469473-73710ae1-476c-45a5-a768-b19a90953850.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469457-e6943b24-8436-40b5-8341-4396fabbc648.svg#align=left&display=inline&height=51&margin=%5Bobject%20Object%5D&originHeight=51&originWidth=675&size=0&status=done&style=none&width=675" alt><br>从而选择出分数最高的子句组成 $$z^+$$ 再进行训练，这样一来的话，COGLTX相当于使用了了两个bert，MemRecall中bert就是负责打分，另一个bert执行原本的NLP任务。<br>可以发现刚才找到 $$z^+$$ 例子将问题Q放在了初始化 $$z^+$$ 的开头，但是并不是每个NLP任务都可以这么做，分类的时候就没有类似Q的监督，这时候COGLTX采用的策略是将每个子句从原句中移除判断其是否是必不可少的(t是一个阈值)：<br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469475-c773dbd5-9592-443b-86ae-b293d37ad9a9.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br><img src="https://cdn.nlark.com/yuque/0/2021/svg/2583318/1610105469470-a5913852-6b33-4a74-acd3-f88f3f003ecd.svg#align=left&display=inline&height=47&margin=%5Bobject%20Object%5D&originHeight=47&originWidth=675&size=0&status=done&style=none&width=675" alt><br>作者通过设计不同任务下的MemRecall实现了在长文本中使用bert并通过实验证明了方法的有效性。<br><img src="https://cdn.nlark.com/yuque/0/2021/png/2583318/1610106486981-1910295a-e395-4b23-aba9-cd9200f983a6.png#align=left&display=inline&height=381&margin=%5Bobject%20Object%5D&originHeight=381&originWidth=560&size=0&status=done&style=none&width=560" alt></p>
+<h2 id="3-实验"><a href="#3-实验" class="headerlink" title="3.实验"></a><strong>3.实验</strong></h2><p><img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469433-8711ec6b-754f-4bad-bf1b-c60ba3870913.jpeg#align=left&display=inline&height=696&margin=%5Bobject%20Object%5D&originHeight=445&originWidth=720&size=0&status=done&style=none&width=1126" alt>)<img src="https://cdn.nlark.com/yuque/0/2021/jpeg/2583318/1610105469463-d7699741-df79-4716-9225-35e411bc3081.jpeg#align=left&display=inline&height=454&margin=%5Bobject%20Object%5D&originHeight=312&originWidth=720&size=0&status=done&style=none&width=1047" alt><br>通过多维度地对比，证明了本文提出算法的有效性。</p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
 <li><a href="https://zhuanlan.zhihu.com/p/304764328#ref_1_0" target="_blank" rel="noopener">^</a><a href="https://zhuanlan.zhihu.com/p/88944564" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/88944564</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/304764328#ref_2_0" target="_blank" rel="noopener">^</a>Z. Wang, P. Ng, X. Ma, R. Nallapati, and B. Xiang. Multi-passage bert: A globally normalized bert model for open-domain question answering. arXiv preprint arXiv:1908.08167, 2019.</li>
@@ -1640,201 +1661,417 @@ for(int i=0;i&lt;n;i++){
 
 
   
-    <article id="post-C++ lower_bound 与 upper_bound 函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-论文" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/12/C++%20lower_bound%20%E4%B8%8E%20upper_bound%20%E5%87%BD%E6%95%B0/">lower_bound和upper_bound</a>
+      <a class="article-title" href="/2021/01/12/%E8%AE%BA%E6%96%87/">论文</a>
     </h1>
   
 
         
-        <a href="/2021/01/12/C++%20lower_bound%20%E4%B8%8E%20upper_bound%20%E5%87%BD%E6%95%B0/" class="archive-article-date">
-  	<time datetime="2021-01-12T14:48:29.388Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+        <a href="/2021/01/12/%E8%AE%BA%E6%96%87/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.757Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><img src="https://img-blog.csdnimg.cn/20200506194750288.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br>代码</p>
-<pre><code class="cpp">void main()
-{
-    vector&lt;int&gt; t;
-    t.push_back(1);
-    t.push_back(2);
-    t.push_back(3);
-    t.push_back(4);
-    t.push_back(6);
-    t.push_back(7);
-    t.push_back(8);
-
-
-    int low=lower_bound(t.begin(),t.end(),5)-t.begin();
-    int upp=upper_bound(t.begin(),t.end(),5)-t.begin();
-    cout&lt;&lt;low&lt;&lt;endl;
-    cout&lt;&lt;upp&lt;&lt;endl;
-
-
-    system(&quot;pause&quot;);
-}</code></pre>
-<p><img src="https://img-blog.csdnimg.cn/20200506195005137.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2021/01/12/C++%20lower_bound%20%E4%B8%8E%20upper_bound%20%E5%87%BD%E6%95%B0/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-数论算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/">数论算法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-05-05T12:53:18.594Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h2><p><img src="https://img-blog.csdnimg.cn/20200505184857978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h2><p><img src="https://img-blog.csdnimg.cn/20200505185724851.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="分数四则运算"><a href="#分数四则运算" class="headerlink" title="分数四则运算"></a>分数四则运算</h2><p><strong>1.分数的表示</strong><br><img src="https://img-blog.csdnimg.cn/20200505192558963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>2.分数的化简</strong><br><img src="https://img-blog.csdnimg.cn/2020050519272114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>3.分数的加法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192749541.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>4.分数的减法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192900279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>5.分数的乘法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192947930.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><strong>6.分数的除法</strong><br><img src="https://img-blog.csdnimg.cn/20200505193102689.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><strong>分数的输出</strong><br><img src="https://img-blog.csdnimg.cn/20200505193601749.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="质因子分解"><a href="#质因子分解" class="headerlink" title="质因子分解"></a>质因子分解</h2><p><img src="https://img-blog.csdnimg.cn/20200505194004488.png" srcset="/img/loading.gif" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200505194035979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+        <p><strong>题目描述</strong><br>小H为了完成一篇论文，一共要完成n个实验。其中第i个实验需要ai的时间去完成。小H可以同时进行若干实验，但存在一些实验，只有当它的若干前置实验完成时，才能开始进行该实验。同时我们认为小H在一个实验的前置实验都完成时，就能马上开始该实验。为了让小H尽快完成论文，需要知道在最优的情况下，最后一个完成的实验什么时候完成？小H还想知道，在保证最后一个实验尽快完成的情况下（即保证上一问的答案不变），他想知道每个实验最晚可以什么时候开始。设第i个实验最早可能的开始时间为fi，不影响最后一个实验完成时间的最晚开始时间为gi，请你证明<img src="https://img-blog.csdnimg.cn/20200211171228484.png" alt>除以10^9+7所得的余数。题目保证有解。</p>
+<p><strong>输入描述:</strong><br>从标准输入读入数据。<br>第一行输入一个整数n，m。<br>第二行输入n个正整数，a1,a2,…..an,描述每个实验完成所需要的时间。<br>接下来读入m行，每行读入两个整数u,v，表示编号为u的实验是编号为v的实验的前置实验。<br>对于所有的输入数据，都满足1&lt;=n&lt;=10^5,1&lt;=m&lt;=5<em>10^5,1&lt;=ai&lt;=10^6。<br>*</em>输出描述:**<br>输出到标准输出。<br>第一行输出一个整数表示最晚完成的实验的时间。<br>第二行输出一个整数表示除以10^9+7所得的余数。<br>输入输出样例<br><strong>输入样例#:</strong></p>
+<blockquote>
+<p>7 5<br>11 20 17 10 11 17 17<br>5 4<br>6 1<br>7 3<br>2 4<br>2 1</p>
+</blockquote>
+<p><strong>输出样例#:</strong></p>
+<blockquote>
+<p>34<br>7840</p>
+</blockquote>
+<p>提示：<br>第一个点最早开始时间为20，最晚开始时间为23。<br>第二个点最早开始时间为0，最晚开始时间为3。<br>第三个点最早开始时间为17，最晚开始时间为17。<br>第四个点最早开始时间为20，最晚开始时间为24。<br>第五个点最早开始时间为0，最晚开始时间为13。<br>第六个点最早开始时间为0，最晚开始时间为6。<br>第七个点最早开始时间为0，最晚开始时间为0。</p>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+#include&lt;vector&gt;
+#include&lt;climits&gt;
 
 using namespace std;
-//质因子分解
-struct factor{
-    int x;//素数
-    int cnt;//素数出现的次数
-}fac[10];
-vector&lt;int&gt; prime;
-bool isprime[10010];
 
-void init_prime(){
-    fill(isprime,isprime+10010,true);
-    isprime[0]=false;
-    isprime[1]=false;
-    for(int i=2;i&lt;10010;i++){
-        if(!isprime[i]) continue;
-        else{
-            prime.push_back(i);
-            for(int j=i*i;j&lt;10010;j+=i){
-                isprime[j]=false;
+const int MAXN=1e5+7;
+const int INF=INT_MAX;
+const int MOD=1e9+7;
+
+
+vector&lt;int&gt; graph[MAXN];//邻接表
+long long earliest[MAXN];//最早开始时间
+long long latest[MAXN];//最晚开始时间
+long long time[MAXN];//花费时间
+int inDegree[MAXN];
+
+long long CriticalPath(int n){
+    vector&lt;int&gt; topology;//拓扑序列
+    queue&lt;int&gt; node;
+    for(int i=1;i&lt;=n;i++){
+        if(inDegree[i]==0){
+            node.push(i);
+        }
+    }
+    long long totalTime=0;//总耗时
+    while(!node.empty()){
+        int u=node.front();
+        topology.push_back(u);
+        node.pop();
+        for(int i=0;i&lt;graph[u].size();i++){
+            int v=graph[u][i];
+            earliest[v]=max(earliest[v],earliest[u]+time[u]);//正向找最大，形成earliest
+            inDegree[v]--;
+            if(inDegree[v]==0){
+                node.push(v);
+                totalTime=max(totalTime,earliest[v]+time[v]);
             }
         }
     }
+    for(int i=topology.size()-1;i&gt;=0;i--){
+        int u=topology[i];
+        if(graph[u].size()==0) latest[u]=totalTime-time[u];//汇点的最晚开始时间初始化
+        else latest[u]=INF;//非汇点的最晚开始时间的初始化
+        for(int j=0;j&lt;graph[u].size();j++){
+            int v=graph[u][j];
+            latest[u]=min(latest[u],latest[v]-time[u]);//逆向找最小，形成latest
+        }
+    }
+    return totalTime;
 }
 
 int main(){
-    int n;
-    cin&gt;&gt;n;
-    int index=0;
-    init_prime();
-    for(int i=0;prime[i]&lt;sqrt(n);i++){
-        if(n%prime[i]==0){
-            fac[index].x=prime[i];
-            fac[index].cnt=1;
-            n/=prime[i];
-            //如果还是能除得尽当前的素数就继续除
-            while(n!=0&amp;&amp;n%prime[i]==0){
-                fac[index].cnt++;
-                n/=prime[i];
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        memset(graph,0,sizeof(graph));
+        memset(earliest,0,sizeof(earliest));
+        memset(latest,0,sizeof(latest));
+        memset(inDegree,0,sizeof(inDegree));
+        memset(time,0,sizeof(time));
+        for(int i=1;i&lt;=n;i++){
+            cin&gt;&gt;time[i];
+        }
+        while(m--){
+            int from,to;
+            cin&gt;&gt;from&gt;&gt;to;
+            graph[from].push_back(to);
+            inDegree[to]++;
+        }
+        long long totalTime=CriticalPath(n);
+        long long answer=1;
+        for(int i=1;i&lt;=n;i++){
+            answer*=latest[i]-earliest[i]+1;
+            answer%=MOD;
+        }
+        cout&lt;&lt;totalTime&lt;&lt;endl;
+        cout&lt;&lt;answer&lt;&lt;endl;
+    }
+}</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">关键路径</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/%E8%AE%BA%E6%96%87/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-类型转换函数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0/">类型转换函数(atoi系列&amp;&amp;stringstream)</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.746Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="atoi，atol，atof-amp-amp-c-str"><a href="#atoi，atol，atof-amp-amp-c-str" class="headerlink" title="(atoi，atol，atof)&amp;&amp;c_str()"></a>(atoi，atol，atof)&amp;&amp;c_str()</h2><p>atoi:  char* → int<br>atol: char* → long<br>atof: char* → double<br>注意要用c_str将string转化成c语言中的char*类型</p>
+<h2 id="stringstream"><a href="#stringstream" class="headerlink" title="stringstream"></a>stringstream</h2><p>具体来说就是C++标准库中的<sstream>提供了比ANSI C的&lt;stdio.h&gt;更高级的一些功能，即单纯性、类型安全和可扩展性。在本文中，我将展示怎样使用这些库来实现安全和自动的类型转换。还有是如果你打算在多次转换中使用同一个stringstream对象，记住再每次转换前要使用clear()方法。下面就是我的一个小实验。</sstream></p>
+<pre><code class="cpp">#include &quot;stdafx.h&quot;
+#include &lt;string&gt;
+#include &lt;sstream&gt;
+#include &lt;iostream&gt;
+
+/************************************************************************/
+/* 使用stringstream对象简化类型转换                                     */
+/*C++标准库中的&lt;sstream&gt;提供了比ANSI C的&lt;stdio.h&gt;更高级的一些功能，     */
+/*即单纯性、类型安全和可扩展性。在本文中，我将展示怎样使用这些库来实现  */
+/*安全和自动的类型转换。                                                */
+/*如果你打算在多次转换中使用同一个stringstream对象，                    */
+/*记住再每次转换前要使用clear()方法；                                   */
+/************************************************************************/
+
+int _tmain(int argc, _TCHAR* argv[])
+{
+
+    //stringstream通常是用来做数据转换的。
+
+    //1.int 与 string的转换
+    std::stringstream m_sstream;
+    std::string result;
+    int i=1000;
+    m_sstream&lt;&lt;i;
+    m_sstream&gt;&gt;result;
+    std::cout&lt;&lt;result&lt;&lt;&quot;\n&quot;;
+     //2.int 与 char[]的转换
+    m_sstream.clear();
+    char res[8];
+    m_sstream&lt;&lt;8888;
+    m_sstream&gt;&gt;res;
+    std::cout&lt;&lt;res&lt;&lt;&quot;\n&quot;;
+     //3.string 与 int的转换(并且可以按照空格进行读取)
+    m_sstream.clear();
+    int first,second;
+    m_sstream&lt;&lt;&quot;666&quot;;
+    m_sstream&gt;&gt;first;
+    std::cout&lt;&lt;first&lt;&lt;std::endl;
+     //4.bool 与 int的转换
+    m_sstream.clear();
+    m_sstream&lt;&lt;true;
+    m_sstream&gt;&gt;second;
+    std::cout&lt;&lt;second&lt;&lt;std::endl;
+
+
+    return 0;
+}</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E5%87%BD%E6%95%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-确定比赛名次" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/">确定比赛名次</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.741Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>Problem Description</strong><br>有N个比赛队（1&lt;=N&lt;=500），编号依次为1，2，3，。。。。，N进行比赛，比赛结束后，裁判委员会要将所有参赛队伍从前往后依次排名，但现在裁判委员会不能直接获得每个队的比赛成绩，只知道每场比赛的结果，即P1赢P2，用P1，P2表示，排名时P1在P2之前。现在请你编程序确定排名。</p>
+<p><strong>Input</strong><br>输入有若干组，每组中的第一行为二个数N（1&lt;=N&lt;=500），M；其中N表示队伍的个数，M表示接着有M行的输入数据。接下来的M行数据中，每行也有两个整数P1，P2表示即P1队赢了P2队。</p>
+<p><strong>Output</strong><br>给出一个符合要求的排名。输出时队伍号之间有空格，最后一名后面没有空格。</p>
+<p>其他说明：符合条件的排名可能不是唯一的，此时要求输出时编号小的队伍在前；输入数据保证是正确的，即输入数据确保一定能有一个符合要求的排名。</p>
+<p><strong>Sample Input</strong></p>
+<blockquote>
+<p>4 3<br>1 2<br>2 3<br>4 3</p>
+</blockquote>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>1 2 4 3</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+using namespace std;
+
+const int MAXN=500;
+
+vector&lt;int&gt; graph[MAXN];//邻接表的实现
+int inDegree[MAXN];
+
+vector&lt;int&gt; TopologicalSort(int n){
+    vector&lt;int&gt; topology;
+    priority_queue&lt;int,vector&lt;int&gt;,greater&lt;int&gt; &gt; node;//逆向优先队列，为了实现拓扑序列不唯一时编号小的在前面
+    for(int i=1;i&lt;=n;i++){//i是从1到n，即结点的编号
+        if(inDegree[i]==0){//先把初始入度为零的全部放入队列
+            node.push(i);
+        }
+    }
+//求解拓扑序列时一定先把上一层的所有全部入队后再入队下一层，所以优先队列不会干扰
+    while(!node.empty()){
+        int u=node.top();
+        node.pop();
+        topology.push_back(u);
+        for(int i=0;i&lt;graph[u].size();i++){//遍历当前pop出的结点的所有出弧
+            int v=graph[u][i];
+            inDegree[v]--;
+            if(inDegree[v]==0){//u的所有出弧全部去掉后如果有入度为零的则push进队列
+                node.push(v);
             }
-            index++;
         }
     }
-    //最后可能存在的一个超过sqrt(n)的素数
-    if(n!=0){
-        fac[index].x=n;
-        fac[index].cnt=1;
-        index++;
-    }
-    for(int i=0;i&lt;index;i++){
-        for(int j=fac[i].cnt;j&gt;0;j--){
-            cout&lt;&lt;fac[i].x&lt;&lt;&#39;*&#39;;
-        }
-    }
+    return topology;
 }
-</code></pre>
-<h2 id="n-质因p的个数"><a href="#n-质因p的个数" class="headerlink" title="n!质因p的个数"></a>n!质因p的个数</h2><p><img src="https://img-blog.csdnimg.cn/20200505202052232.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200505202306240.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h2><p>相当于组合数公式的变形，对于$C^{m}_{n}$来说<br>相当于 <strong>后m个的乘积/前m个的乘积</strong><br>但注意乘和除一定同步进行，不然可能在中途溢出<br><img src="https://img-blog.csdnimg.cn/20200505203215768.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="高精度运算"><a href="#高精度运算" class="headerlink" title="高精度运算"></a>高精度运算</h2><p><a href="https://xilixili.github.io/2020/04/16/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/" target="_blank" rel="noopener">任意门</a></p>
-<h2 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h2><p><a href="https://xilixili.github.io/tags/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93/" target="_blank" rel="noopener">任意门</a></p>
+
+int main(){
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        if(n==0&amp;&amp;m==0) break;
+        memset(graph,0,sizeof(graph));
+        memset(inDegree,0,sizeof(inDegree));
+        while(m--){
+            int from,to;
+            cin&gt;&gt;from&gt;&gt;to;
+            graph[from].push_back(to);
+            inDegree[to]++;//在输入时更新入度数组
+        }
+        vector&lt;int&gt; answer=TopologicalSort(n);
+        for(int i=0;i&lt;answer.size();i++){
+            if(i==0) cout&lt;&lt;answer[i];
+            else cout&lt;&lt;&quot; &quot;&lt;&lt;answer[i];
+        }
+    }
+}</code></pre>
 
       
 
@@ -1852,11 +2089,15 @@ int main(){
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数论</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">拓扑排序</a>
         		</li>
       		
 		</ul>
@@ -1868,7 +2109,7 @@ int main(){
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -1877,7 +2118,7 @@ int main(){
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E7%A1%AE%E5%AE%9A%E6%AF%94%E8%B5%9B%E5%90%8D%E6%AC%A1/">展开全文 >></a>
         </p>
       
 
@@ -1907,217 +2148,102 @@ int main(){
 
 
   
-    <article id="post-C++常用字符串分割方法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-畅通工程续" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/C++%E5%B8%B8%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/">C++常用字符串分割方法</a>
+      <a class="article-title" href="/2021/01/12/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/">畅通工程续</a>
     </h1>
   
 
         
-        <a href="/2020/05/05/C++%E5%B8%B8%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-05-05T08:35:14.865Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+        <a href="/2021/01/12/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.738Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="一、用strtok函数进行字符串分割"><a href="#一、用strtok函数进行字符串分割" class="headerlink" title="一、用strtok函数进行字符串分割"></a>一、用strtok函数进行字符串分割</h2><p>原型： char *strtok(char *str, const char *delim);</p>
-<p>功能：分解字符串为一组字符串。</p>
-<p>参数说明：str为要分解的字符串，delim为分隔符字符串。</p>
-<p>返回值：从str开头开始的一个个被分割的串。当没有被分割的串时则返回NULL。</p>
-<p>其它：strtok函数线程不安全，可以使用strtok_r替代。</p>
-<p>示例：</p>
-<pre><code class="cpp">//借助strtok实现split
-#include &lt;string.h&gt;
-#include &lt;stdio.h&gt;
-
-int main()
-{
-    char s[] = &quot;Golden Global   View,disk * desk&quot;;
-    const char *d = &quot; ,*&quot;;
-    char *p;
-    p = strtok(s,d);
-    while(p)
-    {
-        printf(&quot;%s\n&quot;,p);
-        p=strtok(NULL,d);
-    }
-
-    return 0;
-}</code></pre>
-<p>运行效果如下图所示：<br><img src="https://img-blog.csdnimg.cn/20200505163131183.png" srcset="/img/loading.gif" alt="在这里插入图片描述"></p>
-<h2 id="二、用STL进行字符串的分割"><a href="#二、用STL进行字符串的分割" class="headerlink" title="二、用STL进行字符串的分割"></a>二、用STL进行字符串的分割</h2><p>涉及到string类的两个函数find和substr：<br>1、find函数<br>原型：size_t find ( const string&amp; str, size_t pos = 0 ) const;<br>功能：查找子字符串第一次出现的位置。<br>参数说明：str为子字符串，pos为初始查找位置。<br>返回值：找到的话返回第一次出现的位置，否则返回string::npos</p>
-<p>2、substr函数<br>原型：string substr ( size_t pos = 0, size_t n = npos ) const;<br>功能：获得子字符串。<br>参数说明：pos为起始位置（默认为0），n为结束位置（默认为npos）<br>返回值：子字符串</p>
-<p>实现如下：</p>
-<pre><code class="cpp">//字符串分割函数
-std::vector&lt;std::string&gt; split(std::string str,std::string pattern)
-{
-  std::string::size_type pos;
-  std::vector&lt;std::string&gt; result;
-  str+=pattern;//扩展字符串以方便操作
-  int size=str.size();
-
-  for(int i=0; i&lt;size; i++)
-  {
-    pos=str.find(pattern,i);
-    if(pos&lt;size)
-    {
-      std::string s=str.substr(i,pos-i);
-      result.push_back(s);
-      i=pos+pattern.size()-1;
-    }
-  }
-  return result;
-}</code></pre>
-<p>完整代码：</p>
-<pre><code class="cpp">/*
-    File   : split1.cpp
-    Author  : Mike
-    E-Mail  : Mike_Zhang@live.com
- */
-#include &lt;iostream&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
-
-//字符串分割函数
-std::vector&lt;std::string&gt; split(std::string str,std::string pattern)
-{
-  std::string::size_type pos;
-  std::vector&lt;std::string&gt; result;
-  str+=pattern;//扩展字符串以方便操作
-  int size=str.size();
-
-  for(int i=0; i&lt;size; i++)
-  {
-    pos=str.find(pattern,i);
-    if(pos&lt;size)
-    {
-      std::string s=str.substr(i,pos-i);
-      result.push_back(s);
-      i=pos+pattern.size()-1;
-    }
-  }
-  return result;
-}
-
-int main()
-{
-  std::string str;
-  std::cout&lt;&lt;&quot;Please input str:&quot;&lt;&lt;std::endl;
-  //std::cin&gt;&gt;str;
-  getline(std::cin,str);
-  std::string pattern;
-  std::cout&lt;&lt;&quot;Please input pattern:&quot;&lt;&lt;std::endl;
-  //std::cin&gt;&gt;pattern;
-  getline(std::cin,pattern);//用于获取含空格的字符串
-  std::vector&lt;std::string&gt; result=split(str,pattern);
-  std::cout&lt;&lt;&quot;The result:&quot;&lt;&lt;std::endl;
-  for(int i=0; i&lt;result.size(); i++)
-  {
-    std::cout&lt;&lt;result[i]&lt;&lt;std::endl;
-  }
-
-  std::cin.get();
-  std::cin.get();
-  return 0;
-}
-运行效果如下图所示：</code></pre>
-<h2 id="三、用Boost进行字符串的分割"><a href="#三、用Boost进行字符串的分割" class="headerlink" title="三、用Boost进行字符串的分割"></a>三、用Boost进行字符串的分割</h2><p>用boost库的正则表达式实现字符串分割<br>实现如下：</p>
-<pre><code class="cpp">std::vector&lt;std::string&gt; split(std::string str,std::string s)
-{
-    boost::regex reg(s.c_str());
-    std::vector&lt;std::string&gt; vec;
-    boost::sregex_token_iterator it(str.begin(),str.end(),reg,-1);
-    boost::sregex_token_iterator end;
-    while(it!=end)
-    {
-        vec.push_back(*it++);
-    }
-    return vec;</code></pre>
-<p>}<br>完整代码：</p>
-<pre><code class="cpp">//本程序实现的是利用正则表达式对字符串实现分割
-//运行环境   VC6.0 + boost 库
-/*
-    File   : split2.cpp
-    Author  : Mike
-    E-Mail  : Mike_Zhang@live.com
-*/
-#include &lt;iostream&gt;
-#include &lt;cassert&gt;
-#include &lt;vector&gt;
-#include &lt;string&gt;
-#include &quot;boost/regex.hpp&quot;
-
-std::vector&lt;std::string&gt; split(std::string str,std::string s)
-{
-    boost::regex reg(s.c_str());
-    std::vector&lt;std::string&gt; vec;
-    boost::sregex_token_iterator it(str.begin(),str.end(),reg,-1);
-    boost::sregex_token_iterator end;
-    while(it!=end)
-    {
-        vec.push_back(*it++);
-    }
-    return vec;
-}
-int main()
-{
-    std::string str,s;
-    str=&quot;sss/ddd/ggg/hh&quot;;
-    s=&quot;/&quot;;
-    std::vector&lt;std::string&gt; vec=split(str,s);
-    for(int i=0,size=vec.size();i&lt;size;i++)
-    {
-        std::cout&lt;&lt;vec[i]&lt;&lt;std::endl;
-    }
-    std::cin.get();
-    std::cin.get();
-    return 0;
-}</code></pre>
-<p>运行效果如下图所示：</p>
-<p>补充：</p>
-<p>最近发现boost里面有自带的split的函数，如果用boost的话，还是直接用split的好，这里就不多说了，代码如下：</p>
-<pre><code class="cpp">#include &lt;iostream&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
-#include &lt;boost/algorithm/string/classification.hpp&gt;
-#include &lt;boost/algorithm/string/split.hpp&gt;
-
+        <p><strong>Problem Description</strong><br>某省自从实行了很多年的畅通工程计划后，终于修建了很多路。不过路多了也不好，每次要从一个城镇到另一个城镇时，都有许多种道路方案可以选择，而某些方案要比另一些方案行走的距离要短很多。这让行人很困扰。</p>
+<p>现在，已知起点和终点，请你计算出要从起点到终点，最短需要行走多少距离。</p>
+<p><strong>Input</strong><br>本题目包含多组数据，请处理到文件结束。<br>每组数据第一行包含两个正整数N和M(0&lt;N&lt;200,0&lt;M&lt;1000)，分别代表现有城镇的数目和已修建的道路的数目。城镇分别以0～N-1编号。<br>接下来是M行道路信息。每一行有三个整数A,B,X(0&lt;=A,B&lt;N,A!=B,0&lt;X&lt;10000),表示城镇A和城镇B之间有一条长度为X的双向道路。<br>再接下一行有两个整数S,T(0&lt;=S,T&lt;N)，分别代表起点和终点。</p>
+<p><strong>Output</strong><br>对于每组数据，请在一行里输出最短需要行走的距离。如果不存在从S到T的路线，就输出-1.<br><strong>Sample Input</strong></p>
+<blockquote>
+<p>3 3<br>0 1 1<br>0 2 3<br>1 2 1<br>0 2<br>3 1<br>0 1 1<br>1 2</p>
+</blockquote>
+<p><strong>Sample Output</strong></p>
+<blockquote>
+<p>2<br>-1</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+#include&lt;vector&gt;
+#include&lt;cstring&gt;
+#include&lt;queue&gt;
+#include&lt;climits&gt;
 using namespace std;
+const int MAXN=200;
+const int INF=INT_MAX;
 
-int main()
-{
- string s = &quot;sss/ddd,ggg&quot;;
- vector&lt;string&gt; vStr;
- boost::split( vStr, s, boost::is_any_of( &quot;,/&quot; ), boost::token_compress_on );
- for( vector&lt;string&gt;::iterator it = vStr.begin(); it != vStr.end(); ++ it )
-  cout &lt;&lt; *it &lt;&lt; endl;
- return 0;
+struct Edge{
+    int to;
+    int length;
+    Edge(int t,int l):to{t},length(l){}
+};
+
+struct Point{
+    int number;
+    int distance;
+    Point(int n,int d):number(n),distance(d){}
+    bool operator&lt; (const Point&amp; p) const{
+        return distance&gt;p.distance;
+    }
+};
+
+vector&lt;Edge&gt; graph[MAXN];   //邻接表实现的图，数组中是点，而每一个点后面都跟了一个vector
+int dis[MAXN];
+
+void Dijkstra(int s){
+    priority_queue&lt;Point&gt; pqueue;
+    dis[s]=0;
+    pqueue.push(Point(s,dis[s]));
+    while(!pqueue.empty()){
+        int u=pqueue.top().number;//离源点最近的点
+        pqueue.pop();
+        for(int i=0;i&lt;graph[u].size();i++){
+            int v=graph[u][i].to;//u为顶点的编号，i为边的序号
+            int d=graph[u][i].length;
+            if(dis[v]&gt;dis[u]+d){
+                dis[v]=dis[u]+d;
+                pqueue.push(Point(v,dis[v]));
+            }
+        }
+    }
+    return ;
 }
-#include &lt;iostream&gt;
-#include &lt;string&gt;
-#include &lt;vector&gt;
-#include &lt;boost/algorithm/string/classification.hpp&gt;
-#include &lt;boost/algorithm/string/split.hpp&gt;
 
-using namespace std;
-
-int main()
-{
- string s = &quot;sss/ddd,ggg&quot;;
- vector&lt;string&gt; vStr;
- boost::split( vStr, s, boost::is_any_of( &quot;,/&quot; ), boost::token_compress_on );
- for( vector&lt;string&gt;::iterator it = vStr.begin(); it != vStr.end(); ++ it )
-  cout &lt;&lt; *it &lt;&lt; endl;
- return 0;
+int main(){
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m){
+        memset(graph,0,sizeof(graph));//图初始化
+        fill(dis,dis+n,INF);//距离初始化为无穷
+        while(m--){
+            int from,to,length;
+            cin&gt;&gt;from&gt;&gt;to&gt;&gt;length;
+            graph[from].push_back(Edge(to,length));
+            graph[to].push_back(Edge(from,length));
+        }
+        int s,t;
+        cin&gt;&gt;s&gt;&gt;t;
+        Dijkstra(s);
+        if(dis[t]==INF) dis[t]=-1;
+        cout&lt;&lt;dis[t]&lt;&lt;endl;
+    }
 }</code></pre>
-<p>希望本文所述对大家的C++程序设计有所帮助。</p>
 
       
 
@@ -2135,109 +2261,15 @@ int main()
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/C++%E5%B8%B8%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%86%E5%89%B2%E6%96%B9%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-printf格式输出数字，位数不够前面补0" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/printf%E6%A0%BC%E5%BC%8F%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%97%EF%BC%8C%E4%BD%8D%E6%95%B0%E4%B8%8D%E5%A4%9F%E5%89%8D%E9%9D%A2%E8%A1%A50/">printf输出不够时前面补0</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/05/printf%E6%A0%BC%E5%BC%8F%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%97%EF%BC%8C%E4%BD%8D%E6%95%B0%E4%B8%8D%E5%A4%9F%E5%89%8D%E9%9D%A2%E8%A1%A50/" class="archive-article-date">
-  	<time datetime="2020-05-05T07:46:53.638Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>printf格式输出：%[flags][width][.perc][F|N|h|l]type<br>用到了flags中的0,其百科描述为：将输出的前面补上0，直到占满指定列宽为止（不可以搭配使用-）</p>
-<p>width 即表示需要输出的位数。</p>
-<pre><code class="cpp">int a = 4;
-printf(&quot;%03d&quot;,a);</code></pre>
-<blockquote>
-<p>输出：004</p>
-</blockquote>
-<p>也可以用 * 代替位数，在后面的参数列表中用变量控制输出位数；</p>
-<pre><code class="cpp">int a = 4;
-int n = 3;
-printf(&quot;%0*d&quot;,n,a);</code></pre>
-<blockquote>
-<p>输出：004</p>
-</blockquote>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">图论</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">最短路径</a>
         		</li>
       		
 		</ul>
@@ -2249,7 +2281,7 @@ printf(&quot;%0*d&quot;,n,a);</code></pre>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -2258,7 +2290,7 @@ printf(&quot;%0*d&quot;,n,a);</code></pre>
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/printf%E6%A0%BC%E5%BC%8F%E8%BE%93%E5%87%BA%E6%95%B0%E5%AD%97%EF%BC%8C%E4%BD%8D%E6%95%B0%E4%B8%8D%E5%A4%9F%E5%89%8D%E9%9D%A2%E8%A1%A50/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E7%95%85%E9%80%9A%E5%B7%A5%E7%A8%8B%E7%BB%AD/">展开全文 >></a>
         </p>
       
 
@@ -2385,75 +2417,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">队列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">图论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2461,7 +2425,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">树</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">图论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2473,7 +2457,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">kmp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">树</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -2481,11 +2477,47 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
               </li>
             
             <div class="clearfix"></div>

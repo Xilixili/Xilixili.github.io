@@ -12,7 +12,7 @@
 <meta property="og:title" content="xixilili.blog">
 <meta property="og:url" content="https://xilixili.github.io/page/4/index.html">
 <meta property="og:site_name" content="xixilili.blog">
-<meta property="og:locale" content="en_US">
+<meta property="og:locale" content="zh_CN">
 <meta property="article:author" content="xixilili">
 <meta name="twitter:card" content="summary">
   
@@ -152,58 +152,193 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-vector的操作总结" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-点菜问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/05/vector%E7%9A%84%E6%93%8D%E4%BD%9C%E6%80%BB%E7%BB%93/">vector的总结</a>
+      <a class="article-title" href="/2021/01/12/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/">点菜问题</a>
     </h1>
   
 
         
-        <a href="/2020/05/05/vector%E7%9A%84%E6%93%8D%E4%BD%9C%E6%80%BB%E7%BB%93/" class="archive-article-date">
-  	<time datetime="2020-05-05T03:47:07.316Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-05</time>
+        <a href="/2021/01/12/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.732Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="vector总结"><a href="#vector总结" class="headerlink" title="vector总结"></a>vector总结</h1><p>vector是不定长数组，具有静态数组的稳定性和动态分配内存的灵活性，在赛场上不失为指针之外牺牲部分时间的保险之举。</p>
-<p>本文先介绍一些vector常用的函数（部分借鉴一篇博客中的内容 链接），并以此为铺垫，介绍本人在解题过程中对vector用途的一些总结。</p>
-<p>vector中迭代器的声明：vector<int>::iterator it;</p>
-<p>迭代器的使用方法与指针几乎完全一样，vector中绝大多数带参数的函数参数都有迭代器，很多函数的返回值也是迭代器。</p>
-<h1 id="常用函数："><a href="#常用函数：" class="headerlink" title="常用函数："></a>常用函数：</h1><p><strong>1.begin,end：</strong><br>a.begin()返回指向a中第一个元素的迭代器，a.end()返回指向a中最后一个元素的位置的下一个位置的迭代器。begin和end可以用来遍历，当然for(int i=0;i&lt;a.size();i++)也可以实现，效率完全相同，但在运行一些输入参数为迭代器的函数时，vector的下标就无法解决了。</p>
-<p><strong>2.size,capacity：</strong><br>a.size()返回a中非空元素个数，a.capacity()返回a所占内存可容纳元素的个数。</p>
-<p><strong>3.clear,resize：</strong><br>a.clear()是void类型，表示将a中所有元素置空，但不改变a所占内存，即size变为0，capacity不变。</p>
-<p>a.resize(x)也是void类型，表示将a的size变为x，capacity变为max(capacity,x)。（好奇怪的操作……）</p>
-<p><strong>4.push_back：</strong><br> a.pushback(x)是void类型，表示将x插入到a的尾部，size+1。</p>
-<p>值得注意的是，a的capacity并不是push_back一次就+1，而是当capacity不够用的时候增大为原来的两倍。即capacity的值只可能是0或2的幂次。在某些极限情况下vector所占内存可以达到预计内存的近似两倍，在做题时要额外注意MLE的风险。</p>
-<p><strong>5.insert：</strong><br>insert共有三种用法：</p>
-<ul>
-<li><p>a.insert(it,val)：函数表示在迭代器it指向位置之前插入值为val的元素，返回指向插入元素的迭代器。</p>
-</li>
-<li><p>a.insert(it,num,val)：该函数是void类型，表示在迭代器it指向位置之前插入num个值为val的元素。</p>
-</li>
-<li><p>a.insert(it,l,r)：该函数是void类型，表示在迭代器it指向位置之前插入从迭代器l指向位置到迭代器r指向位置的前一个位置的元素（即插入某个容器中[l,r)的元素）。<br>(可以实现两段vector的合并：<br>vector  vec_1.insert(vec_1.end(),  vec_2.begin(),  vec_2.end()) )</p>
-</li>
-</ul>
-<p><strong>6.erase：</strong><br>erase共有两种用法，与insert的第一种和第三种类似。</p>
-<ul>
-<li>a.erase(it)：函数表示删除迭代器it指向的元素，返回指向被删元素的前一个元素的迭代器。</li>
-<li>a.erase(l,r)：函数表示删除从迭代器l指向位置到迭代器r指向位置的前一个位置的元素（即删除a中[l,r)的元素）。</li>
-</ul>
-<p>insert的操作3和erase的操作2结合起来使用，可以实现区间的插入，删除，交换。</p>
-<p><strong>7.lower_bound,upper_bound：</strong></p>
-<ul>
-<li><p>lower_bound(l,r,x)中l,r为迭代器，函数返回指向容器[l,r)中第一个大于等于x的元素的迭代器。</p>
-</li>
-<li><p>upper_bound(l,r,x)中l,r为迭代器，函数返回指向容器[l,r)中第一个大于x的元素的迭代器。</p>
-</li>
-</ul>
+        <p><strong>题目描述</strong><br>    北大网络实验室经常有活动需要叫外卖，但是每次叫外卖的报销经费的总额最大为C元，有N种菜可以点，经过长时间的点菜，网络实验室对于每种菜i都有一个量化的评价分数（表示这个菜可口程度），为Vi，每种菜的价格为Pi, 问如何选择各种菜，使得在报销额度范围内能使点到的菜的总评价分数最大。     注意：由于需要营养多样化，每种菜只能点一次。</p>
+<p><strong>输入描述:</strong><br>    输入的第一行有两个整数C（1 &lt;= C &lt;= 1000）和N（1 &lt;= N &lt;= 100），C代表总共能够报销的额度，N&gt;代表能点菜的数目。接下来的N行每行包括两个在1到100之间（包括1和100）的的整数，分别表示菜的&gt;价格和菜的评价分数。</p>
+<p><strong>输出描述:</strong><br>    输出只包括一行，这一行只包含一个整数，表示在报销额度范围内，所点的菜得到的最大评价分数。</p>
+<p><strong>输入</strong></p>
+<blockquote>
+<p>90 4<br>20 25<br>30 20<br>40 50<br>10 18<br>40 2<br>25 30<br>10 8</p>
+</blockquote>
+<p><strong>输出</strong></p>
+<blockquote>
+<p>95 38</p>
+</blockquote>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+//背包问题
+using namespace std;
+const int MAXN=1001;
+int dp[MAXN];
+int v[MAXN];//物品价值
+int w[MAXN];//物品重量
+
+
+int main(){
+    int n,m;
+    cin&gt;&gt;m&gt;&gt;n;
+    for(int i=0;i&lt;n;i++){
+        cin&gt;&gt;w[i]&gt;&gt;v[i];
+    }
+    for(int i=0;i&lt;=m;i++){
+        dp[i]=0;//初始化
+    }
+    for(int i=0;i&lt;n;i++){
+        for(int j=m;j&gt;=w[i];j--){
+            dp[j]=max(dp[j],dp[j-w[i]]+v[i]);
+        }
+    }
+    cout&lt;&lt;dp[m]&lt;&lt;endl;
+}</code></pre>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+		<i class="icon-book icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/12/%E7%82%B9%E8%8F%9C%E9%97%AE%E9%A2%98/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-标准c++中string类函数介绍" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/12/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">vector的总结</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/12/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.722Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>注意不是CString<br>之所以抛弃char*的字符串而选用C++标准程序库中的string类，是因为他和前者比较起来，不必 担心内存是否足够、字符串长度等等，而且作为一个类出现，他集成的操作函数足以完成我们大多数情况下(甚至是100%)的需要。我们可以用 = 进行赋值操作，== 进行比较，+ 做串联（是不是很简单?）。我们尽可以把它看成是C++的基本数据类型。</p>
+<p>好了，进入正题………<br>首先，为了在我们的程序中使用string类型，我们必须包含头文件 <string>。</string></p>
+<p>如下：<br>#include <string> //注意这里不是string.h string.h是C字符串头文件<br>#include <string><br>using namespace std;</string></string></p>
+<p><strong>1．声明一个C++字符串</strong><br>声明一个字符串变量很简单：<br>string Str;<br>这样我们就声明了一个字符串变量，但既然是一个类，就有构造函数和析构函数。上面的声明没有传入参数，所以就直接使用了string的默认的构造函数，这个函数所作的就是把Str初始化为一个空字符串。String类的构造函数和析构函数如下：<br>a)      string s;    //生成一个空字符串s<br>b)      string s(str) //拷贝构造函数 生成str的复制品<br>c)      string s(str,stridx) //将字符串str内“始于位置stridx”的部分当作字符串的初值<br>d)      string s(str,stridx,strlen) //将字符串str内“始于stridx且长度顶多strlen”的部分作为字符串的初值<br>e)      string s(cstr) //将C字符串作为s的初值<br>f)      string s(chars,chars_len) //将C字符串前chars_len个字符作为字符串s的初值。<br>g)      string s(num,c) //生成一个字符串，包含num个c字符<br>h)      string s(beg,end) //以区间beg;end(不包含end)内的字符作为字符串s的初值<br>i)      s.~string() //销毁所有字符，释放内存<br>都很简单，我就不解释了。</p>
+<p><strong>2．字符串操作函数</strong><br>这里是C++字符串的重点，我先把各种操作函数罗列出来，不喜欢把所有函数都看完的人可以在这里找自己喜欢的函数，再到后面看他的详细解释。<br>a) =,assign()     //赋以新值<br>b) swap()     //交换两个字符串的内容<br>c) +=,append(),push_back() //在尾部添加字符<br>d) insert() //插入字符<br>e) erase() //删除字符<br>f) clear() //删除全部字符<br>g) replace() //替换字符<br>h) + //串联字符串<br>i) ==,!=,&lt;,&lt;=,&gt;,&gt;=,compare()    //比较字符串<br>j) size(),length()    //返回字符数量<br>k) max_size() //返回字符的可能最大个数<br>l) empty()    //判断字符串是否为空，是空时返回ture，不是空时返回false<br>m) capacity() //返回重新分配之前的字符容量<br>n) reserve() //保留一定量内存以容纳一定数量的字符<br>o) [ ], at() //存取单一字符<br>p) &gt;&gt;,getline() //从stream读取某值<br>q) &lt;&lt;    //将谋值写入stream<br>r) copy() //将某值赋值为一个C_string<br>s) c_str() //将内容以C_string返回<br>t) data() //将内容以字符数组形式返回<br>u) substr() //返回某个子字符串<br>v)查找函数<br>w)begin() end() //提供类似STL的迭代器支持<br>x) rbegin() rend() //逆向迭代器<br>y) get_allocator() //返回配置器</p>
+<p>下面详细介绍：</p>
+<p><strong>2．1 C++字符串和C字符串的转换</strong><br>C ++提供的由C++字符串得到对应的C_string的方法是使用data()、c_str()和copy()，其中，data()以字符数组的形式返回字符串内容，但并不添加’/0’。c_str()返回一个以‘/0’结尾的字符数组，而copy()则把字符串的内容复制或写入既有的c_string或 字符数组内。C++字符串并不以’/0’结尾。我的建议是在程序中能使用C++字符串就使用，除非万不得已不选用c_string。由于只是简单介绍，详细介绍掠过，谁想进一步了解使用中的注意事项可以给我留言(到我的收件箱)。我详细解释。</p>
+<p><strong>2．2 大小和容量函数</strong><br>一个C++字符串存在三种大小：a)现有的字符数，函数是size()和length()，他们等效。Empty()用来检查字符串是否为空。b)max_size() 这个大小是指当前C++字符串最多能包含的字符数，很可能和机器本身的限制或者字符串所在位置连续内存的大小有关系。我们一般情况下不用关心他，应该大小足够我们用的。但是不够用的话，会抛出length_error异常c)capacity()重新分配内存之前 string所能包含的最大字符数。这里另一个需要指出的是reserve()函数，这个函数为string重新分配内存。重新分配的大小由其参数决定， 默认参数为0，这时候会对string进行非强制性缩减。</p>
+<p>还有必要再重复一下C++字符串和C字符串转换的问 题，许多人会遇到这样的问题，自己做的程序要调用别人的函数、类什么的（比如数据库连接函数Connect(char<em>,char</em>)），但别人的函数参 数用的是char<em>形式的，而我们知道，c_str()、data()返回的字符数组由该字符串拥有，所以是一种const char</em>,要想作为上面提及的函数的参数，还必须拷贝到一个char<em>,而我们的原则是能不使用C字符串就不使用。那么，这时候我们的处理方式是：如果 此函数对参数(也就是char</em>)的内容不修改的话，我们可以这样Connect((char<em>)UserID.c_str(), (char</em>)PassWD.c_str()),但是这时候是存在危险的，因为这样转换后的字符串其实是可以修改的（有兴趣地可以自己试一试），所以我强调除非函数调用的时候不对参数进行修改，否则必须拷贝到一个char<em>上去。当然，更稳妥的办法是无论什么情况都拷贝到一个char</em>上去。同时我们也祈祷现在仍然使用C字符串进行编程的高手们（说他们是高手一点儿也不为过，也许在我们还穿开裆裤的时候他们就开始编程了，哈哈…）写的函数都比较规范，那样我们就不必进行强制转换了。</p>
+<p><strong>2．3元素存取</strong><br>我们可以使用下标操作符[]和函数at()对元素包含的字符进行访问。但是应该注意的是操作符[]并不检查索引是否有效（有效索引0~str.length()），如果索引失效，会引起未定义的行为。而at()会检查，如果使用 at()的时候索引无效，会抛出out_of_range异常。</p>
+<p>有一个例外不得不说，const string a;的操作符[]对索引值是a.length()仍然有效，其返回值是’/0’。其他的各种情况，a.length()索引都是无效的。举例如下：<br>const string Cstr(“const string”);<br>string Str(“string”);<br>Str[3];      //ok<br>Str.at(3);    //ok<br>Str[100]; //未定义的行为<br>Str.at(100);    //throw out_of_range<br>Str[Str.length()]    //未定义行为<br>Cstr[Cstr.length()] //返回 ‘/0’<br>Str.at(Str.length());//throw out_of_range<br>Cstr.at(Cstr.length()) ////throw out_of_range<br>我不赞成类似于下面的引用或指针赋值：<br>char&amp; r=s[2];<br>char* p= &amp;s[3];<br>因为一旦发生重新分配，r,p立即失效。避免的方法就是不使用。</p>
+<p><strong>2．4比较函数</strong><br>C ++字符串支持常见的比较操作符（&gt;,&gt;=,&lt;,&lt;=,==,!=），甚至支持string与C-string的比较(如 str&lt;”hello”)。在使用&gt;,&gt;=,&lt;,&lt;=这些操作符的时候是根据“当前字符特性”将字符按字典顺序进行逐一得 比较。字典排序靠前的字符小，比较的顺序是从前向后比较，遇到不相等的字符就按这个位置上的两个字符的比较结果确定两个字符串的大小。同时，string (“aaaa”) &lt;string(aaaaa)。</p>
+<p>另一个功能强大的比较函数是成员函数compare()。他支持多参数处理，支持用索引值和长度定位子串来进行比较。他返回一个整数来表示比较结果，返回值意义如下：0-相等 〉0-大于 &lt;0-小于。举例如下：<br>string s(“abcd”);<br>s.compare(“abcd”); //返回0<br>s.compare(“dcba”); //返回一个小于0的值<br>s.compare(“ab”); //返回大于0的值<br>s.compare(s); //相等<br>s.compare(0,2,s,2,2); //用”ab”和”cd”进行比较 小于零<br>s.compare(1,2,”bcx”,2); //用”bc”和”bc”比较。<br>怎么样？功能够全的吧！什么？还不能满足你的胃口？好吧，那等着，后面有更个性化的比较算法。先给个提示，使用的是STL的比较算法。什么？对STL一窍不通？靠，你重修吧！</p>
+<p><strong>2．5 更改内容</strong><br>这在字符串的操作中占了很大一部分。<br>首先讲赋值，第一个赋值方法当然是使用操作符=，新值可以是string(如：s=ns) 、c_string(如：s=”gaint”)甚至单一字符（如：s=’j’）。还可以使用成员函数assign()，这个成员函数可以使你更灵活的对字符串赋值。还是举例说明吧：<br>s.assign(str); //不说<br>s.assign(str,1,3);//如果str是”iamangel” 就是把”ama”赋给字符串<br>s.assign(str,2,string::npos);//把字符串str从索引值2开始到结尾赋给s<br>s.assign(“gaint”); //不说<br>s.assign(“nico”,5);//把’n’ ‘I’ ‘c’ ‘o’ ‘/0’赋给字符串<br>s.assign(5,’x’);//把五个x赋给字符串<br>把字符串清空的方法有三个：s=””;s.clear();s.erase();(我越来越觉得举例比说话让别人容易懂！)。<br>string提供了很多函数用于插入（insert）、删除（erase）、替换（replace）、增加字符。<br>先说增加字符（这里说的增加是在尾巴上），函数有 +=、append()、push_back()。</p>
+<p>举例如下：<br>s+=str;//加个字符串<br>s+=”my name is jiayp”;//加个C字符串<br>s+=’a’;//加个字符<br>s.append(str);<br>s.append(str,1,3);//不解释了 同前面的函数参数assign的解释<br>s.append(str,2,string::npos)//不解释了<br>s.append(“my name is jiayp”);<br>s.append(“nico”,5);<br>s.append(5,’x’);<br>s.push_back(‘a’);//这个函数只能增加单个字符对STL熟悉的理解起来很简单</p>
+<p>也许你需要在string中间的某个位置插入字符串，这时候你可以用insert()函数，这个函数需要你指定一个安插位置的索引，被插入的字符串将放在这个索引的后面。<br>      s.insert(0,”my name”);<br>      s.insert(1,str);<br>这种形式的insert()函数不支持传入单个字符，这时的单个字符必须写成字符串形式(让人恶心)。既然你觉得恶心，那就不得不继续读下面一段话：为了插 入单个字符，insert()函数提供了两个对插入单个字符操作的重载函数：insert(size_type index,size_type num,chart c)和insert(iterator pos,size_type num,chart c)。其中size_type是无符号整数，iterator是char*,所以，你这么调用insert函数是不行的：insert(0,1, ‘j’);这时候第一个参数将转换成哪一个呢？所以你必须这么写：insert((string::size_type)0,1,’j’)！第二种形式指 出了使用迭代器安插字符的形式，在后面会提及。顺便提一下，string有很多操作是使用STL的迭代器的，他也尽量做得和STL靠近。</p>
+<p>删除函数erase()的形式也有好几种（真烦！），替换函数replace()也有好几个。</p>
+<p>举例吧：<br>string s=”il8n”;<br>s.replace(1,2,”nternationalizatio”);//从索引1开始的2个替换成后面的C_string<br>s.erase(13);//从索引13开始往后全删除<br>s.erase(7,5);//从索引7开始往后删5个</p>
+<p><strong>2．6提取子串和字符串连接</strong><br>题取子串的函数是：substr(),形式如下：<br>s.substr();//返回s的全部内容<br>s.substr(11);//从索引11往后的子串<br>s.substr(5,6);//从索引5开始6个字符<br>把两个字符串结合起来的函数是+。（谁不明白请致电120）</p>
+<p><strong>2．7输入输出操作</strong><br>1．&gt;&gt; 从输入流读取一个string。<br>2．&lt;&lt; 把一个string写入输出流。<br>另一个函数就是getline(),他从输入流读取一行内容，直到遇到分行符或到了文件尾。</p>
+<p><strong>2．8搜索与查找</strong><br>查找函数很多，功能也很强大，包括了：<br>find()<br>rfind()<br>find_first_of()<br>find_last_of()<br>find_first_not_of()<br>find_last_not_of()</p>
+<p>这些函数返回符合搜索条件的字符区间内的第一个字符的索引，没找到目标就返回npos。所有的函数的参数说明如下：<br>第一个参数是被搜寻的对象。第二个参数（可有可无）指出string内的搜寻起点索引，第三个参数（可有可无）指出搜寻的字符个数。比较简单，不多说不理解的可以向我提出，我再仔细的解答。当然，更加强大的STL搜寻在后面会有提及。</p>
+<p>最后再说说npos的含义，string::npos的类型是string::size_type,所以，一旦需要把一个索引与npos相比，这个索引值必须是string::size)type类型的，更多的情况下，我们可以直接把函数和npos进行比较（如：if(s.find(“jia”)== string::npos)）。</p>
+<p>string类的构造函数：<br>string(const char *s);    //用c字符串s初始化<br>string(int n,char c);     //用n个字符c初始化<br>此外，string类还支持默认构造函数和复制构造函数，如string s1；string s2=”hello”；都是正确的写法。当构造的string太长而无法表达时会抛出length_error异常</p>
+<p>string类的字符操作：<br>const char &amp;operator[](int n)const;<br>const char &amp;at(int n)const;<br>char &amp;operator[](int n);<br>char &amp;at(int n);<br>operator[]和at()均返回当前字符串中第n个字符的位置，但at函数提供范围检查，当越界时会抛出out_of_range异常，下标运算符[]不提供检查访问。<br>const char *data()const;//返回一个非null终止的c字符数组<br>const char *c_str()const;//返回一个以null终止的c字符串<br>int copy(char *s, int n, int pos = 0) const;//把当前串中以pos开始的n个字符拷贝到以s为起始位置的字符数组中，返回实际拷贝的数目</p>
+<p>string的特性描述:<br>int capacity()const;    //返回当前容量（即string中不必增加内存即可存放的元素个数）<br>int max_size()const;    //返回string对象中可存放的最大字符串的长度<br>int size()const;        //返回当前字符串的大小<br>int length()const;       //返回当前字符串的长度<br>bool empty()const;        //当前字符串是否为空<br>void resize(int len,char c);//把字符串当前大小置为len，并用字符c填充不足的部分</p>
+<p>string类的输入输出操作:<br>string类重载运算符operator&gt;&gt;用于输入，同样重载运算符operator&lt;&lt;用于输出操作。<br>函数getline(istream &amp;in,string &amp;s);用于从输入流in中读取字符串到s中，以换行符’\n’分开。</p>
+<p>string的赋值：<br>string &amp;operator=(const string &amp;s);//把字符串s赋给当前字符串<br>string &amp;assign(const char *s);//用c类型字符串s赋值<br>string &amp;assign(const char *s,int n);//用c字符串s开始的n个字符赋值<br>string &amp;assign(const string &amp;s);//把字符串s赋给当前字符串<br>string &amp;assign(int n,char c);//用n个字符c赋值给当前字符串<br>string &amp;assign(const string &amp;s,int start,int n);//把字符串s中从start开始的n个字符赋给当前字符串<br>string &amp;assign(const_iterator first,const_itertor last);//把first和last迭代器之间的部分赋给字符串</p>
+<p>string的连接：<br>string &amp;operator+=(const string &amp;s);//把字符串s连接到当前字符串的结尾<br>string &amp;append(const char *s);            //把c类型字符串s连接到当前字符串结尾<br>string &amp;append(const char *s,int n);//把c类型字符串s的前n个字符连接到当前字符串结尾<br>string &amp;append(const string &amp;s);    //同operator+=()<br>string &amp;append(const string &amp;s,int pos,int n);//把字符串s中从pos开始的n个字符连接到当前字符串的结尾<br>string &amp;append(int n,char c);        //在当前字符串结尾添加n个字符c<br>string &amp;append(const_iterator first,const_iterator last);//把迭代器first和last之间的部分连接到当前字符串的结尾</p>
+<p>string的比较：<br>bool operator==(const string &amp;s1,const string &amp;s2)const;//比较两个字符串是否相等<br>运算符”&gt;”,”&lt;”,”&gt;=”,”&lt;=”,”!=”均被重载用于字符串的比较；<br>int compare(const string &amp;s) const;//比较当前字符串和s的大小<br>int compare(int pos, int n,const string &amp;s)const;//比较当前字符串从pos开始的n个字符组成的字符串与s的大小<br>int compare(int pos, int n,const string &amp;s,int pos2,int n2)const;//比较当前字符串从pos开始的n个字符组成的字符串与s中pos2开始的n2个字符组成的字符串的大小<br>int compare(const char *s) const;<br>int compare(int pos, int n,const char *s) const;<br>int compare(int pos, int n,const char *s, int pos2) const;<br>compare函数在&gt;时返回1，&lt;时返回-1，==时返回0<br>string的子串：<br>string substr(int pos = 0,int n = npos) const;//返回pos开始的n个字符组成的字符串</p>
+<p>string的交换：<br>void swap(string &amp;s2);    //交换当前字符串与s2的值</p>
+<p>string类的查找函数：<br>int find(char c, int pos = 0) const;//从pos开始查找字符c在当前字符串的位置<br>int find(const char *s, int pos = 0) const;//从pos开始查找字符串s在当前串中的位置<br>int find(const char *s, int pos, int n) const;//从pos开始查找字符串s中前n个字符在当前串中的位置<br>int find(const string &amp;s, int pos = 0) const;//从pos开始查找字符串s在当前串中的位置<br>//查找成功时返回所在位置，失败返回string::npos的值<br>int rfind(char c, int pos = npos) const;//从pos开始从后向前查找字符c在当前串中的位置<br>int rfind(const char *s, int pos = npos) const;<br>int rfind(const char *s, int pos, int n = npos) const;<br>int rfind(const string &amp;s,int pos = npos) const;<br>//从pos开始从后向前查找字符串s中前n个字符组成的字符串在当前串中的位置，成功返回所在位置，失败时返回string::npos的值<br>int find_first_of(char c, int pos = 0) const;//从pos开始查找字符c第一次出现的位置<br>int find_first_of(const char *s, int pos = 0) const;<br>int find_first_of(const char *s, int pos, int n) const;<br>int find_first_of(const string &amp;s,int pos = 0) const;<br>//从pos开始查找当前串中第一个在s的前n个字符组成的数组里的字符的位置。查找失败返回string::npos<br>int find_first_not_of(char c, int pos = 0) const;<br>int find_first_not_of(const char *s, int pos = 0) const;<br>int find_first_not_of(const char *s, int pos,int n) const;<br>int find_first_not_of(const string &amp;s,int pos = 0) const;<br>//从当前串中查找第一个不在串s中的字符出现的位置，失败返回string::npos<br>int find_last_of(char c, int pos = npos) const;<br>int find_last_of(const char *s, int pos = npos) const;<br>int find_last_of(const char *s, int pos, int n = npos) const;<br>int find_last_of(const string &amp;s,int pos = npos) const;<br>int find_last_not_of(char c, int pos = npos) const;<br>int find_last_not_of(const char *s, int pos = npos) const;<br>int find_last_not_of(const char *s, int pos, int n) const;<br>int find_last_not_of(const string &amp;s,int pos = npos) const;<br>//find_last_of和find_last_not_of与find_first_of和find_first_not_of相似，只不过是从后向前查找</p>
+<p>string类的替换函数：<br>string &amp;replace(int p0, int n0,const char *s);//删除从p0开始的n0个字符，然后在p0处插入串s<br>string &amp;replace(int p0, int n0,const char *s, int n);//删除p0开始的n0个字符，然后在p0处插入字符串s的前n个字符<br>string &amp;replace(int p0, int n0,const string &amp;s);//删除从p0开始的n0个字符，然后在p0处插入串s<br>string &amp;replace(int p0, int n0,const string &amp;s, int pos, int n);//删除p0开始的n0个字符，然后在p0处插入串s中从pos开始的n个字符<br>string &amp;replace(int p0, int n0,int n, char c);//删除p0开始的n0个字符，然后在p0处插入n个字符c<br>string &amp;replace(iterator first0, iterator last0,const char *s);//把[first0，last0）之间的部分替换为字符串s<br>string &amp;replace(iterator first0, iterator last0,const char *s, int n);//把[first0，last0）之间的部分替换为s的前n个字符<br>string &amp;replace(iterator first0, iterator last0,const string &amp;s);//把[first0，last0）之间的部分替换为串s<br>string &amp;replace(iterator first0, iterator last0,int n, char c);//把[first0，last0）之间的部分替换为n个字符c<br>string &amp;replace(iterator first0, iterator last0,const_iterator first, const_iterator last);//把[first0，last0）之间的部分替换成[first，last）之间的字符串</p>
+<p>string类的插入函数：<br>string &amp;insert(int p0, const char *s);<br>string &amp;insert(int p0, const char *s, int n);<br>string &amp;insert(int p0,const string &amp;s);<br>string &amp;insert(int p0,const string &amp;s, int pos, int n);<br>//前4个函数在p0位置插入字符串s中pos开始的前n个字符<br>string &amp;insert(int p0, int n, char c);//此函数在p0处插入n个字符c<br>iterator insert(iterator it, char c);//在it处插入字符c，返回插入后迭代器的位置<br>void insert(iterator it, const_iterator first, const_iterator last);//在it处插入[first，last）之间的字符<br>void insert(iterator it, int n, char c);//在it处插入n个字符c</p>
+<p>string类的删除函数<br>iterator erase(iterator first, iterator last);//删除[first，last）之间的所有字符，返回删除后迭代器的位置<br>iterator erase(iterator it);//删除it指向的字符，返回删除后迭代器的位置<br>string &amp;erase(int pos = 0, int n = npos);//删除pos开始的n个字符，返回修改后的字符串</p>
+<p>string类的迭代器处理：<br>string类提供了向前和向后遍历的迭代器iterator，迭代器提供了访问各个字符的语法，类似于指针操作，迭代器不检查范围。</p>
+<p>用string::iterator或string::const_iterator声明迭代器变量，const_iterator不允许改变迭代的内容。常用迭代器函数有：<br>const_iterator begin()const;<br>iterator begin();                //返回string的起始位置<br>const_iterator end()const;<br>iterator end();                    //返回string的最后一个字符后面的位置<br>const_iterator rbegin()const;<br>iterator rbegin();                //返回string的最后一个字符的位置<br>const_iterator rend()const;<br>iterator rend();                    //返回string第一个字符位置的前面<br>rbegin和rend用于从后向前的迭代访问，通过设置迭代器string::reverse_iterator,string::const_reverse_iterator实现</p>
+<p>字符串流处理：<br>通过定义ostringstream和istringstream变量实现，<sstream>头文件中<br>例如：<br>string input(“hello,this is a test”);<br>istringstream is(input);<br>string s1,s2,s3,s4;<br>is&gt;&gt;s1&gt;&gt;s2&gt;&gt;s3&gt;&gt;s4;//s1=”hello,this”,s2=”is”,s3=”a”,s4=”test”<br>ostringstream os;<br>os&lt;&lt;s1&lt;&lt;s2&lt;&lt;s3&lt;&lt;s4;<br>cout&lt;&lt;os.str();</sstream></p>
 
       
 
@@ -242,7 +377,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/05/vector%E7%9A%84%E6%93%8D%E4%BD%9C%E6%80%BB%E7%BB%93/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%A0%87%E5%87%86c++%E4%B8%ADstring%E7%B1%BB%E5%87%BD%E6%95%B0%E4%BB%8B%E7%BB%8D/">展开全文 >></a>
         </p>
       
 
@@ -272,110 +407,83 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(16)--概率图模型" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-最小邮票数" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(16)--%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">周志华《Machine Learning》学习笔记(16)--概率图模型</a>
+      <a class="article-title" href="/2021/01/12/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/">最小邮票数</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(16)--%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.431Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.719Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了半监督学习，首先从如何利用未标记样本所蕴含的分布信息出发，引入了半监督学习的基本概念，即训练数据同时包含有标记样本和未标记样本的学习方法；接着分别介绍了几种常见的半监督学习方法：生成式方法基于对数据分布的假设，利用未标记样本隐含的分布信息，使得对模型参数的估计更加准确；TSVM给未标记样本赋予伪标记，并通过不断调整易出错样本的标记得到最终输出；基于分歧的方法结合了集成学习的思想，通过多个学习器在不同视图上的协作，有效利用了未标记样本数据 ；最后半监督聚类则是借助已有的监督信息来辅助聚类的过程，带约束k-均值算法需检测当前样本划分是否满足约束关系，带标记k-均值算法则利用有标记样本指定初始类中心。本篇将讨论一种基于图的学习算法–概率图模型。</p>
-<p>#<strong>15、概率图模型</strong></p>
-<p>现在再来谈谈机器学习的核心价值观，可以更通俗地理解为：<strong>根据一些已观察到的证据来推断未知</strong>，更具哲学性地可以阐述为：未来的发展总是遵循着历史的规律。其中<strong>基于概率的模型将学习任务归结为计算变量的概率分布</strong>，正如之前已经提到的：生成式模型先对联合分布进行建模，从而再来求解后验概率，例如：贝叶斯分类器先对联合分布进行最大似然估计，从而便可以计算类条件概率；判别式模型则是直接对条件分布进行建模。</p>
-<p><strong>概率图模型</strong>（probabilistic graphical model）是一类用<strong>图结构</strong>来表达各属性之间相关关系的概率模型，一般而言：<strong>图中的一个结点表示一个或一组随机变量，结点之间的边则表示变量间的相关关系</strong>，从而形成了一张“<strong>变量关系图</strong>”。若使用有向的边来表达变量之间的依赖关系，这样的有向关系图称为<strong>贝叶斯网</strong>（Bayesian nerwork）或有向图模型；若使用无向边，则称为<strong>马尔可夫网</strong>（Markov network）或无向图模型。</p>
-<p>##<strong>15.1 隐马尔可夫模型(HMM)</strong></p>
-<p>隐马尔可夫模型（Hidden Markov Model，简称HMM）是结构最简单的一种贝叶斯网，在语音识别与自然语言处理领域上有着广泛的应用。HMM中的变量分为两组：<strong>状态变量</strong>与<strong>观测变量</strong>，其中状态变量一般是未知的，因此又称为“<strong>隐变量</strong>”，观测变量则是已知的输出值。在隐马尔可夫模型中，变量之间的依赖关系遵循如下两个规则：</p>
+        <p><strong>题目描述</strong><br>    有若干张邮票，要求从中选取最少的邮票张数凑成一个给定的总值。     如，有1分，3分，3分，3分，4分五张邮票，要求凑成10分，则使用3张邮票：3分、3分、4分即可。</p>
+<p><strong>输入描述:</strong><br>    有多组数据，对于每组数据，首先是要求凑成的邮票总值M，M&lt;100。然后是一个数N，N〈20，表示有N张邮票。接下来是N个正整数，分别表示这N张邮票的面值，且以升序排列。</p>
+<p><strong>输出描述:</strong><br>      对于每组数据，能够凑成总值M的最少邮票张数。若无解，输出0。</p>
+<p><strong>输入</strong></p>
 <blockquote>
-<p><strong>1. 观测变量的取值仅依赖于状态变量</strong>；<br><strong>2. 下一个状态的取值仅依赖于当前状态</strong>，通俗来讲：<strong>现在决定未来，未来与过去无关</strong>，这就是著名的<strong>马尔可夫性</strong>。</p>
+<p>10<br>5<br>1 3 3 3 4</p>
 </blockquote>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYPmR.png" srcset="/img/loading.gif" alt="iwYPmR.png"></p>
-<p>基于上述变量之间的依赖关系，我们很容易写出隐马尔可夫模型中所有变量的联合概率分布：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwY9X9.png" srcset="/img/loading.gif" alt="iwY9X9.png"></p>
-<p>易知：<strong>欲确定一个HMM模型需要以下三组参数</strong>：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYi01.png" srcset="/img/loading.gif" alt="iwYi01.png"></p>
-<p>当确定了一个HMM模型的三个参数后，便按照下面的规则来生成观测值序列：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYFTx.png" srcset="/img/loading.gif" alt="iwYFTx.png"></p>
-<p>在实际应用中，HMM模型的发力点主要体现在下述三个问题上：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYEtK.png" srcset="/img/loading.gif" alt="iwYEtK.png"></p>
-<p>###<strong>15.1.1 HMM评估问题</strong></p>
-<p>HMM评估问题指的是：<strong>给定了模型的三个参数与观测值序列，求该观测值序列出现的概率</strong>。例如：对于赌场问题，便可以依据骰子掷出的结果序列来计算该结果序列出现的可能性，若小概率的事件发生了则可认为赌场的骰子有作弊的可能。解决该问题使用的是<strong>前向算法</strong>，即步步为营，自底向上的方式逐步增加序列的长度，直到获得目标概率值。在前向算法中，定义了一个<strong>前向变量</strong>，即给定观察值序列且t时刻的状态为Si的概率：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYVfO.png" srcset="/img/loading.gif" alt="iwYVfO.png"></p>
-<p>基于前向变量，很容易得到该问题的递推关系及终止条件：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYAk6.png" srcset="/img/loading.gif" alt="iwYAk6.png"></p>
-<p>因此可使用动态规划法，从最小的子问题开始，通过填表格的形式一步一步计算出目标结果。</p>
-<p>###<strong>15.1.2 HMM解码问题</strong></p>
-<p>HMM解码问题指的是：<strong>给定了模型的三个参数与观测值序列，求可能性最大的状态序列</strong>。例如：在语音识别问题中，人说话形成的数字信号对应着观测值序列，对应的具体文字则是状态序列，从数字信号转化为文字正是对应着根据观测值序列推断最有可能的状态值序列。解决该问题使用的是<strong>Viterbi算法</strong>，与前向算法十分类似地，Viterbi算法定义了一个<strong>Viterbi变量</strong>，也是采用动态规划的方法，自底向上逐步求解。</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYepD.png" srcset="/img/loading.gif" alt="iwYepD.png"></p>
-<p>###<strong>15.1.3 HMM学习问题</strong></p>
-<p>HMM学习问题指的是：<strong>给定观测值序列，如何调整模型的参数使得该序列出现的概率最大</strong>。这便转化成了机器学习问题，即从给定的观测值序列中学习出一个HMM模型，<strong>该问题正是EM算法的经典案例之一</strong>。其思想也十分简单：对于给定的观测值序列，如果我们能够按照该序列潜在的规律来调整模型的三个参数，则可以使得该序列出现的可能性最大。假设状态值序列也已知，则很容易计算出与该序列最契合的模型参数：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYm1e.png" srcset="/img/loading.gif" alt="iwYm1e.png"></p>
-<p>但一般状态值序列都是不可观测的，且<strong>即使给定观测值序列与模型参数，状态序列仍然遭遇组合爆炸</strong>。因此上面这种简单的统计方法就行不通了，若将状态值序列看作为隐变量，这时便可以考虑使用EM算法来对该问题进行求解：</p>
-<p>【1】首先对HMM模型的三个参数进行随机初始化；<br>【2】根据模型的参数与观测值序列，计算t时刻状态为i且t+1时刻状态为j的概率以及t时刻状态为i的概率。</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYn6H.png" srcset="/img/loading.gif" alt="iwYn6H.png"><br><img src="https://s1.ax1x.com/2018/10/18/iwYdns.png" srcset="/img/loading.gif" alt="iwYdns.png"></p>
-<p>【3】接着便可以对模型的三个参数进行重新估计：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYY9S.png" srcset="/img/loading.gif" alt="iwYY9S.png"></p>
-<p>【4】重复步骤2-3，直至三个参数值收敛，便得到了最终的HMM模型。</p>
-<p>##<strong>15.2 马尔可夫随机场（MRF）</strong></p>
-<p>马尔可夫随机场（Markov Random Field）是一种典型的马尔可夫网，即使用无向边来表达变量间的依赖关系。在马尔可夫随机场中，对于关系图中的一个子集，<strong>若任意两结点间都有边连接，则称该子集为一个团；若再加一个结点便不能形成团，则称该子集为极大团</strong>。MRF使用<strong>势函数</strong>来定义多个变量的概率分布函数，其中<strong>每个（极大）团对应一个势函数</strong>，一般团中的变量关系也体现在它所对应的极大团中，因此常常基于极大团来定义变量的联合概率分布函数。具体而言，若所有变量构成的极大团的集合为C，则MRF的联合概率函数可以定义为：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYGh8.png" srcset="/img/loading.gif" alt="iwYGh8.png"></p>
-<p>对于条件独立性，<strong>马尔可夫随机场通过分离集来实现条件独立</strong>，若A结点集必须经过C结点集才能到达B结点集，则称C为分离集。书上给出了一个简单情形下的条件独立证明过程，十分贴切易懂，此处不再展开。基于分离集的概念，得到了MRF的三个性质：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>全局马尔可夫性</strong>：给定两个变量子集的分离集，则这两个变量子集条件独立。<br><strong>局部马尔可夫性</strong>：给定某变量的邻接变量，则该变量与其它变量条件独立。<br><strong>成对马尔可夫性</strong>：给定所有其他变量，两个非邻接变量条件独立。</p>
+<p>3</p>
 </blockquote>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwY07q.png" srcset="/img/loading.gif" alt="iwY07q.png"></p>
-<p>对于MRF中的势函数，势函数主要用于描述团中变量之间的相关关系，且要求为非负函数，直观来看：势函数需要在偏好的变量取值上函数值较大，例如：若x1与x2成正相关，则需要将这种关系反映在势函数的函数值中。一般我们常使用指数函数来定义势函数：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwY8tf.png" srcset="/img/loading.gif" alt="iwY8tf.png"></p>
-<p>##<strong>15.3 条件随机场（CRF）</strong></p>
-<p>前面所讲到的<strong>隐马尔可夫模型和马尔可夫随机场都属于生成式模型，即对联合概率进行建模，条件随机场则是对条件分布进行建模</strong>。CRF试图在给定观测值序列后，对状态序列的概率分布进行建模，即P(y | x)。直观上看：CRF与HMM的解码问题十分类似，都是在给定观测值序列后，研究状态序列可能的取值。CRF可以有多种结构，只需保证状态序列满足马尔可夫性即可，一般我们常使用的是<strong>链式条件随机场</strong>：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYt1g.png" srcset="/img/loading.gif" alt="iwYt1g.png"></p>
-<p>与马尔可夫随机场定义联合概率类似地，CRF也通过团以及势函数的概念来定义条件概率P(y | x)。在给定观测值序列的条件下，链式条件随机场主要包含两种团结构：单个状态团及相邻状态团，通过引入两类特征函数便可以定义出目标条件概率：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYNcQ.png" srcset="/img/loading.gif" alt="iwYNcQ.png"></p>
-<p>以词性标注为例，如何判断给出的一个标注序列靠谱不靠谱呢？<strong>转移特征函数主要判定两个相邻的标注是否合理</strong>，例如：动词+动词显然语法不通；<strong>状态特征函数则判定观测值与对应的标注是否合理</strong>，例如： ly结尾的词–&gt;副词较合理。因此我们可以定义一个特征函数集合，用这个特征函数集合来为一个标注序列打分，并据此选出最靠谱的标注序列。也就是说，每一个特征函数（对应一种规则）都可以用来为一个标注序列评分，把集合中所有特征函数对同一个标注序列的评分综合起来，就是这个标注序列最终的评分值。可以看出：<strong>特征函数是一些经验的特性</strong>。</p>
-<p>##<strong>15.4 学习与推断</strong></p>
-<p>对于生成式模型，通常我们都是先对变量的联合概率分布进行建模，接着再求出目标变量的<strong>边际分布</strong>（marginal distribution），那如何从联合概率得到边际分布呢？这便是学习与推断。下面主要介绍两种精确推断的方法：<strong>变量消去</strong>与<strong>信念传播</strong>。</p>
-<p>###<strong>15.4.1 变量消去</strong></p>
-<p>变量消去利用条件独立性来消减计算目标概率值所需的计算量，它通过运用<strong>乘法与加法的分配率</strong>，将对变量的积的求和问题转化为对部分变量交替进行求积与求和的问题，从而将每次的<strong>运算控制在局部</strong>，达到简化运算的目的。</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYUXj.png" srcset="/img/loading.gif" alt="iwYUXj.png"><br><img src="https://s1.ax1x.com/2018/10/18/iwYwBn.png" srcset="/img/loading.gif" alt="iwYwBn.png"></p>
-<p>###<strong>15.4.2 信念传播</strong></p>
-<p>若将变量求和操作看作是一种消息的传递过程，信念传播可以理解成：<strong>一个节点在接收到所有其它节点的消息后才向另一个节点发送消息</strong>，同时当前节点的边际概率正比于他所接收的消息的乘积：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYDA0.png" srcset="/img/loading.gif" alt="iwYDA0.png"></p>
-<p>因此只需要经过下面两个步骤，便可以完成所有的消息传递过程。利用动态规划法的思想记录传递过程中的所有消息，当计算某个结点的边际概率分布时，只需直接取出传到该结点的消息即可，从而避免了计算多个边际分布时的冗余计算问题。</p>
-<blockquote>
-<p>1.指定一个根节点，从所有的叶节点开始向根节点传递消息，直到根节点收到所有邻接结点的消息<strong>（从叶到根）</strong>；<br>2.从根节点开始向叶节点传递消息，直到所有叶节点均收到消息<strong>（从根到叶）</strong>。</p>
-</blockquote>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYgc4.png" srcset="/img/loading.gif" alt="iwYgc4.png"></p>
-<p>##<strong>15.5 LDA话题模型</strong></p>
-<p>话题模型主要用于处理文本类数据，其中<strong>隐狄利克雷分配模型</strong>（Latent Dirichlet Allocation，简称LDA）是话题模型的杰出代表。在话题模型中，有以下几个基本概念：词（word）、文档（document）、话题（topic）。</p>
-<blockquote>
-<p><strong>词</strong>：最基本的离散单元；<br><strong>文档</strong>：由一组词组成，词在文档中不计顺序；<br><strong>话题</strong>：由一组特定的词组成，这组词具有较强的相关关系。</p>
-</blockquote>
-<p>在现实任务中，一般我们可以得出一个文档的词频分布，但不知道该文档对应着哪些话题，LDA话题模型正是为了解决这个问题。具体来说：<strong>LDA认为每篇文档包含多个话题，且其中每一个词都对应着一个话题</strong>。因此可以假设文档是通过如下方式生成：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwY2jJ.png" srcset="/img/loading.gif" alt="iwY2jJ.png"></p>
-<p>这样一个文档中的所有词都可以认为是通过话题模型来生成的，当已知一个文档的词频分布后（即一个N维向量，N为词库大小），则可以认为：<strong>每一个词频元素都对应着一个话题，而话题对应的词频分布则影响着该词频元素的大小</strong>。因此很容易写出LDA模型对应的联合概率函数：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwYc3F.png" srcset="/img/loading.gif" alt="iwYc3F.png"><br><img src="https://s1.ax1x.com/2018/10/18/iwYWu9.png" srcset="/img/loading.gif" alt="iwYWu9.png"></p>
-<p>从上图可以看出，LDA的三个表示层被三种颜色表示出来：</p>
-<blockquote>
-<p><strong>corpus-level（红色）：</strong> α和β表示语料级别的参数，也就是每个文档都一样，因此生成过程只采样一次。<br><strong>document-level（橙色）：</strong> θ是文档级别的变量，每个文档对应一个θ。<br><strong>word-level（绿色）：</strong> z和w都是单词级别变量，z由θ生成，w由z和β共同生成，一个单词w对应一个主题z。</p>
-</blockquote>
-<p>通过上面对LDA生成模型的讨论，可以知道<strong>LDA模型主要是想从给定的输入语料中学习训练出两个控制参数α和β</strong>，当学习出了这两个控制参数就确定了模型，便可以用来生成文档。其中α和β分别对应以下各个信息：</p>
-<blockquote>
-<p><strong>α</strong>：分布p(θ)需要一个向量参数，即Dirichlet分布的参数，用于生成一个主题θ向量；<br><strong>β</strong>：各个主题对应的单词概率分布矩阵p(w|z)。</p>
-</blockquote>
-<p>把w当做观察变量，θ和z当做隐藏变量，就可以通过EM算法学习出α和β，求解过程中遇到后验概率p(θ,z|w)无法直接求解，需要找一个似然函数下界来近似求解，原作者使用基于分解（factorization）假设的变分法（varialtional inference）进行计算，用到了EM算法。每次E-step输入α和β，计算似然函数，M-step最大化这个似然函数，算出α和β，不断迭代直到收敛。</p>
-<p>在此，概率图模型就介绍完毕。上周受到协同训练的启发，让实验的小伙伴做了一个HMM的slides，结果扩充了好多知识，所以完成这篇笔记还是花费了不少功夫，还刚好赶上实验室没空调回到解放前的日子，可谓汗流之作…</p>
+<pre><code class="cpp">/*
+    最少邮票数 &gt;&gt; 01动态规划
+
+    状态
+    集合中数字
+    dp[i][j]    0   1   2   3   4   5   6   7   8   9   10
+    1           0   1   ∞   ∞   ∞   ∞   ∞   ∞   ∞   ∞   ∞
+    1 3         0   1   ∞   1   2   ∞   ∞   ∞   ∞   ∞   ∞
+    1 3 3       0   1   ∞   1   2   ∞   2   3   ∞   ∞   ∞
+    1 3 3 3     0   1   ∞   1   2   ∞   2   ∞   ∞   3   4
+    1 3 3 3 4   0   1   ∞   1   2   2   2   2   3   3   3  
+
+    状态迁移方程
+    dp[j] = min{dp[j],dp[j-stamp[i]]+1}
+    其中dp[j-stamp[i]]+1，表示将第i个邮票加入集合后 凑总量为j的面额 所需要的最少邮票数量
+*/
+#include&lt;stdio.h&gt;
+#define INF 1000
+int stamp[1000];
+int dp[1000];
+// 返回最少数量，num表示邮票的个数，deno表示要凑成的面额
+int Min_Stamp(int num,int deno){
+    int i,j;
+    //将状态全部初始化为最多
+    for(j=0;j&lt;=deno;++j){
+        dp[j]= (j==0)?0:INF;       
+    }
+    for(i=0;i&lt;num;i++){
+        //从后向前寻找若能凑成，且使数量变少就使用，不能也无所谓因为还是INF
+        for(j=deno;j&gt;=stamp[i];j--){
+            if(dp[j-stamp[i]]!=INF)dp[j]=(dp[j] &lt; dp[j-stamp[i]]+1)? dp[j]: dp[j-stamp[i]]+1;
+        }
+    }
+    return dp[deno]==INF?0:dp[deno];
+}
+
+
+int main()
+{
+    int num,deno;
+    while(scanf(&quot;%d %d&quot;,&amp;deno,&amp;num)!=EOF){
+        for(int i=0;i&lt;num;i++)scanf(&quot;%d&quot;,stamp+i);
+        printf(&quot;%d&quot;,Min_Stamp(num,deno));
+    }
+    return 0;
+}</code></pre>
 
       
 
@@ -389,7 +497,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -401,7 +517,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -410,7 +526,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(16)--%E6%A6%82%E7%8E%87%E5%9B%BE%E6%A8%A1%E5%9E%8B/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%9C%80%E5%B0%8F%E9%82%AE%E7%A5%A8%E6%95%B0/">展开全文 >></a>
         </p>
       
 
@@ -440,65 +556,81 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(15)--半监督学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-最大连续子序列" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(15)--%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">周志华《Machine Learning》学习笔记(15)--半监督学习</a>
+      <a class="article-title" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/">最大连续子序列</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(15)--%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.399Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.716Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了机器学习的理论基础，首先从独立同分布引入泛化误差与经验误差，接着介绍了PAC可学习的基本概念，即以较大的概率学习出与目标概念近似的假设（泛化误差满足预设上限），对于有限假设空间：（1）可分情形时，假设空间都是PAC可学习的，即当样本满足一定的数量之后，总是可以在与训练集一致的假设中找出目标概念的近似；（2）不可分情形时，假设空间都是不可知PAC可学习的，即以较大概率学习出与当前假设空间中泛化误差最小的假设的有效近似（Hoeffding不等式）。对于无限假设空间，通过增长函数与VC维来描述其复杂度，若学习算法满足经验风险最小化原则，则任何VC维有限的假设空间都是（不可知）PAC可学习的，同时也给出了泛化误差界与样本复杂度。稳定性则考察的是输入发生变化时输出的波动，稳定性通过损失函数与假设空间的可学习理论联系在了一起。本篇将讨论一种介于监督与非监督学习之间的学习算法–半监督学习。</p>
-<p>#<strong>14、半监督学习</strong></p>
-<p>前面我们一直围绕的都是监督学习与无监督学习，监督学习指的是训练样本包含标记信息的学习任务，例如：常见的分类与回归算法；无监督学习则是训练样本不包含标记信息的学习任务，例如：聚类算法。在实际生活中，常常会出现一部分样本有标记和较多样本无标记的情形，例如：做网页推荐时需要让用户标记出感兴趣的网页，但是少有用户愿意花时间来提供标记。若直接丢弃掉无标记样本集，使用传统的监督学习方法，常常会由于训练样本的不充足，使得其刻画总体分布的能力减弱，从而影响了学习器泛化性能。那如何利用未标记的样本数据呢？</p>
-<p>一种简单的做法是通过专家知识对这些未标记的样本进行打标，但随之而来的就是巨大的人力耗费。若我们先使用有标记的样本数据集训练出一个学习器，再基于该学习器对未标记的样本进行预测，从中<strong>挑选出不确定性高或分类置信度低的样本来咨询专家并进行打标</strong>，最后使用扩充后的训练集重新训练学习器，这样便能大幅度降低标记成本，这便是<strong>主动学习</strong>（active learning），其目标是<strong>使用尽量少的/有价值的咨询来获得更好的性能</strong>。</p>
-<p>显然，<strong>主动学习需要与外界进行交互/查询/打标，其本质上仍然属于一种监督学习</strong>。事实上，无标记样本虽未包含标记信息，但它们与有标记样本一样都是从总体中独立同分布采样得到，因此<strong>它们所包含的数据分布信息对学习器的训练大有裨益</strong>。如何让学习过程不依赖外界的咨询交互，自动利用未标记样本所包含的分布信息的方法便是<strong>半监督学习</strong>（semi-supervised learning），<strong>即训练集同时包含有标记样本数据和未标记样本数据</strong>。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e39801d.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>此外，半监督学习还可以进一步划分为<strong>纯半监督学习</strong>和<strong>直推学习</strong>，两者的区别在于：前者假定训练数据集中的未标记数据并非待预测数据，而后者假定学习过程中的未标记数据就是待预测数据。主动学习、纯半监督学习以及直推学习三者的概念如下图所示：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwJFJS.png" srcset="/img/loading.gif" alt="iwJFJS.png"></p>
-<p>##<strong>14.1 生成式方法</strong></p>
-<p><strong>生成式方法</strong>（generative methods）是基于生成式模型的方法，即先对联合分布P（x,c）建模，从而进一步求解 P（c | x），<strong>此类方法假定样本数据服从一个潜在的分布，因此需要充分可靠的先验知识</strong>。例如：前面已经接触到的贝叶斯分类器与高斯混合聚类，都属于生成式模型。现假定总体是一个高斯混合分布，即由多个高斯分布组合形成，从而一个子高斯分布就代表一个类簇（类别）。高斯混合分布的概率密度函数如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e3b82dc.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>不失一般性，假设类簇与真实的类别按照顺序一一对应，即第i个类簇对应第i个高斯混合成分。与高斯混合聚类类似地，这里的主要任务也是估计出各个高斯混合成分的参数以及混合系数，不同的是：对于有标记样本，不再是可能属于每一个类簇，而是只能属于真实类标对应的特定类簇。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e431d30.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>直观上来看，<strong>基于半监督的高斯混合模型有机地整合了贝叶斯分类器与高斯混合聚类的核心思想</strong>，有效地利用了未标记样本数据隐含的分布信息，从而使得参数的估计更加准确。同样地，这里也要召唤出之前的EM大法进行求解，首先对各个高斯混合成分的参数及混合系数进行随机初始化，计算出各个PM（即γji，第i个样本属于j类，有标记样本则直接属于特定类），再最大化似然函数（即LL（D）分别对α、u和∑求偏导 ），对参数进行迭代更新。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e43ff08.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>当参数迭代更新收敛后，对于待预测样本x，便可以像贝叶斯分类器那样计算出样本属于每个类簇的后验概率，接着找出概率最大的即可：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e3dfb1c.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>可以看出：基于生成式模型的方法十分依赖于对潜在数据分布的假设，即假设的分布要能和真实分布相吻合，否则利用未标记的样本数据反倒会在错误的道路上渐行渐远，从而降低学习器的泛化性能。因此，<strong>此类方法要求极强的领域知识和掐指观天的本领</strong>。</p>
-<p>##<strong>14.2 半监督SVM</strong></p>
-<p>监督学习中的SVM试图找到一个划分超平面，使得两侧支持向量之间的间隔最大，即“<strong>最大划分间隔</strong>”思想。对于半监督学习，S3VM则考虑超平面需穿过数据低密度的区域。TSVM是半监督支持向量机中的最著名代表，其核心思想是：尝试为未标记样本找到合适的标记指派，使得超平面划分后的间隔最大化。TSVM采用局部搜索的策略来进行迭代求解，即首先使用有标记样本集训练出一个初始SVM，接着使用该学习器对未标记样本进行打标，这样所有样本都有了标记，并基于这些有标记的样本重新训练SVM，之后再寻找易出错样本不断调整。整个算法流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc856e427830.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwJZss.png" srcset="/img/loading.gif" alt="iwJZss.png"></p>
-<p>##<strong>14.3 基于分歧的方法</strong></p>
-<p>基于分歧的方法通过多个学习器之间的<strong>分歧（disagreement）/多样性（diversity）</strong>来利用未标记样本数据，协同训练就是其中的一种经典方法。<strong>协同训练最初是针对于多视图（multi-view）数据而设计的，多视图数据指的是样本对象具有多个属性集，每个属性集则对应一个试图</strong>。例如：电影数据中就包含画面类属性和声音类属性，这样画面类属性的集合就对应着一个视图。首先引入两个关于视图的重要性质：</p>
+        <p><strong>题目描述</strong><br>    给定K个整数的序列{ N1, N2, …, NK }，其任意连续子序列可表示为{ Ni, Ni+1, …, Nj }，其中 1 &lt;= i &lt;= j &lt;= K。最大连续子序列是所有连续子序列中元素和最大的一个，例如给定序列{ -2, 11, -4, 13, -5, -2 }，其最大连续子序列为{ 11, -4, 13 }，最大和为20。现在增加一个要求，即还需要输出该子序列的第一个和最后一个元素。<br><strong>输入描述:</strong><br>    测试输入包含若干测试用例，每个测试用例占2行，第1行给出正整数K( K&lt; 10000 )，第2行给出K个整数，中间用空格分隔。当K为0时，输入结束，该用例不被处理。<br><strong>输出描述:</strong><br>    对每个测试用例，在1行里输出最大和、最大连续子序列的第一个和最后一个元素，中间用空格分隔。如果最大连续子序列不唯一，则输出序号i和j最小的那个（如输入样例的第2、3组）。若所有K个元素都是负数，则定义其最大和为0，输出整个序列的首尾元素。<br><strong>输入</strong></p>
 <blockquote>
-<p><strong>相容性</strong>：即使用单个视图数据训练出的学习器的输出空间是一致的。例如都是{好，坏}、{+1,-1}等。<br><strong>互补性</strong>：即不同视图所提供的信息是互补/相辅相成的，实质上这里体现的就是集成学习的思想。</p>
+<p>6<br>-2 11 -4 13 -5 -2 10<br>-10<br>1 2 3 4 -5 -23 3 7 -21<br>6<br>5 -8 3 2 5 0<br>1<br>10<br>3<br>-1 -5 -2<br>3<br>-1 0 -2<br>0</p>
 </blockquote>
-<p>协同训练正是很好地利用了多视图数据的“<strong>相容互补性</strong>”，其基本的思想是：首先基于有标记样本数据在每个视图上都训练一个初始分类器，然后让每个分类器去挑选分类置信度最高的样本并赋予标记，并将带有伪标记的样本数据传给另一个分类器去学习，从而<strong>你依我侬/共同进步</strong>。</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwJVMj.png" srcset="/img/loading.gif" alt="iwJVMj.png"><br><img src="https://s1.ax1x.com/2018/10/18/iwJeLn.png" srcset="/img/loading.gif" alt="iwJeLn.png"></p>
-<p>##<strong>14.4 半监督聚类</strong></p>
-<p>前面提到的几种方法都是借助无标记样本数据来辅助监督学习的训练过程，从而使得学习更加充分/泛化性能得到提升；半监督聚类则是借助已有的监督信息来辅助聚类的过程。一般而言，监督信息大致有两种类型：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>必连与勿连约束</strong>：必连指的是两个样本必须在同一个类簇，勿连则是必不在同一个类簇。<br><strong>标记信息</strong>：少量的样本带有真实的标记。</p>
+<p>20 11 13<br>10 1 4<br>10 3 5<br>10 10 10<br>0 -1 -2<br>0 0 0</p>
 </blockquote>
-<p>下面主要介绍两种基于半监督的K-Means聚类算法：第一种是数据集包含一些必连与勿连关系，另外一种则是包含少量带有标记的样本。两种算法的基本思想都十分的简单：对于带有约束关系的k-均值算法，在迭代过程中对每个样本划分类簇时，需要<strong>检测当前划分是否满足约束关系</strong>，若不满足则会将该样本划分到距离次小对应的类簇中，再继续检测是否满足约束关系，直到完成所有样本的划分。算法流程如下图所示：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwJAzQ.png" srcset="/img/loading.gif" alt="iwJAzQ.png"></p>
-<p>对于带有少量标记样本的k-均值算法，则可以<strong>利用这些有标记样本进行类中心的指定，同时在对样本进行划分时，不需要改变这些有标记样本的簇隶属关系</strong>，直接将其划分到对应类簇即可。算法流程如下所示：</p>
-<p><img src="https://s1.ax1x.com/2018/10/18/iwJkRg.png" srcset="/img/loading.gif" alt="iwJkRg.png"></p>
-<p>在此，半监督学习就介绍完毕。十分有趣的是：半监督学习将前面许多知识模块联系在了一起，足以体现了作者编排的用心。结合本篇的新知识再来回想之前自己做过的一些研究，发现还是蹚了一些浑水，也许越是觉得过去的自己傻，越就是好的兆头吧~</p>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+const int MAXN=10000;
+int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
+int a[MAXN];
+void maxSub(int n,int&amp; Max,int&amp; first,int&amp; last){
+    Max=0,first=0,last=n-1;
+    //第一次遍历找出最大子序列和
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i];//初始
+        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
+        if(dp[i]&gt;Max) Max=dp[i];
+    }
+    //第二次遍历确定最大子序列的两个边界
+    for(int i=0;i&lt;n;i++){
+        if(i==0){
+            dp[i]=a[i];
+        }
+        else if(dp[i-1]+a[i]&gt;a[i]){
+            last=i;//当前子序列继续扩充元素
+            dp[i]=dp[i-1]+a[i];
+        }
+        else{
+            first=i;//从当前的元素重新往后找，赋值first
+            dp[i]=a[i];
+        }
+        if(dp[i]==Max){
+            last=i;//此时已经找到最大的子序列，给last赋最终值
+            return;
+        }
+
+    }
+}
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+        }
+        int Max,first,last;
+        maxSub(n,Max,first,last);
+        cout&lt;&lt;Max&lt;&lt;&quot; &quot;&lt;&lt;a[first]&lt;&lt;&quot; &quot;&lt;&lt;a[last]&lt;&lt;endl;
+    }
+}</code></pre>
 
       
 
@@ -512,7 +644,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -524,7 +664,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -533,7 +673,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(15)--%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E8%BF%9E%E7%BB%AD%E5%AD%90%E5%BA%8F%E5%88%97/">展开全文 >></a>
         </p>
       
 
@@ -563,85 +703,62 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(14)--计算学习理论" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-最大序列和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(14)--%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">周志华《Machine Learning》学习笔记(14)--计算学习理论</a>
+      <a class="article-title" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">最大序列和</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(14)--%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.386Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.713Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了常用的特征选择方法及稀疏学习。首先从相关/无关特征出发引出了特征选择的基本概念，接着分别介绍了子集搜索与评价、过滤式、包裹式以及嵌入式四种类型的特征选择方法。子集搜索与评价使用的是一种优中生优的贪婪算法，即每次从候选特征子集中选出最优子集；过滤式方法计算一个相关统计量来评判特征的重要程度；包裹式方法将学习器作为特征选择的评价准则；嵌入式方法则是通过L1正则项将特征选择融入到学习器参数优化的过程中。最后介绍了稀疏表示与压缩感知的核心思想：稀疏表示利用稀疏矩阵的优良性质，试图通过某种方法找到原始稠密矩阵的合适稀疏表示；压缩感知则试图利用可稀疏表示的欠采样信息来恢复全部信息。本篇将讨论一种为机器学习提供理论保证的学习方法–计算学习理论。</p>
-<p>#<strong>13、计算学习理论</strong></p>
-<p>计算学习理论（computational learning theory）是通过“计算”来研究机器学习的理论，简而言之，其目的是分析学习任务的本质，例如：<strong>在什么条件下可进行有效的学习，需要多少训练样本能获得较好的精度等，从而为机器学习算法提供理论保证</strong>。</p>
-<p>首先我们回归初心，再来谈谈经验误差和泛化误差。假设给定训练集D，其中所有的训练样本都服从一个未知的分布T，且它们都是在总体分布T中独立采样得到，即<strong>独立同分布</strong>（independent and identically distributed，i.i.d.），在《贝叶斯分类器》中我们已经提到：独立同分布是很多统计学习算法的基础假设，例如最大似然法，贝叶斯分类器，高斯混合聚类等，简单来理解独立同分布：每个样本都是从总体分布中独立采样得到，而没有拖泥带水。例如现在要进行问卷调查，要从总体人群中随机采样，看到一个美女你高兴地走过去，结果她男票突然冒了出来，说道：you jump，i jump，于是你本来只想调查一个人结果被强行撒了一把狗粮得到两份问卷，这样这两份问卷就不能称为独立同分布了，因为它们的出现具有强相关性。</p>
-<p>回归正题，<strong>泛化误差指的是学习器在总体上的预测误差，经验误差则是学习器在某个特定数据集D上的预测误差</strong>。在实际问题中，往往我们并不能得到总体且数据集D是通过独立同分布采样得到的，因此我们常常使用经验误差作为泛化误差的近似。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f38d4fe.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>##<strong>13.1 PAC学习</strong></p>
-<p>在高中课本中，我们将<strong>函数定义为：从自变量到因变量的一种映射；对于机器学习算法，学习器也正是为了寻找合适的映射规则</strong>，即如何从条件属性得到目标属性。从样本空间到标记空间存在着很多的映射，我们将每个映射称之为<strong>概念</strong>（concept），定义：</p>
+        <p><strong>题目描述</strong><br>给出一个整数序列S，其中有N个数，定义其中一个非空连续子序列T中所有数的和为T的“序列和”。 对于S的所有非空连续子序列T，求最大的序列和。 变量条件：N为正整数，N≤1000000，结果序列和在范围（-2^63,2^63-1）以内。<br><strong>输入描述</strong>:<br>第一行为一个正整数N，第二行为N个整数，表示序列中的数。<br><strong>输出描述:</strong><br>输入可能包括多组数据，对于每一组输入数据，<br>仅输出一个数，表示最大序列和。<br><strong>输入</strong></p>
 <blockquote>
-<p>若概念c对任何样本x满足c(x)=y，则称c为<strong>目标概念</strong>，即最理想的映射，所有的目标概念构成的集合称为<strong>“概念类”</strong>；<br>给定学习算法，它所有可能映射/概念的集合称为<strong>“假设空间”</strong>，其中单个的概念称为<strong>“假设”</strong>（hypothesis）；<br>若一个算法的假设空间包含目标概念，则称该数据集对该算法是<strong>可分</strong>（separable）的，亦称<strong>一致</strong>（consistent）的；<br>若一个算法的假设空间不包含目标概念，则称该数据集对该算法是<strong>不可分</strong>（non-separable）的，或称<strong>不一致</strong>（non-consistent）的。</p>
+<p>5<br>1 5 -3 2 4<br>6<br>1 -2 3 4 -10 6<br>4<br>-3 -1 -2 -5</p>
 </blockquote>
-<p>举个简单的例子：对于非线性分布的数据集，若使用一个线性分类器，则该线性分类器对应的假设空间就是空间中所有可能的超平面，显然假设空间不包含该数据集的目标概念，所以称数据集对该学习器是不可分的。给定一个数据集D，我们希望模型学得的假设h尽可能地与目标概念一致，这便是<strong>概率近似正确</strong> (Probably Approximately Correct，简称PAC)的来源，即以较大的概率学得模型满足误差的预设上限。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f446f97.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f482d0b.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f47d006.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f46ad91.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>上述关于PAC的几个定义层层相扣：定义12.1表达的是对于某种学习算法，如果能以一个置信度学得假设满足泛化误差的预设上限，则称该算法能PAC辨识概念类，即该算法的输出假设已经十分地逼近目标概念。定义12.2则将样本数量考虑进来，当样本超过一定数量时，学习算法总是能PAC辨识概念类，则称概念类为PAC可学习的。定义12.3将学习器运行时间也考虑进来，若运行时间为多项式时间，则称PAC学习算法。</p>
-<p>显然，PAC学习中的一个关键因素就是<strong>假设空间的复杂度</strong>，对于某个学习算法，<strong>若假设空间越大，则其中包含目标概念的可能性也越大，但同时找到某个具体概念的难度也越大</strong>，一般假设空间分为有限假设空间与无限假设空间。</p>
-<p>##<strong>13.2 有限假设空间</strong></p>
-<p>###<strong>13.2.1 可分情形</strong></p>
-<p>可分或一致的情形指的是：<strong>目标概念包含在算法的假设空间中</strong>。对于目标概念，在训练集D中的经验误差一定为0，因此首先我们可以想到的是：不断地剔除那些出现预测错误的假设，直到找到经验误差为0的假设即为目标概念。但<strong>由于样本集有限，可能会出现多个假设在D上的经验误差都为0，因此问题转化为：需要多大规模的数据集D才能让学习算法以置信度的概率从这些经验误差都为0的假设中找到目标概念的有效近似</strong>。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f484f30.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>通过上式可以得知：<strong>对于可分情形的有限假设空间，目标概念都是PAC可学习的，即当样本数量满足上述条件之后，在与训练集一致的假设中总是可以在1-σ概率下找到目标概念的有效近似。</strong></p>
-<p>###<strong>13.2.2 不可分情形</strong></p>
-<p>不可分或不一致的情形指的是：<strong>目标概念不存在于假设空间中</strong>，这时我们就不能像可分情形时那样从假设空间中寻找目标概念的近似。但<strong>当假设空间给定时，必然存一个假设的泛化误差最小，若能找出此假设的有效近似也不失为一个好的目标，这便是不可知学习(agnostic learning)的来源。</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f485f2e.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p>这时候便要用到<strong>Hoeffding不等式</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f46970a.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>对于假设空间中的所有假设，出现泛化误差与经验误差之差大于e的概率和为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f4114fd.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>因此，可令不等式的右边小于（等于）σ，便可以求出满足泛化误差与经验误差相差小于e所需的最少样本数，同时也可以求出泛化误差界。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc854f440a02.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p>##<strong>13.3 VC维</strong></p>
-<p>现实中的学习任务通常都是无限假设空间，例如d维实数域空间中所有的超平面等，因此要对此种情形进行可学习研究，需要度量<strong>假设空间的复杂度</strong>。这便是<strong>VC维</strong>（Vapnik-Chervonenkis dimension）的来源。在介绍VC维之前，需要引入两个概念：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>增长函数</strong>：对于给定数据集D，假设空间中的每个假设都能对数据集的样本赋予标记，因此一个假设对应着一种打标结果，不同假设对D的打标结果可能是相同的，也可能是不同的。随着样本数量m的增大，假设空间对样本集D的打标结果也会增多，增长函数则表示假设空间对m个样本的数据集D打标的最大可能结果数，因此<strong>增长函数描述了假设空间的表示能力与复杂度。</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855ba970cd.png" srcset="/img/loading.gif" alt="11.png"></p>
+<p>9<br>7<br>-1</p>
 </blockquote>
-<blockquote>
-<p><strong>打散</strong>：例如对二分类问题来说，m个样本最多有2^m个可能结果，每种可能结果称为一种<strong>“对分”</strong>，若假设空间能实现数据集D的所有对分，则称数据集能被该假设空间打散。</p>
-</blockquote>
-<p><strong>因此尽管假设空间是无限的，但它对特定数据集打标的不同结果数是有限的，假设空间的VC维正是它能打散的最大数据集大小</strong>。通常这样来计算假设空间的VC维：若存在大小为d的数据集能被假设空间打散，但不存在任何大小为d+1的数据集能被假设空间打散，则其VC维为d。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855bb20c1e.png" srcset="/img/loading.gif" alt="12.png"></p>
-<p>同时书中给出了假设空间VC维与增长函数的两个关系：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855ba83eb8.png" srcset="/img/loading.gif" alt="13.png"></p>
-<p>直观来理解（1）式也十分容易： 首先假设空间的VC维是d，说明当m&lt;=d时，增长函数与2^m相等，例如：当m=d时，右边的组合数求和刚好等于2^d；而当m=d+1时，右边等于2^(d+1)-1，十分符合VC维的定义，同时也可以使用数学归纳法证明；（2）式则是由（1）式直接推导得出。</p>
-<p>在有限假设空间中，根据Hoeffding不等式便可以推导得出学习算法的泛化误差界；但在无限假设空间中，由于假设空间的大小无法计算，只能通过增长函数来描述其复杂度，因此无限假设空间中的泛化误差界需要引入增长函数。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855babc890.png" srcset="/img/loading.gif" alt="14.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855ba5b2c3.png" srcset="/img/loading.gif" alt="15.png"></p>
-<p>上式给出了基于VC维的泛化误差界，同时也可以计算出满足条件需要的样本数（样本复杂度）。若学习算法满足<strong>经验风险最小化原则（ERM）</strong>，即学习算法的输出假设h在数据集D上的经验误差最小，可证明：<strong>任何VC维有限的假设空间都是（不可知）PAC可学习的，换而言之：若假设空间的最小泛化误差为0即目标概念包含在假设空间中，则是PAC可学习，若最小泛化误差不为0，则称为不可知PAC可学习。</strong></p>
-<p>##<strong>13.4 稳定性</strong></p>
-<p>稳定性考察的是当算法的输入发生变化时，输出是否会随之发生较大的变化，输入的数据集D有以下两种变化：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855badc5a8.png" srcset="/img/loading.gif" alt="16.png"></p>
-<p>若对数据集中的任何样本z，满足：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855ba59b06.png" srcset="/img/loading.gif" alt="17.png"></p>
-<p>即原学习器和剔除一个样本后生成的学习器对z的损失之差保持β稳定，称学习器关于损失函数满足<strong>β-均匀稳定性</strong>。同时若损失函数有上界，即原学习器对任何样本的损失函数不超过M，则有如下定理：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc855babe7c3.png" srcset="/img/loading.gif" alt="18.png"></p>
-<p>事实上，<strong>若学习算法符合经验风险最小化原则（ERM）且满足β-均匀稳定性，则假设空间是可学习的</strong>。稳定性通过损失函数与假设空间的可学习联系在了一起，区别在于：假设空间关注的是经验误差与泛化误差，需要考虑到所有可能的假设；而稳定性只关注当前的输出假设。</p>
-<p>在此，计算学习理论就介绍完毕，一看这个名字就知道这一章比较偏底层理论了，最终还是咬着牙看完了它，这里引用一段小文字来梳理一下现在的心情：“孤岂欲卿治经为博士邪？但当涉猎，见往事耳”，就当扩充知识体系吧~</p>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+using namespace std;
+
+const int MAXN=1000000;
+int dp[MAXN];//dp[i]表示以第i个元素为末尾的连续序列的最大和,只有两种情况，一个或多个
+int a[MAXN];
+int maxSub(int n){
+    int Max=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=a[i];//初始
+        else dp[i]=max(dp[i-1]+a[i],a[i]);//多个vs一个
+        if(dp[i]&gt;Max) Max=dp[i];
+    }
+    return Max;
+}
+
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+        }
+        cout&lt;&lt;maxSub(n)&lt;&lt;endl;
+
+    }
+}</code></pre>
 
       
 
@@ -655,7 +772,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -667,7 +792,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -676,7 +801,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(14)--%E8%AE%A1%E7%AE%97%E5%AD%A6%E4%B9%A0%E7%90%86%E8%AE%BA/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%BA%8F%E5%88%97%E5%92%8C/">展开全文 >></a>
         </p>
       
 
@@ -706,77 +831,92 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(13)--特征选择与稀疏学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-最大子矩阵" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(13)--%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E4%B8%8E%E7%A8%80%E7%96%8F%E5%AD%A6%E4%B9%A0/">周志华《Machine Learning》学习笔记(13)--特征选择与稀疏学习</a>
+      <a class="article-title" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%AD%90%E7%9F%A9%E9%98%B5/">最大子矩阵</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(13)--%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E4%B8%8E%E7%A8%80%E7%96%8F%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.384Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%AD%90%E7%9F%A9%E9%98%B5/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.710Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了经典的降维方法与度量学习，首先从“维数灾难”导致的样本稀疏以及距离难计算两大难题出发，引出了降维的概念，即通过某种数学变换将原始高维空间转变到一个低维的子空间，接着分别介绍了kNN、MDS、PCA、KPCA以及两种经典的流形学习方法，k近邻算法的核心在于k值的选取以及距离的度量，MDS要求原始空间样本之间的距离在降维后的低维空间中得以保持，主成分分析试图找到一个低维超平面来表出原空间样本点，核化主成分分析先将样本点映射到高维空间，再在高维空间中使用线性降维的方法，从而解决了原空间样本非线性分布的情形，基于流形学习的降维则是一种“邻域保持”的思想，最后度量学习试图去学习出一个距离度量来等效降维的效果。本篇将讨论另一种常用方法–特征选择与稀疏学习。</p>
-<p>#<strong>12、特征选择与稀疏学习</strong></p>
-<p>最近在看论文的过程中，发现对于数据集行和列的叫法颇有不同，故在介绍本篇之前，决定先将最常用的术语罗列一二，以后再见到了不管它脚扑朔还是眼迷离就能一眼识破真身了~对于数据集中的一个对象及组成对象的零件元素：</p>
+        <p><strong>题目描述</strong><br>已知矩阵的大小定义为矩阵中所有元素的和。给定一个矩阵，你的任务是找到最大的非空(大小至少是1 * 1)子矩阵。 比如，如下4 * 4的矩阵 0 -2 -7 0 9 2 -6 2 -4 1 -4 1 -1 8 0 -2 的最大子矩阵是 9 2 -4 1 -1 8 这个子矩阵的大小是15。<br><strong>输入描述:</strong><br>输入是一个N * N的矩阵。输入的第一行给出N (0 &lt; N &lt;= 100)。<br>再后面的若干行中，依次（首先从左到右给出第一行的N个整数，再从左到右给出第二行的N个整数……）给出矩阵中的N2个整数，整数之间由空白字符分隔（空格或者空行）。<br>已知矩阵中整数的范围都在[-127, 127]。<br><strong>输出描述:</strong><br>测试数据可能有多组，对于每组测试数据，输出最大子矩阵的大小。<br>示例1<br><strong>输入</strong></p>
 <blockquote>
-<p>统计学家常称它们为<strong>观测</strong>（<strong>observation</strong>）和<strong>变量</strong>（<strong>variable</strong>）；<br>数据库分析师则称其为<strong>记录</strong>（<strong>record</strong>）和<strong>字段</strong>（<strong>field</strong>）；<br>数据挖掘/机器学习学科的研究者则习惯把它们叫做<strong>样本</strong>/<strong>示例</strong>（<strong>example</strong>/<strong>instance</strong>）和<strong>属性</strong>/<strong>特征</strong>（<strong>attribute</strong>/<strong>feature</strong>）。</p>
+<p>4<br>0 -2 -7 0<br>9 2 -6 2<br>-4 1 -4  1<br>-1 8  0 -2</p>
 </blockquote>
-<p>回归正题，在机器学习中特征选择是一个重要的“<strong>数据预处理</strong>”（<strong>data</strong> <strong>preprocessing</strong>）过程，即试图从数据集的所有特征中挑选出与当前学习任务相关的特征子集，接着再利用数据子集来训练学习器；稀疏学习则是围绕着稀疏矩阵的优良性质，来完成相应的学习任务。</p>
-<p>##<strong>12.1 子集搜索与评价</strong></p>
-<p>一般地，我们可以用很多属性/特征来描述一个示例，例如对于一个人可以用性别、身高、体重、年龄、学历、专业、是否吃货等属性来描述，那现在想要训练出一个学习器来预测人的收入。根据生活经验易知：并不是所有的特征都与学习任务相关，例如年龄/学历/专业可能很大程度上影响了收入，身高/体重这些外貌属性也有较小的可能性影响收入，但像是否是一个地地道道的吃货这种属性就八杆子打不着了。因此我们只需要那些与学习任务紧密相关的特征，<strong>特征选择便是从给定的特征集合中选出相关特征子集的过程</strong>。</p>
-<p>与上篇中降维技术有着异曲同工之处的是，特征选择也可以有效地解决维数灾难的难题。具体而言：<strong>降维从一定程度起到了提炼优质低维属性和降噪的效果，特征选择则是直接剔除那些与学习任务无关的属性而选择出最佳特征子集</strong>。若直接遍历所有特征子集，显然当维数过多时遭遇指数爆炸就行不通了；若采取从候选特征子集中不断迭代生成更优候选子集的方法，则时间复杂度大大减小。这时就涉及到了两个关键环节：<strong>1.如何生成候选子集；2.如何评价候选子集的好坏</strong>，这便是早期特征选择的常用方法。书本上介绍了贪心算法，分为三种策略：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>前向搜索</strong>：初始将每个特征当做一个候选特征子集，然后从当前所有的候选子集中选择出最佳的特征子集；接着在上一轮选出的特征子集中添加一个新的特征，同样地选出最佳特征子集；最后直至选不出比上一轮更好的特征子集。<br><strong>后向搜索</strong>：初始将所有特征作为一个候选特征子集；接着尝试去掉上一轮特征子集中的一个特征并选出当前最优的特征子集；最后直到选不出比上一轮更好的特征子集。<br><strong>双向搜索</strong>：将前向搜索与后向搜索结合起来，即在每一轮中既有添加操作也有剔除操作。</p>
+<p>15</p>
 </blockquote>
-<p>对于特征子集的评价，书中给出了一些想法及基于信息熵的方法。假设数据集的属性皆为离散属性，这样给定一个特征子集，便可以通过这个特征子集的取值将数据集合划分为V个子集。例如：A1={男,女}，A2={本科,硕士}就可以将原数据集划分为2*2=4个子集，其中每个子集的取值完全相同。这时我们就可以像决策树选择划分属性那样，通过计算信息增益来评价该属性子集的好坏。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853eca1a43.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>此时，信息增益越大表示该属性子集包含有助于分类的特征越多，使用上述这种<strong>子集搜索与子集评价相结合的机制，便可以得到特征选择方法</strong>。值得一提的是若将前向搜索策略与信息增益结合在一起，与前面我们讲到的ID3决策树十分地相似。事实上，决策树也可以用于特征选择，树节点划分属性组成的集合便是选择出的特征子集。</p>
-<p>##<strong>12.2 过滤式选择（Relief）</strong></p>
-<p>过滤式方法是一种将特征选择与学习器训练相分离的特征选择技术，即首先将相关特征挑选出来，再使用选择出的数据子集来训练学习器。Relief是其中著名的代表性算法，它使用一个“<strong>相关统计量</strong>”来度量特征的重要性，该统计量是一个向量，其中每个分量代表着相应特征的重要性，因此我们最终可以根据这个统计量各个分量的大小来选择出合适的特征子集。</p>
-<p>易知Relief算法的核心在于如何计算出该相关统计量。对于数据集中的每个样例xi，Relief首先找出与xi同类别的最近邻与不同类别的最近邻，分别称为<strong>猜中近邻（near-hit）</strong>与<strong>猜错近邻（near-miss）</strong>，接着便可以分别计算出相关统计量中的每个分量。对于j分量：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ec70c88.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p>直观上理解：对于猜中近邻，两者j属性的距离越小越好，对于猜错近邻，j属性距离越大越好。更一般地，若xi为离散属性，diff取海明距离，即相同取0，不同取1；若xi为连续属性，则diff为曼哈顿距离，即取差的绝对值。分别计算每个分量，最终取平均便得到了整个相关统计量。</p>
-<p>标准的Relief算法只用于二分类问题，后续产生的拓展变体Relief-F则解决了多分类问题。对于j分量，新的计算公式如下：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ec93042.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>其中pl表示第l类样本在数据集中所占的比例，易知两者的不同之处在于：<strong>标准Relief 只有一个猜错近邻，而Relief-F有多个猜错近邻</strong>。</p>
-<p>##<strong>12.3 包裹式选择（LVW）</strong></p>
-<p>与过滤式选择不同的是，包裹式选择将后续的学习器也考虑进来作为特征选择的评价准则。因此包裹式选择可以看作是为某种学习器<strong>量身定做</strong>的特征选择方法，由于在每一轮迭代中，包裹式选择都需要训练学习器，因此在获得较好性能的同时也产生了较大的开销。下面主要介绍一种经典的包裹式特征选择方法 –LVW（Las Vegas Wrapper），它在拉斯维加斯框架下使用随机策略来进行特征子集的搜索。拉斯维加斯？怎么听起来那么耳熟，不是那个声名显赫的赌场吗？歪果仁真会玩。怀着好奇科普一下，结果又顺带了一个赌场：</p>
-<blockquote>
-<p><strong>蒙特卡罗算法</strong>：采样越多，越近似最优解，一定会给出解，但给出的解不一定是正确解；<br><strong>拉斯维加斯算法</strong>：采样越多，越有机会找到最优解，不一定会给出解，且给出的解一定是正确解。</p>
-</blockquote>
-<p>举个例子，假如筐里有100个苹果，让我每次闭眼拿1个，挑出最大的。于是我随机拿1个，再随机拿1个跟它比，留下大的，再随机拿1个……我每拿一次，留下的苹果都至少不比上次的小。拿的次数越多，挑出的苹果就越大，但我除非拿100次，否则无法肯定挑出了最大的。这个挑苹果的算法，就属于蒙特卡罗算法——尽量找较好的，但不保证是最好的。</p>
-<p>而拉斯维加斯算法，则是另一种情况。假如有一把锁，给我100把钥匙，只有1把是对的。于是我每次随机拿1把钥匙去试，打不开就再换1把。我试的次数越多，打开（正确解）的机会就越大，但在打开之前，那些错的钥匙都是没有用的。这个试钥匙的算法，就是拉斯维加斯的——尽量找最好的，但不保证能找到。</p>
-<p>LVW算法的具体流程如下所示，其中比较特别的是停止条件参数T的设置，即在每一轮寻找最优特征子集的过程中，若随机T次仍没找到，算法就会停止，从而保证了算法运行时间的可行性。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ed5e08e.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>##<strong>12.4 嵌入式选择与正则化</strong></p>
-<p>前面提到了的两种特征选择方法：<strong>过滤式中特征选择与后续学习器完全分离，包裹式则是使用学习器作为特征选择的评价准则；嵌入式是一种将特征选择与学习器训练完全融合的特征选择方法，即将特征选择融入学习器的优化过程中</strong>。在之前《经验风险与结构风险》中已经提到：经验风险指的是模型与训练数据的契合度，结构风险则是模型的复杂程度，机器学习的核心任务就是：<strong>在模型简单的基础上保证模型的契合度</strong>。例如：岭回归就是加上了L2范数的最小二乘法，有效地解决了奇异矩阵、过拟合等诸多问题，下面的嵌入式特征选择则是在损失函数后加上了L1范数。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ec8b203.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>L1范数美名又约<strong>Lasso Regularization</strong>，指的是向量中每个元素的绝对值之和，这样在优化目标函数的过程中，就会使得w尽可能地小，在一定程度上起到了防止过拟合的作用，同时与L2范数（Ridge Regularization ）不同的是，L1范数会使得部分w变为0， 从而达到了特征选择的效果。</p>
-<p>总的来说：<strong>L1范数会趋向产生少量的特征，其他特征的权值都是0；L2会选择更多的特征，这些特征的权值都会接近于0</strong>。这样L1范数在特征选择上就十分有用，而L2范数则具备较强的控制过拟合能力。可以从下面两个方面来理解：</p>
-<p>（1）<strong>下降速度</strong>：L1范数按照绝对值函数来下降，L2范数按照二次函数来下降。因此在0附近，L1范数的下降速度大于L2范数，故L1范数能很快地下降到0，而L2范数在0附近的下降速度非常慢，因此较大可能收敛在0的附近。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ed0aaf5.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>（2）<strong>空间限制</strong>：L1范数与L2范数都试图在最小化损失函数的同时，让权值W也尽可能地小。我们可以将原优化问题看做为下面的问题，即让后面的规则则都小于某个阈值。这样从图中可以看出：L1范数相比L2范数更容易得到稀疏解。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ecc223e.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ed51aa1.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>##<strong>12.5 稀疏表示与字典学习</strong></p>
-<p>当样本数据是一个稀疏矩阵时，对学习任务来说会有不少的好处，例如很多问题变得线性可分，储存更为高效等。这便是稀疏表示与字典学习的基本出发点。稀疏矩阵即矩阵的每一行/列中都包含了大量的零元素，且这些零元素没有出现在同一行/列，对于一个给定的稠密矩阵，若我们能<strong>通过某种方法找到其合适的稀疏表示</strong>，则可以使得学习任务更加简单高效，我们称之为<strong>稀疏编码（sparse coding）</strong>或<strong>字典学习（dictionary learning）</strong>。</p>
-<p>给定一个数据集，字典学习/稀疏编码指的便是通过一个字典将原数据转化为稀疏表示，因此最终的目标就是求得字典矩阵B及稀疏表示α，书中使用变量交替优化的策略能较好地求得解，深感陷进去短时间无法自拔，故先不进行深入…</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ed0ca43.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>##<strong>12.6 压缩感知</strong></p>
-<p>压缩感知在前些年也是风风火火，与特征选择、稀疏表示不同的是：它关注的是通过欠采样信息来恢复全部信息。在实际问题中，为了方便传输和存储，我们一般将数字信息进行压缩，这样就有可能损失部分信息，如何根据已有的信息来重构出全部信号，这便是压缩感知的来历，压缩感知的前提是已知的信息具有稀疏表示。下面是关于压缩感知的一些背景：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc853ed431c6.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p>在此，特征选择与稀疏学习就介绍完毕。在很多实际情形中，选了好的特征比选了好的模型更为重要，这也是为什么厉害的大牛能够很快地得出一些结论的原因，谓：吾昨晚夜观天象，星象云是否吃货乃无用也~</p>
+<pre><code class="cpp">#include &lt;iostream&gt;
+#include &lt;cstdio&gt;
+
+using namespace std;
+
+const int MAXN=100;
+
+int dp[MAXN];
+int arr[MAXN];
+int matrix[MAXN][MAXN];
+int total[MAXN][MAXN];//total[i][j]表示从这个元素往上的所有元素的和
+
+int MaxSubsequence(int n){
+    int maximum=0;
+    for(int i=0;i&lt;n;i++){
+        if(i==0) dp[i]=arr[i];
+        else dp[i]=max(dp[i-1]+arr[i],arr[i]);
+        maximum=max(maximum,dp[i]);
+    }
+    return maximum;
+}
+
+
+
+int maxSubmatrix(int n){
+    int maximal=0;
+    for(int i=0;i&lt;n;i++){
+        for(int j=i;j&lt;n;j++){//
+            for(int k=0;k&lt;n;k++){//获得一维数组
+                if(i==0) arr[k]=total[j][k];
+                else arr[k]=total[j][k]-total[i-1][k];
+            }
+        int current =MaxSubsequence(n);
+        maximal = max(maximal,current);
+        }
+    }
+    return maximal;
+}
+
+int main(){
+    int N;
+    while(cin&gt;&gt;N){
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;N;j++){
+                cin&gt;&gt;matrix[i][j];
+            }
+        }
+        for(int i=0;i&lt;N;i++){
+            for(int j=0;j&lt;N;j++){
+                if(i==0) total[i][j]=matrix[i][j];
+                else total[i][j]=total[i-1][j]+matrix[i][j];
+            }
+        }
+        int result=maxSubmatrix(N);
+        cout&lt;&lt;result&lt;&lt;endl;
+    }
+    return 0;
+}</code></pre>
 
       
 
@@ -790,7 +930,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -802,7 +950,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -811,7 +959,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(13)--%E7%89%B9%E5%BE%81%E9%80%89%E6%8B%A9%E4%B8%8E%E7%A8%80%E7%96%8F%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E5%AD%90%E7%9F%A9%E9%98%B5/">展开全文 >></a>
         </p>
       
 
@@ -841,107 +989,66 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(12)--降维与度量学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-最大上升子序列和" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(12)--%E9%99%8D%E7%BB%B4%E4%B8%8E%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A0/">周志华《Machine Learning》学习笔记(12)--降维与度量学习</a>
+      <a class="article-title" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C/">最大上升子序列和</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(12)--%E9%99%8D%E7%BB%B4%E4%B8%8E%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.380Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.707Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了几种常用的聚类算法，首先从距离度量与性能评估出发，列举了常见的距离计算公式与聚类评价指标，接着分别讨论了K-Means、LVQ、高斯混合聚类、密度聚类以及层次聚类算法。K-Means与LVQ都试图以类簇中心作为原型指导聚类，其中K-Means通过EM算法不断迭代直至收敛，LVQ使用真实类标辅助聚类；高斯混合聚类采用高斯分布来描述类簇原型；密度聚类则是将一个核心对象所有密度可达的样本形成类簇，直到所有核心对象都遍历完；最后层次聚类是一种自底向上的树形聚类方法，不断合并最相近的两个小类簇。本篇将讨论机器学习常用的方法–降维与度量学习。</p>
-<p>#<strong>11、降维与度量学习</strong></p>
-<p>样本的特征数称为<strong>维数</strong>（dimensionality），当维数非常大时，也就是现在所说的“<strong>维数灾难</strong>”，具体表现在：在高维情形下，<strong>数据样本将变得十分稀疏</strong>，因为此时要满足训练样本为“<strong>密采样</strong>”的总体样本数目是一个触不可及的天文数字，谓可远观而不可亵玩焉…<strong>训练样本的稀疏使得其代表总体分布的能力大大减弱，从而消减了学习器的泛化能力</strong>；同时当维数很高时，<strong>计算距离也变得十分复杂</strong>，甚至连计算内积都不再容易，这也是为什么支持向量机（SVM）使用核函数<strong>“低维计算，高维表现”</strong>的原因。</p>
-<p>缓解维数灾难的一个重要途径就是<strong>降维，即通过某种数学变换将原始高维空间转变到一个低维的子空间</strong>。在这个子空间中，样本的密度将大幅提高，同时距离计算也变得容易。这时也许会有疑问，这样降维之后不是会丢失原始数据的一部分信息吗？这是因为在很多实际的问题中，虽然训练数据是高维的，但是与学习任务相关也许仅仅是其中的一个低维子空间，也称为一个<strong>低维嵌入</strong>，例如：数据属性中存在噪声属性、相似属性或冗余属性等，<strong>对高维数据进行降维能在一定程度上达到提炼低维优质属性或降噪的效果</strong>。</p>
-<p>##<strong>11.1 K近邻学习</strong></p>
-<p>k近邻算法简称<strong>kNN（k-Nearest Neighbor）</strong>，是一种经典的监督学习方法，同时也实力担当入选数据挖掘十大算法。其工作机制十分简单粗暴：给定某个测试样本，kNN基于某种<strong>距离度量</strong>在训练集中找出与其距离最近的k个带有真实标记的训练样本，然后给基于这k个邻居的真实标记来进行预测，类似于前面集成学习中所讲到的基学习器结合策略：分类任务采用投票法，回归任务则采用平均法。接下来本篇主要就kNN分类进行讨论。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a43873a.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>从上图【来自Wiki】中我们可以看到，图中有两种类型的样本，一类是蓝色正方形，另一类是红色三角形。而那个绿色圆形是我们待分类的样本。基于kNN算法的思路，我们很容易得到以下结论：</p>
+        <p><strong>题目描述</strong><br>一个数的序列bi，当b1 &lt; b2 &lt; … &lt; bS的时候，我们称这个序列是上升的。对于给定的一个序列(a1, a2, …,aN)，我们可以得到一些上升的子序列(ai1, ai2, …, aiK)，这里1 &lt;= i1 &lt; i2 &lt; … &lt; iK &lt;= N。比如，对于序列(1, 7, 3, 5, 9, 4, 8)，有它的一些上升子序列，如(1, 7), (3, 4, 8)等等。这些子序列中序列和最大为18，为子序列(1, 3, 5, 9)的和. 你的任务，就是对于给定的序列，求出最大上升子序列和。注意，最长的上升子序列的和不一定是最大的，比如序列(100, 1, 2, 3)的最大上升子序列和为100，而最长上升子序列为(1, 2, 3)。</p>
+<p><strong>输入描述:</strong><br>输入包含多组测试数据。<br>每组测试数据由两行组成。第一行是序列的长度N (1 &lt;= N &lt;= 1000)。第二行给出序列中的N个整数，这些整数的取值范围都在0到10000（可能重复）。</p>
+<p><strong>输出描述:</strong><br>对于每组测试数据，输出其最大上升子序列和。</p>
+<p><strong>输入</strong></p>
 <blockquote>
-<p>如果K=3，那么离绿色点最近的有2个红色三角形和1个蓝色的正方形，这3个点投票，于是绿色的这个待分类点属于红色的三角形。<br>如果K=5，那么离绿色点最近的有2个红色三角形和3个蓝色的正方形，这5个点投票，于是绿色的这个待分类点属于蓝色的正方形。</p>
+<p>7<br>1 7 3 5 9 4 8</p>
 </blockquote>
-<p>可以发现：<strong>kNN虽然是一种监督学习方法，但是它却没有显式的训练过程</strong>，而是当有新样本需要预测时，才来计算出最近的k个邻居，因此<strong>kNN是一种典型的懒惰学习方法</strong>，再来回想一下朴素贝叶斯的流程，训练的过程就是参数估计，因此朴素贝叶斯也可以懒惰式学习，此类技术在<strong>训练阶段开销为零</strong>，待收到测试样本后再进行计算。相应地我们称那些一有训练数据立马开工的算法为“<strong>急切学习</strong>”，可见前面我们学习的大部分算法都归属于急切学习。</p>
-<p>很容易看出：<strong>kNN算法的核心在于k值的选取以及距离的度量</strong>。k值选取太小，模型很容易受到噪声数据的干扰，例如：极端地取k=1，若待分类样本正好与一个噪声数据距离最近，就导致了分类错误；若k值太大， 则在更大的邻域内进行投票，此时模型的预测能力大大减弱，例如：极端取k=训练样本数，就相当于模型根本没有学习，所有测试样本的预测结果都是一样的。<strong>一般地我们都通过交叉验证法来选取一个适当的k值</strong>。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a47db9a.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p>对于距离度量，<strong>不同的度量方法得到的k个近邻不尽相同，从而对最终的投票结果产生了影响</strong>，因此选择一个合适的距离度量方法也十分重要。在上一篇聚类算法中，在度量样本相似性时介绍了常用的几种距离计算方法，包括<strong>闵可夫斯基距离，曼哈顿距离，VDM</strong>等。在实际应用中，<strong>kNN的距离度量函数一般根据样本的特性来选择合适的距离度量，同时应对数据进行去量纲/归一化处理来消除大量纲属性的强权政治影响</strong>。</p>
-<p>##<strong>11.2 MDS算法</strong></p>
-<p>不管是使用核函数升维还是对数据降维，我们都希望<strong>原始空间样本点之间的距离在新空间中基本保持不变</strong>，这样才不会使得原始空间样本之间的关系及总体分布发生较大的改变。<strong>“多维缩放”（MDS）</strong>正是基于这样的思想，<strong>MDS要求原始空间样本之间的距离在降维后的低维空间中得以保持</strong>。</p>
-<p>假定m个样本在原始空间中任意两两样本之间的距离矩阵为D∈R(m<em>m)，我们的目标便是获得样本在低维空间中的表示Z∈R(d’</em>m , d’&lt; d)，且任意两个样本在低维空间中的欧式距离等于原始空间中的距离，即||zi-zj||=Dist(ij)。因此接下来我们要做的就是根据已有的距离矩阵D来求解出降维后的坐标矩阵Z。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a4b664e.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>令降维后的样本坐标矩阵Z被中心化，<strong>中心化是指将每个样本向量减去整个样本集的均值向量，故所有样本向量求和得到一个零向量</strong>。这样易知：矩阵B的每一列以及每一列求和均为0，因为提取公因子后都有一项为所有样本向量的和向量。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a4a4ee2.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>根据上面矩阵B的特征，我们很容易得到等式（2）、（3）以及（4）：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a4a777b.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>这时根据(1)–(4)式我们便可以计算出bij，即<strong>bij=(1)-(2)<em>(1/m)-(3)</em>(1/m)+(4)*(1/(m^2))</strong>，再逐一地计算每个b(ij)，就得到了降维后低维空间中的内积矩阵B(B=Z’*Z)，只需对B进行特征值分解便可以得到Z。MDS的算法流程如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a5340dd.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>##<strong>11.3 主成分分析（PCA）</strong></p>
-<p>不同于MDS采用距离保持的方法，<strong>主成分分析（PCA）直接通过一个线性变换，将原始空间中的样本投影到新的低维空间中</strong>。简单来理解这一过程便是：<strong>PCA采用一组新的基来表示样本点，其中每一个基向量都是原来基向量的线性组合，通过使用尽可能少的新基向量来表出样本，从而达到降维的目的。</strong></p>
-<p>假设使用d’个新基向量来表示原来样本，实质上是将样本投影到一个由d’个基向量确定的一个<strong>超平面</strong>上（<strong>即舍弃了一些维度</strong>），要用一个超平面对空间中所有高维样本进行恰当的表达，最理想的情形是：<strong>若这些样本点都能在超平面上表出且这些表出在超平面上都能够很好地分散开来</strong>。但是一般使用较原空间低一些维度的超平面来做到这两点十分不容易，因此我们退一步海阔天空，要求这个超平面应具有如下两个性质：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>最近重构性</strong>：样本点到超平面的距离足够近，即尽可能在超平面附近；<br><strong>最大可分性</strong>：样本点在超平面上的投影尽可能地分散开来，即投影后的坐标具有区分性。</p>
+<p>18</p>
 </blockquote>
-<p>这里十分神奇的是：<strong>最近重构性与最大可分性虽然从不同的出发点来定义优化问题中的目标函数，但最终这两种特性得到了完全相同的优化问题</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a5213c1.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p>接着使用拉格朗日乘子法求解上面的优化问题，得到：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a4a102a.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>因此只需对协方差矩阵进行特征值分解即可求解出W，PCA算法的整个流程如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a540eb3.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>另一篇博客给出更通俗更详细的理解：<a href="http://blog.csdn.net/u011826404/article/details/57472730" target="_blank" rel="noopener">主成分分析解析（基于最大方差理论）</a></p>
-<p>##<strong>11.4 核化线性降维</strong></p>
-<p>说起机器学习你中有我/我中有你/水乳相融…在这里能够得到很好的体现。正如SVM在处理非线性可分时，通过引入核函数将样本投影到高维特征空间，接着在高维空间再对样本点使用超平面划分。这里也是相同的问题：若我们的样本数据点本身就不是线性分布，那还如何使用一个超平面去近似表出呢？因此也就引入了核函数，<strong>即先将样本映射到高维空间，再在高维空间中使用线性降维的方法</strong>。下面主要介绍<strong>核化主成分分析（KPCA）</strong>的思想。</p>
-<p>若核函数的形式已知，即我们知道如何将低维的坐标变换为高维坐标，这时我们只需先将数据映射到高维特征空间，再在高维空间中运用PCA即可。但是一般情况下，我们并不知道核函数具体的映射规则，例如：Sigmoid、高斯核等，我们只知道如何计算高维空间中的样本内积，这时就引出了KPCA的一个重要创新之处：<strong>即空间中的任一向量，都可以由该空间中的所有样本线性表示</strong>。证明过程也十分简单：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851a51bd2a.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p>这样我们便可以将高维特征空间中的投影向量wi使用所有高维样本点线性表出，接着代入PCA的求解问题，得到：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b74b083.png" srcset="/img/loading.gif" alt="11.png"></p>
-<p>化简到最后一步，发现结果十分的美妙，只需对核矩阵K进行特征分解，便可以得出投影向量wi对应的系数向量α，因此选取特征值前d’大对应的特征向量便是d’个系数向量。这时对于需要降维的样本点，只需按照以下步骤便可以求出其降维后的坐标。可以看出：KPCA在计算降维后的坐标表示时，需要与所有样本点计算核函数值并求和，因此该算法的计算开销十分大。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b735754.png" srcset="/img/loading.gif" alt="12.png"></p>
-<p>##<strong>11.5 流形学习</strong></p>
-<p><strong>流形学习（manifold learning）是一种借助拓扑流形概念的降维方法</strong>，<strong>流形是指在局部与欧式空间同胚的空间</strong>，即在局部与欧式空间具有相同的性质，能用欧氏距离计算样本之间的距离。这样即使高维空间的分布十分复杂，但是在局部上依然满足欧式空间的性质，基于流形学习的降维正是这种<strong>“邻域保持”</strong>的思想。其中<strong>等度量映射（Isomap）试图在降维前后保持邻域内样本之间的距离，而局部线性嵌入（LLE）则是保持邻域内样本之间的线性关系</strong>，下面将分别对这两种著名的流行学习方法进行介绍。</p>
-<p>###<strong>11.5.1 等度量映射（Isomap）</strong></p>
-<p>等度量映射的基本出发点是：高维空间中的直线距离具有误导性，因为有时高维空间中的直线距离在低维空间中是不可达的。<strong>因此利用流形在局部上与欧式空间同胚的性质，可以使用近邻距离来逼近测地线距离</strong>，即对于一个样本点，它与近邻内的样本点之间是可达的，且距离使用欧式距离计算，这样整个样本空间就形成了一张近邻图，高维空间中两个样本之间的距离就转为最短路径问题。可采用著名的<strong>Dijkstra算法</strong>或<strong>Floyd算法</strong>计算最短距离，得到高维空间中任意两点之间的距离后便可以使用MDS算法来其计算低维空间中的坐标。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b731a1e.png" srcset="/img/loading.gif" alt="13.png"></p>
-<p>从MDS算法的描述中我们可以知道：MDS先求出了低维空间的内积矩阵B，接着使用特征值分解计算出了样本在低维空间中的坐标，但是并没有给出通用的投影向量w，因此对于需要降维的新样本无从下手，书中给出的权宜之计是利用已知高/低维坐标的样本作为训练集学习出一个“投影器”，便可以用高维坐标预测出低维坐标。Isomap算法流程如下图：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b6c7e37.png" srcset="/img/loading.gif" alt="14.png"></p>
-<p>对于近邻图的构建，常用的有两种方法：<strong>一种是指定近邻点个数</strong>，像kNN一样选取k个最近的邻居；<strong>另一种是指定邻域半径</strong>，距离小于该阈值的被认为是它的近邻点。但两种方法均会出现下面的问题：</p>
-<blockquote>
-<p>若<strong>邻域范围指定过大，则会造成“短路问题”</strong>，即本身距离很远却成了近邻，将距离近的那些样本扼杀在摇篮。<br>若<strong>邻域范围指定过小，则会造成“断路问题”</strong>，即有些样本点无法可达了，整个世界村被划分为互不可达的小部落。</p>
-</blockquote>
-<p>###<strong>11.5.2 局部线性嵌入(LLE)</strong></p>
-<p>不同于Isomap算法去保持邻域距离，LLE算法试图去保持邻域内的线性关系，假定样本xi的坐标可以通过它的邻域样本线性表出：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b64236f.png" srcset="/img/loading.gif" alt="15.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b6a7b9a.png" srcset="/img/loading.gif" alt="16.png"></p>
-<p>LLE算法分为两步走，<strong>首先第一步根据近邻关系计算出所有样本的邻域重构系数w</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b662815.png" srcset="/img/loading.gif" alt="17.png"></p>
-<p><strong>接着根据邻域重构系数不变，去求解低维坐标</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b648b98.png" srcset="/img/loading.gif" alt="18.png"></p>
-<p>这样利用矩阵M，优化问题可以重写为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b6948d7.png" srcset="/img/loading.gif" alt="19.png"></p>
-<p>M特征值分解后最小的d’个特征值对应的特征向量组成Z，LLE算法的具体流程如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851b757d8c.png" srcset="/img/loading.gif" alt="20.png"></p>
-<p>##<strong>11.6 度量学习</strong></p>
-<p>本篇一开始就提到维数灾难，即在高维空间进行机器学习任务遇到样本稀疏、距离难计算等诸多的问题，因此前面讨论的降维方法都试图将原空间投影到一个合适的低维空间中，接着在低维空间进行学习任务从而产生较好的性能。事实上，不管高维空间还是低维空间都潜在对应着一个距离度量，那可不可以直接学习出一个距离度量来等效降维呢？例如：<strong>咋们就按照降维后的方式来进行距离的计算，这便是度量学习的初衷</strong>。</p>
-<p><strong>首先要学习出距离度量必须先定义一个合适的距离度量形式</strong>。对两个样本xi与xj，它们之间的平方欧式距离为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851d3ca3d5.png" srcset="/img/loading.gif" alt="21.png"></p>
-<p>若各个属性重要程度不一样即都有一个权重，则得到加权的平方欧式距离：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851d3d82c5.png" srcset="/img/loading.gif" alt="22.png"></p>
-<p>此时各个属性之间都是相互独立无关的，但现实中往往会存在属性之间有关联的情形，例如：身高和体重，一般人越高，体重也会重一些，他们之间存在较大的相关性。这样计算距离就不能分属性单独计算，于是就引入经典的<strong>马氏距离(Mahalanobis distance)</strong>:</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851d3dc303.png" srcset="/img/loading.gif" alt="23.png"></p>
-<p><strong>标准的马氏距离中M是协方差矩阵的逆，马氏距离是一种考虑属性之间相关性且尺度无关（即无须去量纲）的距离度量</strong>。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc851d3e17c0.png" srcset="/img/loading.gif" alt="24.png"></p>
-<p><strong>矩阵M也称为“度量矩阵”，为保证距离度量的非负性与对称性，M必须为(半)正定对称矩阵</strong>，这样就为度量学习定义好了距离度量的形式，换句话说：<strong>度量学习便是对度量矩阵进行学习</strong>。现在来回想一下前面我们接触的机器学习不难发现：<strong>机器学习算法几乎都是在优化目标函数，从而求解目标函数中的参数</strong>。同样对于度量学习，也需要设置一个优化目标，书中简要介绍了错误率和相似性两种优化目标，此处限于篇幅不进行展开。</p>
-<p>在此，降维和度量学习就介绍完毕。<strong>降维是将原高维空间嵌入到一个合适的低维子空间中，接着在低维空间中进行学习任务；度量学习则是试图去学习出一个距离度量来等效降维的效果</strong>，两者都是为了解决维数灾难带来的诸多问题。也许大家最后心存疑惑，那kNN呢，为什么一开头就说了kNN算法，但是好像和后面没有半毛钱关系？正是因为在降维算法中，低维子空间的维数d’通常都由人为指定，因此我们需要使用一些低开销的学习器来选取合适的d’，<strong>kNN这家伙懒到家了根本无心学习，在训练阶段开销为零，测试阶段也只是遍历计算了距离，因此拿kNN来进行交叉验证就十分有优势了~同时降维后样本密度增大同时距离计算变易，更为kNN来展示它独特的十八般手艺提供了用武之地。</strong></p>
+<pre><code class="cpp">
+#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+
+using namespace std;
+const int MAXN=1001;
+int a[MAXN];
+int dp[MAXN];
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;a[i];
+        }
+        int answer=0;
+        for(int i=0;i&lt;n;i++){
+            dp[i]=a[i];//初始化为a[i]
+            for(int j=0;j&lt;i;j++){//得出以i为最后一个的最大的序列
+                if(a[i]&gt;a[j]){
+                    dp[i]=max(dp[i],dp[j]+a[i]);
+                }
+            }
+            answer=max(answer,dp[i]);
+        }
+        cout&lt;&lt;answer&lt;&lt;endl;
+    }
+}
+</code></pre>
 
       
 
@@ -955,7 +1062,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -967,7 +1082,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -976,7 +1091,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(12)--%E9%99%8D%E7%BB%B4%E4%B8%8E%E5%BA%A6%E9%87%8F%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%9C%80%E5%A4%A7%E4%B8%8A%E5%8D%87%E5%AD%90%E5%BA%8F%E5%88%97%E5%92%8C/">展开全文 >></a>
         </p>
       
 
@@ -1006,109 +1121,91 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(11)--聚类" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-数论算法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(11)--%E8%81%9A%E7%B1%BB/">周志华《Machine Learning》学习笔记(11)--聚类</a>
+      <a class="article-title" href="/2021/01/12/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/">数论算法</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(11)--%E8%81%9A%E7%B1%BB/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.349Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.703Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了一种机器学习的通用框架–集成学习方法，首先从准确性和差异性两个重要概念引出集成学习“<strong>好而不同</strong>”的四字真言，接着介绍了现阶段主流的三种集成学习方法：AdaBoost、Bagging及Random Forest，AdaBoost采用最小化指数损失函数迭代式更新样本分布权重和计算基学习器权重，Bagging通过自助采样引入样本扰动增加了基学习器之间的差异性，随机森林则进一步引入了属性扰动，最后简单概述了集成模型中的三类结合策略：平均法、投票法及学习法，其中Stacking是学习法的典型代表。本篇将讨论无监督学习中应用最为广泛的学习算法–聚类。</p>
-<p>#<strong>10、聚类算法</strong></p>
-<p>聚类是一种经典的<strong>无监督学习</strong>方法，<strong>无监督学习的目标是通过对无标记训练样本的学习，发掘和揭示数据集本身潜在的结构与规律</strong>，即不依赖于训练数据集的类标记信息。聚类则是试图将数据集的样本划分为若干个互不相交的类簇，从而每个簇对应一个潜在的类别。</p>
-<p>聚类直观上来说是将相似的样本聚在一起，从而形成一个<strong>类簇（cluster）</strong>。那首先的问题是如何来<strong>度量相似性</strong>（similarity measure）呢？这便是<strong>距离度量</strong>，在生活中我们说差别小则相似，对应到多维样本，每个样本可以对应于高维空间中的一个数据点，若它们的距离相近，我们便可以称它们相似。那接着如何来评价聚类结果的好坏呢？这便是<strong>性能度量</strong>，性能度量为评价聚类结果的好坏提供了一系列有效性指标。</p>
-<p>##<strong>10.1 距离度量</strong></p>
-<p>谈及距离度量，最熟悉的莫过于欧式距离了，从年头一直用到年尾的距离计算公式：即对应属性之间相减的平方和再开根号。度量距离还有其它的很多经典方法，通常它们需要满足一些基本性质：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed4c0390.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>最常用的距离度量方法是<strong>“闵可夫斯基距离”（Minkowski distance)</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed49e31f.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p>当p=1时，闵可夫斯基距离即<strong>曼哈顿距离（Manhattan distance）</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed49c31f.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>当p=2时，闵可夫斯基距离即<strong>欧氏距离（Euclidean distance）</strong>：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed497613.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>我们知道属性分为两种：<strong>连续属性</strong>和<strong>离散属性</strong>（有限个取值）。对于连续值的属性，一般都可以被学习器所用，有时会根据具体的情形作相应的预处理，例如：归一化等；而对于离散值的属性，需要作下面进一步的处理：</p>
-<blockquote>
-<p>若属性值之间<strong>存在序关系</strong>，则可以将其转化为连续值，例如：身高属性“高”“中等”“矮”，可转化为{1, 0.5, 0}。<br>若属性值之间<strong>不存在序关系</strong>，则通常将其转化为向量的形式，例如：性别属性“男”“女”，可转化为{（1,0），（0,1）}。</p>
-</blockquote>
-<p>在进行距离度量时，易知<strong>连续属性和存在序关系的离散属性都可以直接参与计算</strong>，因为它们都可以反映一种程度，我们称其为“<strong>有序属性</strong>”；而对于不存在序关系的离散属性，我们称其为：“<strong>无序属性</strong>”，显然无序属性再使用闵可夫斯基距离就行不通了。</p>
-<p><strong>对于无序属性，我们一般采用VDM进行距离的计算</strong>，例如：对于离散属性的两个取值a和b，定义：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed4e9560.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>于是，在计算两个样本之间的距离时，我们可以将闵可夫斯基距离和VDM混合在一起进行计算：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed507bc7.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>若我们定义的距离计算方法是用来度量相似性，例如下面将要讨论的聚类问题，即距离越小，相似性越大，反之距离越大，相似性越小。这时距离的度量方法并不一定需要满足前面所说的四个基本性质，这样的方法称为：<strong>非度量距离（non-metric distance）</strong>。</p>
-<p>##<strong>10.2 性能度量</strong></p>
-<p>由于聚类算法不依赖于样本的真实类标，就不能像监督学习的分类那般，通过计算分对分错（即精确度或错误率）来评价学习器的好坏或作为学习过程中的优化目标。一般聚类有两类性能度量指标：<strong>外部指标</strong>和<strong>内部指标</strong>。</p>
-<p>###<strong>10.2.1 外部指标</strong></p>
-<p>即将聚类结果与某个参考模型的结果进行比较，<strong>以参考模型的输出作为标准，来评价聚类好坏</strong>。假设聚类给出的结果为λ，参考模型给出的结果是λ*，则我们将样本进行两两配对，定义：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed59160e.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p>显然a和b代表着聚类结果好坏的正能量，b和c则表示参考结果和聚类结果相矛盾，基于这四个值可以导出以下常用的外部评价指标：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed587438.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>###<strong>10.2.2 内部指标</strong></p>
-<p>内部指标即不依赖任何外部模型，直接对聚类的结果进行评估，聚类的目的是想将那些相似的样本尽可能聚在一起，不相似的样本尽可能分开，直观来说：<strong>簇内高内聚紧紧抱团，簇间低耦合老死不相往来</strong>。定义：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed581852.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>基于上面的四个距离，可以导出下面这些常用的内部评价指标：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84ed582854.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p>##<strong>10.3 原型聚类</strong></p>
-<p>原型聚类即“<strong>基于原型的聚类</strong>”（prototype-based clustering），原型表示模板的意思，就是通过参考一个模板向量或模板分布的方式来完成聚类的过程，常见的K-Means便是基于簇中心来实现聚类，混合高斯聚类则是基于簇分布来实现聚类。</p>
-<p>###<strong>10.3.1 K-Means</strong></p>
-<p>K-Means的思想十分简单，<strong>首先随机指定类中心，根据样本与类中心的远近划分类簇，接着重新计算类中心，迭代直至收敛</strong>。但是其中迭代的过程并不是主观地想象得出，事实上，若将样本的类别看做为“隐变量”（latent variable），类中心看作样本的分布参数，这一过程正是通过<strong>EM算法</strong>的两步走策略而计算出，其根本的目的是为了最小化平方误差函数E：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb82b5d3.png" srcset="/img/loading.gif" alt="11.png"></p>
-<p>K-Means的算法流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb9c0817.png" srcset="/img/loading.gif" alt="12.png"></p>
-<p>###<strong>10.3.2 学习向量量化（LVQ）</strong></p>
-<p>LVQ也是基于原型的聚类算法，与K-Means不同的是，<strong>LVQ使用样本真实类标记辅助聚类</strong>，首先LVQ根据样本的类标记，从各类中分别随机选出一个样本作为该类簇的原型，从而组成了一个<strong>原型特征向量组</strong>，接着从样本集中随机挑选一个样本，计算其与原型向量组中每个向量的距离，并选取距离最小的原型向量所在的类簇作为它的划分结果，再与真实类标比较。</p>
-<blockquote>
-<p><strong>若划分结果正确，则对应原型向量向这个样本靠近一些</strong><br><strong>若划分结果不正确，则对应原型向量向这个样本远离一些</strong></p>
-</blockquote>
-<p>LVQ算法的流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb9d59f2.png" srcset="/img/loading.gif" alt="13.png"></p>
-<p>###<strong>10.3.3 高斯混合聚类</strong></p>
-<p>现在可以看出K-Means与LVQ都试图以类中心作为原型指导聚类，高斯混合聚类则采用高斯分布来描述原型。现假设<strong>每个类簇中的样本都服从一个多维高斯分布，那么空间中的样本可以看作由k个多维高斯分布混合而成</strong>。</p>
-<p>对于多维高斯分布，其概率密度函数如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb870d98.png" srcset="/img/loading.gif" alt="14.png"></p>
-<p>其中u表示均值向量，∑表示协方差矩阵，可以看出一个多维高斯分布完全由这两个参数所确定。接着定义高斯混合分布为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb876794.png" srcset="/img/loading.gif" alt="15.png"></p>
-<p>α称为混合系数，这样空间中样本的采集过程则可以抽象为：<strong>（1）先选择一个类簇（高斯分布），（2）再根据对应高斯分布的密度函数进行采样</strong>，这时候贝叶斯公式又能大展身手了：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb9191d9.png" srcset="/img/loading.gif" alt="16.png"></p>
-<p>此时只需要选择PM最大时的类簇并将该样本划分到其中，看到这里很容易发现：这和那个传说中的贝叶斯分类不是神似吗，都是通过贝叶斯公式展开，然后计算类先验概率和类条件概率。但遗憾的是：<strong>这里没有真实类标信息，对于类条件概率，并不能像贝叶斯分类那样通过最大似然法美好地计算出来</strong>，因为这里的样本可能属于所有的类簇，这里的似然函数变为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb871d4a.png" srcset="/img/loading.gif" alt="17.png"></p>
-<p>可以看出：简单的最大似然法根本无法求出所有的参数，这样PM也就没法计算。<strong>这里就要召唤出之前的EM大法，首先对高斯分布的参数及混合系数进行随机初始化，计算出各个PM（即γji，第i个样本属于j类），再最大化似然函数（即LL（D）分别对α、u和∑求偏导 ），对参数进行迭代更新</strong>。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb8a6f32.png" srcset="/img/loading.gif" alt="18.png"></p>
-<p>高斯混合聚类的算法流程如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb9c4fa4.png" srcset="/img/loading.gif" alt="19.png"></p>
-<p>##<strong>10.4 密度聚类</strong></p>
-<p>密度聚类则是基于密度的聚类，它从样本分布的角度来考察样本之间的可连接性，并基于可连接性（密度可达）不断拓展疆域（类簇）。其中最著名的便是<strong>DBSCAN</strong>算法，首先定义以下概念：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84fb9bd69c.png" srcset="/img/loading.gif" alt="20.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc8509f8d619.png" srcset="/img/loading.gif" alt="21.png"></p>
-<p>简单来理解DBSCAN便是：<strong>找出一个核心对象所有密度可达的样本集合形成簇</strong>。首先从数据集中任选一个核心对象A，找出所有A密度可达的样本集合，将这些样本形成一个密度相连的类簇，直到所有的核心对象都遍历完。DBSCAN算法的流程如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc8509feb587.png" srcset="/img/loading.gif" alt="22.png"></p>
-<p>##<strong>10.5 层次聚类</strong></p>
-<p>层次聚类是一种基于树形结构的聚类方法，常用的是<strong>自底向上</strong>的结合策略（<strong>AGNES算法</strong>）。假设有N个待聚类的样本，其基本步骤是：</p>
-<blockquote>
-<p>1.初始化–&gt;把每个样本归为一类，计算每两个类之间的距离，也就是样本与样本之间的相似度；<br>2.寻找各个类之间最近的两个类，把他们归为一类（这样类的总数就少了一个）；<br>3.重新计算新生成的这个<strong>类与各个旧类之间的相似度</strong>；<br>4.重复2和3直到所有样本点都归为一类，结束。</p>
-</blockquote>
-<p>可以看出其中最关键的一步就是<strong>计算两个类簇的相似度</strong>，这里有多种度量方法：</p>
-<pre><code>* 单链接（single-linkage）:取类间最小距离。</code></pre><p><img src="https://i.loli.net/2018/10/18/5bc8509ebb022.png" srcset="/img/loading.gif" alt="23.png"></p>
-<pre><code>* 全链接（complete-linkage）:取类间最大距离</code></pre><p><img src="https://i.loli.net/2018/10/18/5bc8509eb2b30.png" srcset="/img/loading.gif" alt="24.png"></p>
-<pre><code>* 均链接（average-linkage）:取类间两两的平均距离</code></pre><p><img src="https://i.loli.net/2018/10/18/5bc8509f089a7.png" srcset="/img/loading.gif" alt="25.png"></p>
-<p>很容易看出：<strong>单链接的包容性极强，稍微有点暧昧就当做是自己人了，全链接则是坚持到底，只要存在缺点就坚决不合并，均连接则是从全局出发顾全大局</strong>。层次聚类法的算法流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc8509f9d4a0.png" srcset="/img/loading.gif" alt="26.png"></p>
-<blockquote>
-<p>在此聚类算法就介绍完毕，分类/聚类都是机器学习中最常见的任务，我实验室的大Boss也是靠着聚类起家，从此走上人生事业钱途…之巅峰，在书最后的阅读材料还看见Boss的名字，所以这章也是必读不可了…</p>
-</blockquote>
+        <h2 id="最大公约数"><a href="#最大公约数" class="headerlink" title="最大公约数"></a>最大公约数</h2><p><img src="https://img-blog.csdnimg.cn/20200505184857978.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="最小公倍数"><a href="#最小公倍数" class="headerlink" title="最小公倍数"></a>最小公倍数</h2><p><img src="https://img-blog.csdnimg.cn/20200505185724851.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="分数四则运算"><a href="#分数四则运算" class="headerlink" title="分数四则运算"></a>分数四则运算</h2><p><strong>1.分数的表示</strong><br><img src="https://img-blog.csdnimg.cn/20200505192558963.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>2.分数的化简</strong><br><img src="https://img-blog.csdnimg.cn/2020050519272114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>3.分数的加法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192749541.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>4.分数的减法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192900279.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>5.分数的乘法</strong><br><img src="https://img-blog.csdnimg.cn/20200505192947930.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><strong>6.分数的除法</strong><br><img src="https://img-blog.csdnimg.cn/20200505193102689.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><strong>分数的输出</strong><br><img src="https://img-blog.csdnimg.cn/20200505193601749.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="质因子分解"><a href="#质因子分解" class="headerlink" title="质因子分解"></a>质因子分解</h2><p><img src="https://img-blog.csdnimg.cn/20200505194004488.png" alt="在这里插入图片描述">)<img src="https://img-blog.csdnimg.cn/20200505194035979.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<pre><code class="cpp">#include&lt;bits/stdc++.h&gt;
+
+using namespace std;
+//质因子分解
+struct factor{
+    int x;//素数
+    int cnt;//素数出现的次数
+}fac[10];
+vector&lt;int&gt; prime;
+bool isprime[10010];
+
+void init_prime(){
+    fill(isprime,isprime+10010,true);
+    isprime[0]=false;
+    isprime[1]=false;
+    for(int i=2;i&lt;10010;i++){
+        if(!isprime[i]) continue;
+        else{
+            prime.push_back(i);
+            for(int j=i*i;j&lt;10010;j+=i){
+                isprime[j]=false;
+            }
+        }
+    }
+}
+
+int main(){
+    int n;
+    cin&gt;&gt;n;
+    int index=0;
+    init_prime();
+    for(int i=0;prime[i]&lt;sqrt(n);i++){
+        if(n%prime[i]==0){
+            fac[index].x=prime[i];
+            fac[index].cnt=1;
+            n/=prime[i];
+            //如果还是能除得尽当前的素数就继续除
+            while(n!=0&amp;&amp;n%prime[i]==0){
+                fac[index].cnt++;
+                n/=prime[i];
+            }
+            index++;
+        }
+    }
+    //最后可能存在的一个超过sqrt(n)的素数
+    if(n!=0){
+        fac[index].x=n;
+        fac[index].cnt=1;
+        index++;
+    }
+    for(int i=0;i&lt;index;i++){
+        for(int j=fac[i].cnt;j&gt;0;j--){
+            cout&lt;&lt;fac[i].x&lt;&lt;&#39;*&#39;;
+        }
+    }
+}
+</code></pre>
+<h2 id="n-质因p的个数"><a href="#n-质因p的个数" class="headerlink" title="n!质因p的个数"></a>n!质因p的个数</h2><p><img src="https://img-blog.csdnimg.cn/20200505202052232.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><br><img src="https://img-blog.csdnimg.cn/20200505202306240.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="组合数"><a href="#组合数" class="headerlink" title="组合数"></a>组合数</h2><p>相当于组合数公式的变形，对于$C^{m}_{n}$来说<br>相当于 <strong>后m个的乘积/前m个的乘积</strong><br>但注意乘和除一定同步进行，不然可能在中途溢出<br><img src="https://img-blog.csdnimg.cn/20200505203215768.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM4NDQwODgy,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+<h2 id="高精度运算"><a href="#高精度运算" class="headerlink" title="高精度运算"></a>高精度运算</h2><p><a href="https://xilixili.github.io/2020/04/16/%E9%AB%98%E7%B2%BE%E5%BA%A6%E8%AE%A1%E7%AE%97/">任意门</a></p>
+<h2 id="快速幂"><a href="#快速幂" class="headerlink" title="快速幂"></a>快速幂</h2><p><a href="https://xilixili.github.io/tags/%E5%BF%AB%E9%80%9F%E5%B9%82%E6%9C%80%E7%BB%88%E6%80%BB%E7%BB%93/">任意门</a></p>
 
       
 
@@ -1122,7 +1219,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">c++常用库</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">数论</a>
         		</li>
       		
 		</ul>
@@ -1134,7 +1239,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/c//" class="article-tag-list-link color4">c++</a>
         		</li>
       		
 		</ul>
@@ -1143,7 +1248,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(11)--%E8%81%9A%E7%B1%BB/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%95%B0%E8%AE%BA%E7%AE%97%E6%B3%95/">展开全文 >></a>
         </p>
       
 
@@ -1173,96 +1278,65 @@
 
 
   
-    <article id="post-周志华《Machine Learning》学习笔记(10)--集成学习" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-拦截导弹" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(10)--%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/">周志华《Machine Learning》学习笔记(10)--集成学习</a>
+      <a class="article-title" href="/2021/01/12/%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9/">拦截导弹</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(10)--%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.347Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.697Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>上篇主要介绍了鼎鼎大名的EM算法，从算法思想到数学公式推导（边际似然引入隐变量，Jensen不等式简化求导），EM算法实际上可以理解为一种坐标下降法，首先固定一个变量，接着求另外变量的最优解，通过其优美的“两步走”策略能较好地估计隐变量的值。本篇将继续讨论下一类经典算法–集成学习。</p>
-<p>#<strong>9、集成学习</strong></p>
-<p>顾名思义，集成学习（ensemble learning）指的是将多个学习器进行有效地结合，组建一个“学习器委员会”，其中每个学习器担任委员会成员并行使投票表决权，使得委员会最后的决定更能够四方造福普度众生<del>…</del>，即其泛化性能要能优于其中任何一个学习器。</p>
-<p>##<strong>9.1 个体与集成</strong></p>
-<p>集成学习的基本结构为：先产生一组个体学习器，再使用某种策略将它们结合在一起。集成模型如下图所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0c15683.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>在上图的集成模型中，若个体学习器都属于同一类别，例如都是决策树或都是神经网络，则称该集成为同质的（homogeneous）;若个体学习器包含多种类型的学习算法，例如既有决策树又有神经网络，则称该集成为异质的（heterogenous）。</p>
+        <p><strong>题目描述</strong><br>某国为了防御敌国的导弹袭击，开发出一种导弹拦截系统。但是这种导弹拦截系统有一个缺陷：虽然它的第一发炮弹能够到达任意的高度，但是以后每一发炮弹都不能高于前一发的高度。某天，雷达捕捉到敌国的导弹来袭，并观测到导弹依次飞来的高度，请计算这套系统最多能拦截多少导弹。拦截来袭导弹时，必须按来袭导弹袭击的时间顺序，不允许先拦截后面的导弹，再拦截前面的导弹。 </p>
+<p><strong>输入描述:</strong><br>每组输入有两行，<br>第一行，输入雷达捕捉到的敌国导弹的数量k（k&lt;=25），<br>第二行，输入k个正整数，表示k枚导弹的高度，按来袭导弹的袭击时间顺序给出，以空格分隔。</p>
+<p><strong>输出描述:</strong><br>每组输出只有一行，包含一个整数，表示最多能拦截多少枚导弹。</p>
+<p><strong>输入</strong></p>
 <blockquote>
-<p><strong>同质集成</strong>：个体学习器称为“基学习器”（base learner），对应的学习算法为“基学习算法”（base learning algorithm）。<br><strong>异质集成</strong>：个体学习器称为“组件学习器”（component learner）或直称为“个体学习器”。</p>
+<p>8<br>300 207 155 300 299 170 158 65</p>
 </blockquote>
-<p>上面我们已经提到要让集成起来的泛化性能比单个学习器都要好，虽说团结力量大但也有木桶短板理论调皮捣蛋，那如何做到呢？这就引出了集成学习的两个重要概念：<strong>准确性</strong>和<strong>多样性</strong>（diversity）。准确性指的是个体学习器不能太差，要有一定的准确度；多样性则是个体学习器之间的输出要具有差异性。通过下面的这三个例子可以很容易看出这一点，准确度较高，差异度也较高，可以较好地提升集成性能。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d23e13.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p>现在考虑二分类的简单情形，假设基分类器之间相互独立（能提供较高的差异度），且错误率相等为 ε，则可以将集成器的预测看做一个伯努利实验，易知当所有基分类器中不足一半预测正确的情况下，集成器预测错误，所以集成器的错误率可以计算为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0cce0bb.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>此时，集成器错误率随着基分类器的个数的增加呈指数下降，但前提是基分类器之间相互独立，在实际情形中显然是不可能的，假设训练有A和B两个分类器，对于某个测试样本，显然满足：P（A=1 | B=1）&gt; P（A=1），因为A和B为了解决相同的问题而训练，因此在预测新样本时存在着很大的联系。因此，<strong>个体学习器的“准确性”和“差异性”本身就是一对矛盾的变量</strong>，准确性高意味着牺牲多样性，所以产生“<strong>好而不同</strong>”的个体学习器正是集成学习研究的核心。现阶段有三种主流的集成学习方法：Boosting、Bagging以及随机森林（Random Forest），接下来将进行逐一介绍。</p>
-<p>##<strong>9.2 Boosting</strong></p>
-<p>Boosting是一种串行的工作机制，即个体学习器的训练存在依赖关系，必须一步一步序列化进行。其基本思想是：增加前一个基学习器在训练训练过程中预测错误样本的权重，使得后续基学习器更加关注这些打标错误的训练样本，尽可能纠正这些错误，一直向下串行直至产生需要的T个基学习器，Boosting最终对这T个学习器进行加权结合，产生学习器委员会。</p>
-<p>Boosting族算法最著名、使用最为广泛的就是AdaBoost，因此下面主要是对AdaBoost算法进行介绍。AdaBoost使用的是<strong>指数损失函数</strong>，因此AdaBoost的权值与样本分布的更新都是围绕着最小化指数损失函数进行的。看到这里回想一下之前的机器学习算法，<strong>不难发现机器学习的大部分带参模型只是改变了最优化目标中的损失函数</strong>：如果是Square loss，那就是最小二乘了；如果是Hinge Loss，那就是著名的SVM了；如果是log-Loss，那就是Logistic Regression了。</p>
-<p>定义基学习器的集成为加权结合，则有：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0ca2ca5.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>AdaBoost算法的指数损失函数定义为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d10461.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>具体说来，整个Adaboost 迭代算法分为3步：</p>
-<ul>
-<li>初始化训练数据的权值分布。如果有N个样本，则每一个训练样本最开始时都被赋予相同的权值：1/N。</li>
-<li>训练弱分类器。具体训练过程中，如果某个样本点已经被准确地分类，那么在构造下一个训练集中，它的权值就被降低；相反，如果某个样本点没有被准确地分类，那么它的权值就得到提高。然后，权值更新过的样本集被用于训练下一个分类器，整个训练过程如此迭代地进行下去。</li>
-<li>将各个训练得到的弱分类器组合成强分类器。各个弱分类器的训练过程结束后，加大分类误差率小的弱分类器的权重，使其在最终的分类函数中起着较大的决定作用，而降低分类误差率大的弱分类器的权重，使其在最终的分类函数中起着较小的决定作用。</li>
-</ul>
-<p>整个AdaBoost的算法流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d7c057.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>可以看出：<strong>AdaBoost的核心步骤就是计算基学习器权重和样本权重分布</strong>，那为何是上述的计算公式呢？这就涉及到了我们之前为什么说大部分带参机器学习算法只是改变了损失函数，就是因为<strong>大部分模型的参数都是通过最优化损失函数（可能还加个规则项）而计算（梯度下降，坐标下降等）得到</strong>，这里正是通过最优化指数损失函数从而得到这两个参数的计算公式，具体的推导过程此处不进行展开。</p>
-<p>Boosting算法要求基学习器能对特定分布的数据进行学习，即每次都更新样本分布权重，这里书上提到了两种方法：“重赋权法”（re-weighting）和“重采样法”（re-sampling），书上的解释有些晦涩，这里进行展开一下：</p>
+<p><strong>输出</strong></p>
 <blockquote>
-<p><strong>重赋权法</strong> : 对每个样本附加一个权重，这时涉及到样本属性与标签的计算，都需要乘上一个权值。<br><strong>重采样法</strong> : 对于一些无法接受带权样本的及学习算法，适合用“重采样法”进行处理。方法大致过程是，根据各个样本的权重，对训练数据进行重采样，初始时样本权重一样，每个样本被采样到的概率一致，每次从N个原始的训练样本中按照权重有放回采样N个样本作为训练集，然后计算训练集错误率，然后调整权重，重复采样，集成多个基学习器。</p>
+<p>6</p>
 </blockquote>
-<p>从偏差-方差分解来看：Boosting算法主要关注于降低偏差，每轮的迭代都关注于训练过程中预测错误的样本，将弱学习提升为强学习器。从AdaBoost的算法流程来看，标准的AdaBoost只适用于二分类问题。在此，当选为数据挖掘十大算法之一的AdaBoost介绍到这里，能够当选正是说明这个算法十分婀娜多姿，背后的数学证明和推导充分证明了这一点，限于篇幅不再继续展开。</p>
-<p>##<strong>9.3 Bagging与Random Forest</strong></p>
-<p>相比之下，Bagging与随机森林算法就简洁了许多，上面已经提到产生“好而不同”的个体学习器是集成学习研究的核心，即在保证基学习器准确性的同时增加基学习器之间的多样性。而这两种算法的基本思（tao）想（lu）都是通过“自助采样”的方法来增加多样性。</p>
-<p>###<strong>9.3.1 Bagging</strong></p>
-<p>Bagging是一种并行式的集成学习方法，即基学习器的训练之间没有前后顺序可以同时进行，Bagging使用“有放回”采样的方式选取训练集，对于包含m个样本的训练集，进行m次有放回的随机采样操作，从而得到m个样本的采样集，这样训练集中有接近36.8%的样本没有被采到。按照相同的方式重复进行，我们就可以采集到T个包含m个样本的数据集，从而训练出T个基学习器，最终对这T个基学习器的输出进行结合。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0ce62fc.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p>Bagging算法的流程如下所示：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d0e761.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>可以看出Bagging主要通过<strong>样本的扰动</strong>来增加基学习器之间的多样性，因此Bagging的基学习器应为那些对训练集十分敏感的不稳定学习算法，例如：神经网络与决策树等。从偏差-方差分解来看，Bagging算法主要关注于降低方差，即通过多次重复训练提高稳定性。不同于AdaBoost的是，Bagging可以十分简单地移植到多分类、回归等问题。总的说起来则是：<strong>AdaBoost关注于降低偏差，而Bagging关注于降低方差。</strong></p>
-<p>###<strong>9.3.2 随机森林</strong></p>
-<p>随机森林（Random Forest）是Bagging的一个拓展体，它的基学习器固定为决策树，多棵树也就组成了森林，而“随机”则在于选择划分属性的随机，随机森林在训练基学习器时，也采用有放回采样的方式添加样本扰动，同时它还引入了一种<strong>属性扰动</strong>，即在基决策树的训练过程中，在选择划分属性时，RF先从候选属性集中随机挑选出一个包含K个属性的子集，再从这个子集中选择最优划分属性，一般推荐K=log2（d）。</p>
-<p>这样随机森林中基学习器的多样性不仅来自样本扰动，还来自属性扰动，从而进一步提升了基学习器之间的差异度。相比决策树的Bagging集成，随机森林的起始性能较差（由于属性扰动，基决策树的准确度有所下降），但随着基学习器数目的增多，随机森林往往会收敛到更低的泛化误差。同时不同于Bagging中决策树从所有属性集中选择最优划分属性，随机森林只在属性集的一个子集中选择划分属性，因此训练效率更高。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d7a4fd.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>##<strong>9.4 结合策略</strong></p>
-<p>结合策略指的是在训练好基学习器后，如何将这些基学习器的输出结合起来产生集成模型的最终输出，下面将介绍一些常用的结合策略：</p>
-<p>###<strong>9.4.1 平均法（回归问题）</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84d0d07983.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de1b74ff.png" srcset="/img/loading.gif" alt="11.png"></p>
-<p>易知简单平均法是加权平均法的一种特例，加权平均法可以认为是集成学习研究的基本出发点。由于各个基学习器的权值在训练中得出，<strong>一般而言，在个体学习器性能相差较大时宜使用加权平均法，在个体学习器性能相差较小时宜使用简单平均法</strong>。</p>
-<p>###<strong>9.4.2 投票法（分类问题）</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de2629c4.png" srcset="/img/loading.gif" alt="12.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de25a74b.png" srcset="/img/loading.gif" alt="13.png"></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de1bacc4.png" srcset="/img/loading.gif" alt="14.png"></p>
-<p>绝对多数投票法（majority voting）提供了拒绝选项，这在可靠性要求很高的学习任务中是一个很好的机制。同时，对于分类任务，各个基学习器的输出值有两种类型，分别为类标记和类概率。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de2768c1.png" srcset="/img/loading.gif" alt="15.png"></p>
-<p>一些在产生类别标记的同时也生成置信度的学习器，置信度可转化为类概率使用，<strong>一般基于类概率进行结合往往比基于类标记进行结合的效果更好</strong>，需要注意的是对于异质集成，其类概率不能直接进行比较，此时需要将类概率转化为类标记输出，然后再投票。</p>
-<p>###<strong>9.4.3 学习法</strong></p>
-<p>学习法是一种更高级的结合策略，即学习出一种“投票”的学习器，Stacking是学习法的典型代表。Stacking的基本思想是：首先训练出T个基学习器，对于一个样本它们会产生T个输出，将这T个基学习器的输出与该样本的真实标记作为新的样本，m个样本就会产生一个m<em>T的样本集，来训练一个新的“投票”学习器。投票学习器的输入属性与学习算法对Stacking集成的泛化性能有很大的影响，书中已经提到：*</em>投票学习器采用类概率作为输入属性，选用多响应线性回归（MLR）一般会产生较好的效果**。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc84de25cbaf.png" srcset="/img/loading.gif" alt="16.png"></p>
-<p>##<strong>9.5 多样性（diversity）</strong></p>
-<p>在集成学习中，基学习器之间的多样性是影响集成器泛化性能的重要因素。因此增加多样性对于集成学习研究十分重要，一般的思路是在学习过程中引入随机性，常见的做法主要是对数据样本、输入属性、输出表示、算法参数进行扰动。</p>
-<blockquote>
-<p><strong>数据样本扰动</strong>，即利用具有差异的数据集来训练不同的基学习器。例如：有放回自助采样法，但此类做法只对那些不稳定学习算法十分有效，例如：决策树和神经网络等，训练集的稍微改变能导致学习器的显著变动。<br><strong>输入属性扰动</strong>，即随机选取原空间的一个子空间来训练基学习器。例如：随机森林，从初始属性集中抽取子集，再基于每个子集来训练基学习器。但若训练集只包含少量属性，则不宜使用属性扰动。<br><strong>输出表示扰动</strong>，此类做法可对训练样本的类标稍作变动，或对基学习器的输出进行转化。<br><strong>算法参数扰动</strong>，通过随机设置不同的参数，例如：神经网络中，随机初始化权重与随机设置隐含层节点数。</p>
-</blockquote>
-<p>在此，集成学习就介绍完毕，看到这里，大家也会发现集成学习实质上是一种通用框架，可以使用任何一种基学习器，从而改进单个学习器的泛化性能。据说数据挖掘竞赛KDDCup历年的冠军几乎都使用了集成学习，看来的确是个好东西~</p>
+<pre><code class="cpp">#include&lt;iostream&gt;
+#include&lt;cstdio&gt;
+//动态规划：最长递增子序列
+//状态转移方程：dp[i]=max(1,dp[j]+1|j&lt;i&amp;&amp;Aj&gt;Ai)
+using namespace std;
+const int MAXN=25;
+int height[MAXN];
+int dp[MAXN];
+
+int main(){
+    int n;
+    while(cin&gt;&gt;n){
+        for(int i=0;i&lt;n;i++){
+            cin&gt;&gt;height[i];
+        }
+        int answer=0;
+        for(int i=0;i&lt;n;i++){
+            dp[i]=1;//初始化为1
+            for(int j=0;j&lt;i;j++){//得出以i为最后一个的最大的序列长度
+                if(height[i]&lt;=height[j]){
+                    dp[i]=max(dp[i],dp[j]+1);
+                }
+            }
+            answer=max(answer,dp[i]);
+        }
+        cout&lt;&lt;answer&lt;&lt;endl;
+    }
+}</code></pre>
 
       
 
@@ -1276,7 +1350,15 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">c++</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">动态规划</a>
         		</li>
       		
 		</ul>
@@ -1288,7 +1370,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
+        			<a href="/categories/算法//" class="article-tag-list-link color3">算法</a>
         		</li>
       		
 		</ul>
@@ -1297,7 +1379,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(10)--%E9%9B%86%E6%88%90%E5%AD%A6%E4%B9%A0/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E6%8B%A6%E6%88%AA%E5%AF%BC%E5%BC%B9/">展开全文 >></a>
         </p>
       
 
@@ -1334,13 +1416,13 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/">周志华《Machine Learning》学习笔记(9)--EM算法</a>
+      <a class="article-title" href="/2021/01/12/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/">周志华《Machine Learning》学习笔记(9)--EM算法</a>
     </h1>
   
 
         
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.343Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
+        <a href="/2021/01/12/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/" class="archive-article-date">
+  	<time datetime="2021-01-12T14:48:29.682Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-12</time>
 </a>
         
       </header>
@@ -1353,28 +1435,28 @@
 <p>##<strong>8.1 EM算法思想</strong></p>
 <p>EM是一种迭代式的方法，它的基本思想就是：若样本服从的分布参数θ已知，则可以根据已观测到的训练样本推断出隐变量Z的期望值（E步），若Z的值已知则运用最大似然法估计出新的θ值（M步）。重复这个过程直到Z和θ值不再发生变化。</p>
 <p>简单来讲：假设我们想估计A和B这两个参数，在开始状态下二者都是未知的，但如果知道了A的信息就可以得到B的信息，反过来知道了B也就得到了A。可以考虑首先赋予A某种初值，以此得到B的估计值，然后从B的当前值出发，重新估计A的取值，这个过程一直持续到收敛为止。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843bf53eb2.png" srcset="/img/loading.gif" alt="1.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843bf53eb2.png" alt="1.png"></p>
 <p>现在再来回想聚类的代表算法K-Means：【首先随机选择类中心=&gt;将样本点划分到类簇中=&gt;重新计算类中心=&gt;不断迭代直至收敛】，不难发现这个过程和EM迭代的方法极其相似，事实上，若将样本的类别看做为“隐变量”（latent variable）Z，类中心看作样本的分布参数θ，K-Means就是通过EM算法来进行迭代的，与我们这里不同的是，K-Means的目标是最小化样本点到其对应类中心的距离和，上述为极大化似然函数。</p>
 <p>##<strong>8.2 EM算法数学推导</strong></p>
 <p>在上篇极大似然法中，当样本属性值都已知时，我们很容易通过极大化对数似然，接着对每个参数求偏导计算出参数的值。但当存在隐变量时，就无法直接求解，此时我们通常最大化已观察数据的对数“边际似然”（marginal likelihood）。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843bfd84d2.png" srcset="/img/loading.gif" alt="2.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843bfd84d2.png" alt="2.png"></p>
 <p>这时候，通过边缘似然将隐变量Z引入进来，对于参数估计，现在与最大似然不同的只是似然函数式中多了一个未知的变量Z，也就是说我们的目标是找到适合的θ和Z让L(θ)最大，这样我们也可以分别对未知的θ和Z求偏导，再令其等于0。</p>
 <p>然而观察上式可以发现，和的对数（ln(x1+x2+x3)）求导十分复杂，那能否通过变换上式得到一种求导简单的新表达式呢？这时候 Jensen不等式就派上用场了，先回顾一下高等数学凸函数的内容：</p>
 <p><strong>Jensen’s inequality</strong>：过一个凸函数上任意两点所作割线一定在这两点间的函数图象的上方。理解起来也十分简单，对于凸函数f(x)’’&gt;0，即曲线的变化率是越来越大单调递增的，所以函数越到后面增长越厉害，这样在一个区间下，函数的均值就会大一些了。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c064c72.png" srcset="/img/loading.gif" alt="3.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c064c72.png" alt="3.png"></p>
 <p>因为ln(*)函数为凹函数，故可以将上式“和的对数”变为“对数的和”，这样就很容易求导了。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c3490ad.png" srcset="/img/loading.gif" alt="4.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c3490ad.png" alt="4.png"></p>
 <p>接着求解Qi和θ：首先固定θ（初始值），通过求解Qi使得J（θ，Q）在θ处与L（θ）相等，即求出L（θ）的下界；然后再固定Qi，调整θ，最大化下界J（θ，Q）。不断重复两个步骤直到稳定。通过jensen不等式的性质，Qi的计算公式实际上就是后验概率：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c21276c.png" srcset="/img/loading.gif" alt="5.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c21276c.png" alt="5.png"></p>
 <p>通过数学公式的推导，简单来理解这一过程：固定θ计算Q的过程就是在建立L（θ）的下界，即通过jenson不等式得到的下界（E步）；固定Q计算θ则是使得下界极大化（M步），从而不断推高边缘似然L（θ）。从而循序渐进地计算出L（θ）取得极大值时隐变量Z的估计值。</p>
 <p>EM算法也可以看作一种“坐标下降法”，首先固定一个值，对另外一个值求极值，不断重复直到收敛。这时候也许大家就有疑问，问什么不直接这两个家伙求偏导用梯度下降呢？这时候就是坐标下降的优势，有些特殊的函数，例如曲线函数z=y^2+x^2+x^2y+xy+…，无法直接求导，这时如果先固定其中的一个变量，再对另一个变量求极值，则变得可行。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c34e7ff.png" srcset="/img/loading.gif" alt="6.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c34e7ff.png" alt="6.png"></p>
 <p>##<strong>8.3 EM算法流程</strong></p>
 <p>看完数学推导，算法的流程也就十分简单了，这里有两个版本，版本一来自西瓜书，周天使的介绍十分简洁；版本二来自于大牛的博客。结合着数学推导，自认为版本二更具有逻辑性，两者唯一的区别就在于版本二多出了红框的部分，这里我也没得到答案，欢迎骚扰讨论~</p>
 <p><strong>版本一：</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c0e19db.png" srcset="/img/loading.gif" alt="7.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c0e19db.png" alt="7.png"></p>
 <p><strong>版本二：</strong></p>
-<p><img src="https://i.loli.net/2018/10/18/5bc843c34775b.png" srcset="/img/loading.gif" alt="8.png"></p>
+<p><img src="https://i.loli.net/2018/10/18/5bc843c34775b.png" alt="8.png"></p>
 
       
 
@@ -1409,130 +1491,7 @@
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-周志华《Machine Learning》学习笔记(8)--贝叶斯分类器" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(8)--%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/">周志华《Machine Learning》学习笔记(8)--贝叶斯分类器</a>
-    </h1>
-  
-
-        
-        <a href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(8)--%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/" class="archive-article-date">
-  	<time datetime="2020-05-02T02:56:54.341Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上篇主要介绍和讨论了支持向量机。从最初的分类函数，通过最大化分类间隔，max(1/||w||)，min(1/2||w||^2)，凸二次规划，朗格朗日函数，对偶问题，一直到最后的SMO算法求解，都为寻找一个最优解。接着引入核函数将低维空间映射到高维特征空间，解决了非线性可分的情形。最后介绍了软间隔支持向量机，解决了outlier挤歪超平面的问题。本篇将讨论一个经典的统计学习算法–<strong>贝叶斯分类器</strong>。</p>
-<p>#<strong>7、贝叶斯分类器</strong></p>
-<p>贝叶斯分类器是一种概率框架下的统计学习分类器，对分类任务而言，假设在相关概率都已知的情况下，贝叶斯分类器考虑如何基于这些概率为样本判定最优的类标。在开始介绍贝叶斯决策论之前，我们首先来回顾下概率论委员会常委–贝叶斯公式。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd7a2575.png" srcset="/img/loading.gif" alt="1.png"></p>
-<p>##<strong>7.1 贝叶斯决策论</strong></p>
-<p>若将上述定义中样本空间的划分Bi看做为类标，A看做为一个新的样本，则很容易将条件概率理解为样本A是类别Bi的概率。在机器学习训练模型的过程中，往往我们都试图去优化一个风险函数，因此在概率框架下我们也可以为贝叶斯定义“<strong>条件风险</strong>”（conditional risk）。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd15db94.png" srcset="/img/loading.gif" alt="2.png"></p>
-<p>我们的任务就是寻找一个判定准则最小化所有样本的条件风险总和，因此就有了<strong>贝叶斯判定准则</strong>（Bayes decision rule）:为最小化总体风险，只需在每个样本上选择那个使得条件风险最小的类标。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd308600.png" srcset="/img/loading.gif" alt="3.png"></p>
-<p>若损失函数λ取0-1损失，则有：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd37c502.png" srcset="/img/loading.gif" alt="4.png"></p>
-<p>即对于每个样本x，选择其后验概率P（c | x）最大所对应的类标，能使得总体风险函数最小，从而将原问题转化为估计后验概率P（c | x）。一般这里有两种策略来对后验概率进行估计：</p>
-<pre><code>* 判别式模型：直接对 P（c | x）进行建模求解。例我们前面所介绍的决策树、神经网络、SVM都是属于判别式模型。
-* 生成式模型：通过先对联合分布P（x,c）建模，从而进一步求解 P（c | x）。</code></pre><p>贝叶斯分类器就属于生成式模型，基于贝叶斯公式对后验概率P（c | x） 进行一项神奇的变换，巴拉拉能量…. P（c | x）变身：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd501ad3.png" srcset="/img/loading.gif" alt="5.png"></p>
-<p>对于给定的样本x，P（x）与类标无关，P（c）称为类先验概率，p（x | c ）称为类条件概率。这时估计后验概率P（c | x）就变成为估计类先验概率和类条件概率的问题。对于先验概率和后验概率，在看这章之前也是模糊了我好久，这里普及一下它们的基本概念。</p>
-<pre><code>* 先验概率： 根据以往经验和分析得到的概率。
-* 后验概率：后验概率是基于新的信息，修正原来的先验概率后所获得的更接近实际情况的概率估计。</code></pre><p>实际上先验概率就是在没有任何结果出来的情况下估计的概率，而后验概率则是在有一定依据后的重新估计，直观意义上后验概率就是条件概率。下面直接上Wiki上的一个例子，简单粗暴快速完事…</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd799610.png" srcset="/img/loading.gif" alt="6.png"></p>
-<p>回归正题，对于类先验概率P（c），p（c）就是样本空间中各类样本所占的比例，根据大数定理（当样本足够多时，频率趋于稳定等于其概率），这样当训练样本充足时，p(c)可以使用各类出现的频率来代替。因此只剩下类条件概率p（x | c ），它表达的意思是在类别c中出现x的概率，它涉及到属性的联合概率问题，若只有一个离散属性还好，当属性多时采用频率估计起来就十分困难，因此这里一般采用极大似然法进行估计。</p>
-<p>##<strong>7.2 极大似然法</strong></p>
-<p>极大似然估计（Maximum Likelihood Estimation，简称MLE），是一种根据数据采样来估计概率分布的经典方法。常用的策略是先假定总体具有某种确定的概率分布，再基于训练样本对概率分布的参数进行估计。运用到类条件概率p（x | c ）中，假设p（x | c ）服从一个参数为θ的分布，问题就变为根据已知的训练样本来估计θ。极大似然法的核心思想就是：估计出的参数使得已知样本出现的概率最大，即使得训练数据的似然最大。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd70fb73.png" srcset="/img/loading.gif" alt="7.png"></p>
-<p>所以，贝叶斯分类器的训练过程就是参数估计。总结最大似然法估计参数的过程，一般分为以下四个步骤：</p>
-<pre><code>* 1.写出似然函数；
-* 2.对似然函数取对数，并整理；
-* 3.求导数，令偏导数为0，得到似然方程组；
-* 4.解似然方程组，得到所有参数即为所求。</code></pre><p>例如：假设样本属性都是连续值，p（x | c ）服从一个多维高斯分布，则通过MLE计算出的参数刚好分别为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd705729.png" srcset="/img/loading.gif" alt="8.png"></p>
-<p>上述结果看起来十分合乎实际，但是采用最大似然法估计参数的效果很大程度上依赖于作出的假设是否合理，是否符合潜在的真实数据分布。这就需要大量的经验知识，搞统计越来越值钱也是这个道理，大牛们掐指一算比我们搬砖几天更有效果。</p>
-<p>##<strong>7.3 朴素贝叶斯分类器</strong></p>
-<p>不难看出：原始的贝叶斯分类器最大的问题在于联合概率密度函数的估计，首先需要根据经验来假设联合概率分布，其次当属性很多时，训练样本往往覆盖不够，参数的估计会出现很大的偏差。为了避免这个问题，朴素贝叶斯分类器（naive Bayes classifier）采用了“属性条件独立性假设”，即样本数据的所有属性之间相互独立。这样类条件概率p（x | c ）可以改写为：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd55e102.png" srcset="/img/loading.gif" alt="9.png"></p>
-<p>这样，为每个样本估计类条件概率变成为每个样本的每个属性估计类条件概率。</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fd6678cd.png" srcset="/img/loading.gif" alt="10.png"></p>
-<p>相比原始贝叶斯分类器，朴素贝叶斯分类器基于单个的属性计算类条件概率更加容易操作，需要注意的是：若某个属性值在训练集中和某个类别没有一起出现过，这样会抹掉其它的属性信息，因为该样本的类条件概率被计算为0。因此在估计概率值时，常常用进行平滑（smoothing）处理，拉普拉斯修正（Laplacian correction）就是其中的一种经典方法，具体计算方法如下：</p>
-<p><img src="https://i.loli.net/2018/10/18/5bc83fe54aaed.png" srcset="/img/loading.gif" alt="11.png"></p>
-<p>当训练集越大时，拉普拉斯修正引入的影响越来越小。对于贝叶斯分类器，模型的训练就是参数估计，因此可以事先将所有的概率储存好，当有新样本需要判定时，直接查表计算即可。</p>
-<p>针对朴素贝叶斯，人们觉得它too sample，sometimes too naive！因此又提出了半朴素的贝叶斯分类器，具体有SPODE、TAN、贝叶斯网络等来刻画属性之间的依赖关系，此处不进行深入，等哪天和贝叶斯邂逅了再回来讨论。在此鼎鼎大名的贝叶斯介绍完毕，下一篇将介绍这一章剩下的内容–EM算法，朴素贝叶斯和EM算法同为数据挖掘的十大经典算法，想着还是单独介绍吧~</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-		<i class="icon-book icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="/categories/Machine-learning//" class="article-tag-list-link color2">Machine learning</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/05/02/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(8)--%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E5%99%A8/">展开全文 >></a>
+          <a class="article-more-a" href="/2021/01/12/%E5%91%A8%E5%BF%97%E5%8D%8E%E3%80%8AMachine%20Learning%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0(9)--EM%E7%AE%97%E6%B3%95/">展开全文 >></a>
         </p>
       
 
@@ -1659,75 +1618,7 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">c++</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">python</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">队列</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">图论</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1735,7 +1626,27 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">树</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">BFS和DFS最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">最小生成树</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">图论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">动态规划</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">关键路径</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1747,7 +1658,19 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">复试真题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">中缀后缀表达式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">kmp</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">树</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1755,11 +1678,47 @@ return o(i(t),arguments.length<2?void 0:u(arguments[1]))}})},function(t,n,r){var
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+                <a href="javascript:void(0)" class="js-tag color3">快速幂最终总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">图像处理</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">python</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">数论</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">dfs优化</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">爬虫</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">最短路径</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">拓扑排序</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">队列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">高精度计算</a>
               </li>
             
             <div class="clearfix"></div>
